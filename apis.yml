@@ -1,0 +1,61 @@
+aid: quandoo
+name: Quandoo
+description: >-
+  Quandoo is a restaurant reservations marketplace that connects diners with
+  thousands of restaurants and provides merchants with table and reservation
+  management tooling. Quandoo publishes a Public Partner API, a multi-purpose
+  REST API that enables core functionality across the Quandoo platform,
+  including checking availability for merchants, creating and managing
+  reservations and reservation enquiries, reading merchant-level reservation
+  settings, and table planning. Reservation creation is idempotent via
+  agent-supplied unique identifiers. Quandoo also offers widget and portal
+  integration paths plus an interactive API explorer for developers building
+  booking experiences on top of its inventory.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Restaurant
+  - Reservations
+  - Booking
+  - Availability
+  - Merchants
+  - Marketplace
+url: https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/apis.yml
+created: '2026-06-02'
+modified: '2026-06-02'
+specificationVersion: '0.19'
+apis:
+  - aid: quandoo:rest-api
+    name: Quandoo Public Partner API
+    description: >-
+      The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo
+      platform. It lets partners check merchant availability, create
+      reservations and reservation enquiries, read merchant reservation
+      settings, and manage table planning. Reservation creation is idempotent
+      using an agent-specific unique ID. An interactive API explorer is provided
+      for testing endpoints and parameters.
+    humanURL: https://docs.quandoo.com/
+    tags:
+      - Reservations
+      - Availability
+      - Merchants
+      - Booking
+    properties:
+      - type: Documentation
+        url: https://docs.quandoo.com/
+      - type: GettingStarted
+        url: https://docs.quandoo.com/interactive-api/
+common:
+  - type: Website
+    url: https://www.quandoo.com
+  - type: Documentation
+    url: https://docs.quandoo.com/
+  - type: APIReference
+    url: https://docs.quandoo.com/interactive-api/
+  - type: Support
+    url: mailto:developers@quandoo.com
+  - type: GitHubOrganization
+    url: https://github.com/quandoo
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
