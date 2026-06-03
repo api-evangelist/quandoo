@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CreatedCustomer",
+  "description": "CreatedCustomer schema from Quandoo Public Partner API",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-schema/quandoo-public-partner-api-created-customer-schema.json",
+  "type": "object",
+  "required": [
+    "id"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The id of the customer for the calling agent. (Agent dependent field)"
+    }
+  }
+}

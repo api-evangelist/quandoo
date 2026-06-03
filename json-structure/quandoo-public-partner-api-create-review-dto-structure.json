@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-structure/quandoo-public-partner-api-create-review-dto-structure.json",
+  "name": "CreateReviewDto",
+  "description": "CreateReviewDto schema from Quandoo Public Partner API",
+  "type": "object",
+  "required": [
+    "rating",
+    "reservationId"
+  ],
+  "properties": {
+    "reservationId": {
+      "type": "string",
+      "description": "The reservation identifier this review is being created for.Either public reservation identifier or agent specific identifier could be passed."
+    },
+    "rating": {
+      "type": "int32",
+      "description": "Possible values: 1 to 6."
+    },
+    "description": {
+      "type": "string",
+      "description": "The description of the review."
+    }
+  }
+}

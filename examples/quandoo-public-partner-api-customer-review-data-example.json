@@ -1,0 +1,6 @@
+{
+  "identifier": "string",
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "profileImage": "string"
+}

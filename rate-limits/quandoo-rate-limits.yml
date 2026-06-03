@@ -1,0 +1,63 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Quandoo
+providerId: quandoo
+created: '2026-06-03'
+modified: '2026-06-03'
+reconciled: false
+tags:
+  - Rate Limiting
+  - Reservations
+  - Marketplace
+description: >-
+  The Quandoo Public Partner API is gated by a partner authentication token
+  (X-Quandoo-AuthToken) and scoped per partner agreement. Quandoo's public
+  documentation does not publish explicit numeric request-rate or concurrency
+  limits for the Partner API; integrations are validated first against the
+  test environment (test-9250-api.quandoo.com) before being promoted to
+  production (api.quandoo.com / public-api.prod.quandoo.com). The most
+  consumer-actionable controls are the idempotency requirements on reservation
+  and enquiry creation and the conflict semantics on no-longer-bookable slots,
+  rather than published per-second quotas. Numeric limits below are left as
+  descriptive strings and reconciled is false because Quandoo does not document
+  hard rate-limit numbers publicly.
+sources:
+  - https://docs.quandoo.com/development-environments/
+  - https://docs.quandoo.com/direct-integration/
+  - https://docs.quandoo.com/category/reservation-management/
+responseCodes:
+  badRequest: 400
+  conflict: 409
+limits:
+  - name: Partner API requests (production)
+    scope: token
+    metric: varies
+    limit: 'not publicly documented; governed by partner agreement / Partner Service Level'
+  - name: Partner API requests (test environment)
+    scope: token
+    metric: varies
+    limit: 'not publicly documented; test environment must be used before production'
+    notes: 'Test bookings must only be made on test-9250-api.quandoo.com; live bookings only on production.'
+policies:
+  - name: Idempotent reservation creation
+    description: >-
+      Reservation creation (PUT /v1/reservations) and reservation-enquiry
+      creation (PUT /v1/reservation-enquiries) are idempotent. The client must
+      supply an agent-specific unique ID; resubmitting the same request does not
+      create a duplicate reservation.
+  - name: Booking conflict handling
+    description: >-
+      If the requested reservation option is no longer bookable, the API returns
+      HTTP 409. Clients should re-check availability and surface the conflict
+      rather than blindly retrying.
+  - name: Validation failures
+    description: >-
+      Missing or malformed required parameters return HTTP 400. Validate input
+      (including phone numbers via GET /v1/validations/phone-numbers) before
+      submitting a reservation.
+  - name: Environment promotion
+    description: >-
+      All integration and testing must run against the test environment first;
+      only verified integrations are enabled on production, and no test bookings
+      may be made against production.

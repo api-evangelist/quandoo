@@ -1,0 +1,63 @@
+{
+  "id": 1,
+  "name": "Sample Restaurant",
+  "phoneNumber": "030120765890",
+  "currency": "EUR",
+  "locale": "de_DE",
+  "timezone": "19:30:00",
+  "location": {
+    "coordinates": {
+      "latitude": 1.0,
+      "longitude": 1.0
+    },
+    "address": {
+      "street": "string",
+      "number": "string",
+      "zipcode": "string",
+      "city": "string",
+      "country": "DE",
+      "district": "string"
+    }
+  },
+  "reviewScore": "string",
+  "tagGroups": [
+    {
+      "type": "CUISINE",
+      "tags": [
+        "string"
+      ]
+    }
+  ],
+  "images": [
+    {
+      "url": "https://www.quandoo.com/place/sample-restaurant"
+    }
+  ],
+  "documents": [
+    {
+      "name": "Sample Restaurant",
+      "url": "https://www.quandoo.com/place/sample-restaurant",
+      "format": "string",
+      "description": "Window table preferred if available."
+    }
+  ],
+  "links": [
+    {
+      "href": "https://www.quandoo.com/place/sample-restaurant",
+      "method": "string",
+      "rel": "DETAILS"
+    }
+  ],
+  "bookable": true,
+  "openingTimes": {
+    "standardOpeningTimes": {}
+  },
+  "ccvEnabled": true,
+  "chain": {
+    "id": 1,
+    "name": "Sample Restaurant"
+  },
+  "ivrRedirectNumber": "string",
+  "shortDescription": "Window table preferred if available.",
+  "longDescription": "Window table preferred if available."
+}

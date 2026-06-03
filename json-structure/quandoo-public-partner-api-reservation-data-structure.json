@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-structure/quandoo-public-partner-api-reservation-data-structure.json",
+  "name": "ReservationData",
+  "description": "ReservationData schema from Quandoo Public Partner API",
+  "type": "object",
+  "required": [
+    "capacity",
+    "customerId",
+    "id",
+    "links",
+    "merchantId",
+    "quandooId",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The agent-dependent unique id of the reservation."
+    },
+    "number": {
+      "type": "int32",
+      "description": "The id of the reservation on quandoo system."
+    },
+    "reservationNumber": {
+      "type": "string",
+      "description": "The long id of this reservation on quandoo system."
+    },
+    "quandooId": {
+      "type": "uuid",
+      "description": "The public id of this reservation on quandoo system."
+    },
+    "status": {
+      "type": "string",
+      "description": "The status of the reservation."
+    },
+    "updatedAt": {
+      "type": "datetime",
+      "description": "The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ"
+    },
+    "capacity": {
+      "type": "int32",
+      "description": "The capacity of the reservation."
+    },
+    "merchantId": {
+      "type": "int32",
+      "description": "The id of the merchant."
+    },
+    "customerId": {
+      "type": "string",
+      "description": "The public ID of the customer to which this reservation belongs."
+    },
+    "promocode": {
+      "type": "string",
+      "description": "The promotion code used in this reservation. Optional."
+    },
+    "extraInfo": {
+      "type": "string",
+      "description": "Extra information that the customer provided for the reservation. Optional."
+    },
+    "links": {
+      "type": "array",
+      "description": "The links related to this entity.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "format": "url"
+          },
+          "method": {
+            "type": "string"
+          },
+          "rel": {
+            "type": "string",
+            "enum": [
+              "DETAILS",
+              "WIDGET",
+              "WIDGET_DETAILS",
+              "GET_MERCHANT",
+              "PARENT",
+              "SELF",
+              "SETTINGS",
+              "AVAILABILITY_DAYS",
+              "AVAILABILITIES",
+              "CREATE_RESERVATION",
+              "GET_RESERVATION",
+              "UPDATE_RESERVATION",
+              "GET_CUSTOMER_RESERVATION",
+              "GET_REVIEW",
+              "PORTAL_PREORDER_FORM",
+              "RESERVATION_CHECKOUT_PAGE",
+              "CREDIT_CARD_DETAILS_PAGE",
+              "CUSTOMER_EDIT_RESERVATION"
+            ]
+          }
+        }
+      }
+    },
+    "reservationTags": {
+      "type": "array",
+      "description": "A list of reservation tag IDs.",
+      "items": {
+        "type": "int32"
+      }
+    }
+  }
+}

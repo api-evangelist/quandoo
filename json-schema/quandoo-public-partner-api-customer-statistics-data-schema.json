@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CustomerStatisticsData",
+  "description": "CustomerStatisticsData schema from Quandoo Public Partner API",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-schema/quandoo-public-partner-api-customer-statistics-data-schema.json",
+  "type": "object",
+  "required": [
+    "reservationCancelledCount",
+    "reservationNoShowCount",
+    "reservationSuccessfulCount"
+  ],
+  "properties": {
+    "reservationSuccessfulCount": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The number of reservations made by the customer that were actually seated"
+    },
+    "reservationCancelledCount": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The number of reservations made by the customer that were cancelled before taking place"
+    },
+    "reservationNoShowCount": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The number of reservations made by the customer that he did not show up"
+    }
+  }
+}

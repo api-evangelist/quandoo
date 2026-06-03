@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-structure/quandoo-public-partner-api-get-reviews-dto-structure.json",
+  "name": "GetReviewsDto",
+  "description": "GetReviewsDto schema from Quandoo Public Partner API",
+  "type": "object",
+  "properties": {
+    "reviews": {
+      "type": "array",
+      "description": "List of returned reviews.",
+      "items": {
+        "type": "object",
+        "required": [
+          "rating",
+          "reviewId"
+        ],
+        "properties": {
+          "reviewId": {
+            "type": "uuid",
+            "description": "UUID identifying the review."
+          },
+          "merchantId": {
+            "type": "int32",
+            "description": "Merchant Id associated to this review. Only in detailed view."
+          },
+          "customer": {
+            "type": "object",
+            "properties": {
+              "identifier": {
+                "type": "string",
+                "description": "Identifier of the customer associated to this review. Only in detailed view.",
+                "example": "string"
+              },
+              "firstName": {
+                "type": "string",
+                "description": "Customer first name associated to this review. Only in detailed view.",
+                "example": "Jane"
+              },
+              "lastName": {
+                "type": "string",
+                "description": "First letter of customer last name associated to this review. Only in detailed view.",
+                "example": "Smith"
+              },
+              "profileImage": {
+                "type": "string",
+                "description": "Customer profile image URL associated to this review. Only in detailed view.",
+                "example": "string"
+              }
+            }
+          },
+          "status": {
+            "type": "string",
+            "description": "Current review status. Possible values are 'AVAILABLE_TO_REVIEW','CREATED', 'DENIED', 'PUBLISHED'.",
+            "enum": [
+              "AVAILABLE_TO_REVIEW",
+              "CREATED",
+              "DENIED",
+              "PUBLISHED"
+            ]
+          },
+          "locale": {
+            "type": "string",
+            "description": "Locale of the created review. Only in detailed view."
+          },
+          "rating": {
+            "type": "int32",
+            "description": "Rating associated to this review. Possible values: 1 to 6."
+          },
+          "description": {
+            "type": "string",
+            "description": "Description associated to this review."
+          },
+          "reservationId": {
+            "type": "string",
+            "description": "The reservation identifier this review is created for."
+          },
+          "createdAt": {
+            "type": "datetime",
+            "description": "The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ"
+          }
+        }
+      }
+    },
+    "size": {
+      "type": "int32",
+      "description": "Number of reviews returned in this object."
+    },
+    "offset": {
+      "type": "int32",
+      "description": "Offset to apply on the next pagination request. Can be higher than the number of available reviews."
+    },
+    "limit": {
+      "type": "int32",
+      "description": "Expected number of reviews that could be retrieved in the next pagination request. Can actually be less than the number returned. Its value is 0 when it is sure there are no more reviews available for pagination using the 'offset' as starting point."
+    }
+  }
+}

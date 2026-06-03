@@ -1,0 +1,35 @@
+{
+  "id": "88086",
+  "customerRef": "string",
+  "marketingFlags": [
+    {
+      "marketingSettingType": "SMART_OFFERS_AND_DEALS",
+      "marketingSettingStatus": "ACTIVE"
+    }
+  ],
+  "title": "string",
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane.smith@example.com",
+  "phoneNumber": "030120765890",
+  "mobileNumber": "string",
+  "locale": "de_DE",
+  "links": [
+    {
+      "href": "https://www.quandoo.com/place/sample-restaurant",
+      "method": "string",
+      "rel": "DETAILS"
+    }
+  ],
+  "subscriptions": [
+    {
+      "id": "QUANDOO"
+    }
+  ],
+  "statistics": {
+    "reservationSuccessfulCount": 4,
+    "reservationCancelledCount": 4,
+    "reservationNoShowCount": 4
+  },
+  "updatedAt": "2026-07-15T19:30:00"
+}

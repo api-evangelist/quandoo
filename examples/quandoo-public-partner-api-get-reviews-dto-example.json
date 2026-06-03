@@ -1,0 +1,23 @@
+{
+  "reviews": [
+    {
+      "reviewId": "88086",
+      "merchantId": 88086,
+      "customer": {
+        "identifier": "string",
+        "firstName": "Jane",
+        "lastName": "Smith",
+        "profileImage": "string"
+      },
+      "status": "AVAILABLE_TO_REVIEW",
+      "locale": "de_DE",
+      "rating": 1,
+      "description": "Window table preferred if available.",
+      "reservationId": "88086",
+      "createdAt": "2026-07-15T19:30:00"
+    }
+  ],
+  "size": 1,
+  "offset": 1,
+  "limit": 1
+}

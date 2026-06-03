@@ -1,0 +1,14 @@
+{
+  "id": "88086",
+  "merchantId": 88086,
+  "capacity": 4,
+  "areaId": 1,
+  "dateTime": "2026-07-15T19:30:00",
+  "extraInfo": "Window table preferred if available.",
+  "promoCode": "string",
+  "creditCardVaultSettingsId": "88086",
+  "recurringCardDetailId": "88086",
+  "reservationTags": [
+    1
+  ]
+}

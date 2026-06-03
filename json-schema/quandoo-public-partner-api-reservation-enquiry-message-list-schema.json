@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReservationEnquiryMessageList",
+  "description": "ReservationEnquiryMessageList schema from Quandoo Public Partner API",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-schema/quandoo-public-partner-api-reservation-enquiry-message-list-schema.json",
+  "type": "object",
+  "properties": {
+    "messages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "senderType": {
+            "type": "string",
+            "enum": [
+              "MERCHANT",
+              "CUSTOMER"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ"
+          }
+        }
+      }
+    }
+  }
+}

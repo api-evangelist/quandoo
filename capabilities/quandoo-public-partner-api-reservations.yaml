@@ -1,0 +1,164 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Quandoo Public Partner API — Reservations
+  description: 'Reservations surface of the Quandoo Public Partner API. 3 operations. Lead operation: Quandoo Get Reservation by Id. Self-contained Naftiko capability covering one Quandoo business surface.'
+  tags:
+  - Quandoo
+  - Reservations
+  - Reservations
+  created: '2026-06-03'
+  modified: '2026-06-03'
+binds:
+- namespace: env
+  keys:
+    QUANDOO_AUTH_TOKEN: QUANDOO_AUTH_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: quandoo-public-partner-api-reservations
+    baseUri: https://public-api.prod.quandoo.com
+    description: Quandoo Public Partner API — Reservations business capability. Self-contained, no shared references.
+    authentication:
+      type: apikey
+      key: X-Quandoo-AuthToken
+      value: '{{env.QUANDOO_AUTH_TOKEN}}'
+      placement: header
+    resources:
+    - name: reservations-reservationid
+      path: /v1/reservations/{reservationId}
+      operations:
+      - name: getReservation_1
+        method: GET
+        description: Quandoo Get Reservation by Id
+        inputParameters:
+        - name: reservationId
+          in: path
+          type: string
+          required: true
+          description: Id of the reservation
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateReservation_1
+        method: PATCH
+        description: Quandoo Update Reservation by Id
+        inputParameters:
+        - name: reservationId
+          in: path
+          type: string
+          required: true
+          description: Id of the reservation
+        - name: body
+          in: body
+          type: object
+          required: true
+          description: Request payload.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: reservations
+      path: /v1/reservations
+      operations:
+      - name: createReservation_1
+        method: PUT
+        description: Quandoo Create Reservations
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          required: true
+          description: Request payload.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: quandoo-public-partner-api-reservations-rest
+    port: 8080
+    description: REST adapter for Quandoo Public Partner API — Reservations. One Spectral-compliant resource per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/reservations/{reservationid}
+      name: reservations-reservationid
+      description: REST surface for reservations-reservationid.
+      operations:
+      - method: GET
+        name: getReservation_1
+        description: Quandoo Get Reservation by Id
+        call: quandoo-public-partner-api-reservations.getReservation_1
+        with:
+          reservationId: rest.reservationId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updateReservation_1
+        description: Quandoo Update Reservation by Id
+        call: quandoo-public-partner-api-reservations.updateReservation_1
+        with:
+          reservationId: rest.reservationId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/reservations
+      name: reservations
+      description: REST surface for reservations.
+      operations:
+      - method: PUT
+        name: createReservation_1
+        description: Quandoo Create Reservations
+        call: quandoo-public-partner-api-reservations.createReservation_1
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: quandoo-public-partner-api-reservations-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Quandoo Public Partner API — Reservations. One tool per consumed operation, routed inline through this capability's consumes block.
+    tools:
+    - name: get-reservation-id
+      description: Quandoo Get Reservation by Id
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: quandoo-public-partner-api-reservations.getReservation_1
+      with:
+        reservationId: tools.reservationId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-reservation-id
+      description: Quandoo Update Reservation by Id
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: quandoo-public-partner-api-reservations.updateReservation_1
+      with:
+        reservationId: tools.reservationId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-reservations
+      description: Quandoo Create Reservations
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: quandoo-public-partner-api-reservations.createReservation_1
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

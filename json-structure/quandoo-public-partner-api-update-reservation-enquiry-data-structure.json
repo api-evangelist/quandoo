@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-structure/quandoo-public-partner-api-update-reservation-enquiry-data-structure.json",
+  "name": "UpdateReservationEnquiryData",
+  "description": "UpdateReservationEnquiryData schema from Quandoo Public Partner API",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "The status of the reservation enquiry"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-structure/quandoo-public-partner-api-area-dto-structure.json",
+  "name": "AreaDto",
+  "description": "AreaDto schema from Quandoo Public Partner API",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "int32",
+      "description": "Id of the area"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the area"
+    },
+    "priority": {
+      "type": "int32",
+      "description": "Priority set for this area"
+    }
+  }
+}

@@ -1,0 +1,94 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Quandoo
+providerId: quandoo
+created: '2026-06-03'
+modified: '2026-06-03'
+reconciled: false
+tags:
+  - FinOps
+  - FOCUS
+  - Restaurant
+  - Reservations
+  - Marketplace
+description: >-
+  FOCUS-aligned FinOps for Quandoo: a hybrid restaurant-reservations billing
+  shape combining a monthly software subscription with per-cover marketplace
+  commission and a one-time setup fee, where own-channel covers are free.
+sources:
+  - https://restaurants.quandoo.com/
+  - https://www.capterra.com/p/177212/Quandoo/
+  - https://docs.quandoo.com/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Quandoo GmbH
+serviceCategory: Restaurant Reservations Marketplace
+billingModel:
+  pricingCategory: Subscription + Commission
+  billingFrequency: Monthly
+  billingCurrency: EUR (settlement varies by market)
+  chargeCategories:
+    - Usage
+    - Purchase
+    - Tax
+    - Refund
+    - Credit
+focusColumns:
+  ServiceName: Quandoo for Restaurants
+  ServiceCategory: Restaurant Reservations Marketplace
+  ProviderName: Quandoo
+  PublisherName: Quandoo GmbH
+  InvoiceIssuerName: Quandoo GmbH
+  BillingCurrency: EUR
+  ChargeCategory: Usage
+meters:
+  - name: software_subscription
+    unit: month
+    aggregation: sum
+    dimensions:
+      - market
+  - name: marketplace_covers
+    unit: transaction
+    aggregation: sum
+    dimensions:
+      - country
+      - channel
+  - name: own_channel_covers
+    unit: transaction
+    aggregation: count
+    dimensions:
+      - channel
+  - name: setup_fee
+    unit: varies
+    aggregation: sum
+    dimensions:
+      - market
+principles:
+  - name: Visibility
+    description: >-
+      Reconcile spend against the Quandoo for Restaurants reservation book and
+      monthly invoice; use the Public Partner API (GET /v1/merchants/{merchantId}/reservations
+      and customer reservation endpoints) to count seated covers per period and
+      attribute them to acquisition channel.
+  - name: Allocation
+    description: >-
+      Attribute commission to the marketplace channel versus zero-cost
+      own-channel covers (booking widget, Google network, social media) using
+      the channel/source on each reservation, and split by country where
+      per-cover rates differ (e.g. GBP 3.90 UK, AUD 3.50 AU, CHF 3 CH, ~EUR 2.50 EU).
+  - name: Optimization
+    description: >-
+      Shift acquisition toward free own-channel covers (embedded widget, Google,
+      social) to reduce per-cover marketplace commission, and right-size the
+      subscription tier to actual cover volume.
+  - name: Accountability
+    description: >-
+      The restaurant owner/operator owns the subscription and commission spend;
+      review monthly cover counts against the invoice and watch for the
+      announced wind-down (new bookings ending 30 September 2026) when planning
+      future commitments.

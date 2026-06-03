@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-structure/quandoo-public-partner-api-created-reservation-structure.json",
+  "name": "CreatedReservation",
+  "description": "CreatedReservation schema from Quandoo Public Partner API",
+  "type": "object",
+  "required": [
+    "id",
+    "quandooId"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The id of this reservation for the calling agent. (Agent dependent field)"
+    },
+    "number": {
+      "type": "int32",
+      "description": "The id of this reservation on quandoo system."
+    },
+    "reservationNumber": {
+      "type": "string",
+      "description": "The long id of this reservation on quandoo system."
+    },
+    "status": {
+      "type": "string",
+      "description": "The status of the reservation."
+    },
+    "quandooId": {
+      "type": "uuid",
+      "description": "The public id of this reservation on quandoo system."
+    }
+  }
+}

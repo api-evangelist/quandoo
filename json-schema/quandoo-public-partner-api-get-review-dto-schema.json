@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GetReviewDto",
+  "description": "GetReviewDto schema from Quandoo Public Partner API",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-schema/quandoo-public-partner-api-get-review-dto-schema.json",
+  "type": "object",
+  "required": [
+    "rating",
+    "reviewId"
+  ],
+  "properties": {
+    "reviewId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID identifying the review."
+    },
+    "merchantId": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Merchant Id associated to this review. Only in detailed view."
+    },
+    "customer": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "type": "string",
+          "description": "Identifier of the customer associated to this review. Only in detailed view."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "Customer first name associated to this review. Only in detailed view."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "First letter of customer last name associated to this review. Only in detailed view."
+        },
+        "profileImage": {
+          "type": "string",
+          "description": "Customer profile image URL associated to this review. Only in detailed view."
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "description": "Current review status. Possible values are 'AVAILABLE_TO_REVIEW','CREATED', 'DENIED', 'PUBLISHED'.",
+      "enum": [
+        "AVAILABLE_TO_REVIEW",
+        "CREATED",
+        "DENIED",
+        "PUBLISHED"
+      ]
+    },
+    "locale": {
+      "type": "string",
+      "description": "Locale of the created review. Only in detailed view."
+    },
+    "rating": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Rating associated to this review. Possible values: 1 to 6."
+    },
+    "description": {
+      "type": "string",
+      "description": "Description associated to this review."
+    },
+    "reservationId": {
+      "type": "string",
+      "description": "The reservation identifier this review is created for."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ"
+    }
+  }
+}

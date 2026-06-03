@@ -1,0 +1,39 @@
+{
+  "reservation": {
+    "id": "88086",
+    "merchantId": 88086,
+    "capacity": 4,
+    "areaId": 1,
+    "dateTime": "2026-07-15T19:30:00",
+    "extraInfo": "Window table preferred if available.",
+    "promoCode": "string",
+    "creditCardVaultSettingsId": "88086",
+    "recurringCardDetailId": "88086",
+    "reservationTags": [
+      1
+    ]
+  },
+  "customer": {
+    "id": "88086",
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "emailAddress": "jane.smith@example.com",
+    "phoneNumber": "030120765890",
+    "locale": "de_DE",
+    "country": "DE",
+    "subscriptions": [
+      {
+        "id": "QUANDOO"
+      }
+    ]
+  },
+  "tracking": {
+    "agent": {
+      "id": 1
+    },
+    "cookie": {
+      "tracking": "string",
+      "referenceId": "88086"
+    }
+  }
+}

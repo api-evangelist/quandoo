@@ -1,0 +1,11 @@
+{
+  "reviewId": "88086",
+  "status": "AVAILABLE_TO_REVIEW",
+  "links": [
+    {
+      "href": "https://www.quandoo.com/place/sample-restaurant",
+      "method": "string",
+      "rel": "DETAILS"
+    }
+  ]
+}

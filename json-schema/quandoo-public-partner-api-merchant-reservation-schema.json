@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MerchantReservation",
+  "description": "MerchantReservation schema from Quandoo Public Partner API",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-schema/quandoo-public-partner-api-merchant-reservation-schema.json",
+  "type": "object",
+  "required": [
+    "capacity",
+    "merchantId"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The identifier of the reservation for the calling agent (Agent-dependent field)"
+    },
+    "merchantId": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The ID of the merchant at which this reservation will be made."
+    },
+    "capacity": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The capacity (people count) of the reservation."
+    },
+    "areaId": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The id of the area this reservation should be in. Optional."
+    },
+    "dateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ"
+    },
+    "extraInfo": {
+      "type": "string",
+      "description": "Any extra information that the customer likes to provide. Optional."
+    },
+    "promoCode": {
+      "type": "string",
+      "description": "A promotion code which should be used with this reservation. Optional."
+    },
+    "creditCardVaultSettingsId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "A credit card vault settings to be used by this reservation. Optional."
+    },
+    "recurringCardDetailId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "A customer credit card reference to be used if credit card vault should be applied. Optional."
+    },
+    "reservationTags": {
+      "type": "array",
+      "description": "A list of reservation tag IDs. Optional.",
+      "items": {
+        "type": "integer",
+        "format": "int32"
+      }
+    }
+  }
+}

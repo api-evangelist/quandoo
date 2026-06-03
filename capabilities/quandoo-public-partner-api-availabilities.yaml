@@ -1,0 +1,178 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Quandoo Public Partner API — Availabilities
+  description: 'Availabilities surface of the Quandoo Public Partner API. 2 operations. Lead operation: Quandoo Get Merchant Availability Time Slots. Self-contained Naftiko capability covering one Quandoo business surface.'
+  tags:
+  - Quandoo
+  - Reservations
+  - Availabilities
+  created: '2026-06-03'
+  modified: '2026-06-03'
+binds:
+- namespace: env
+  keys:
+    QUANDOO_AUTH_TOKEN: QUANDOO_AUTH_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: quandoo-public-partner-api-availabilities
+    baseUri: https://public-api.prod.quandoo.com
+    description: Quandoo Public Partner API — Availabilities business capability. Self-contained, no shared references.
+    authentication:
+      type: apikey
+      key: X-Quandoo-AuthToken
+      value: '{{env.QUANDOO_AUTH_TOKEN}}'
+      placement: header
+    resources:
+    - name: merchants-merchantid-availabilities-date-times
+      path: /v1/merchants/{merchantId}/availabilities/{date}/times
+      operations:
+      - name: availabilityOptions_1
+        method: GET
+        description: Quandoo Get Merchant Availability Time Slots
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: integer
+          required: true
+          description: Id of the merchant
+        - name: agentId
+          in: query
+          type: integer
+          required: true
+          description: Id of the agent
+        - name: capacity
+          in: query
+          type: integer
+          required: true
+          description: Number of people
+        - name: date
+          in: path
+          type: string
+          required: true
+          description: 'Date of the desired reservation. Format: yyyy-MM-dd'
+        - name: fromTime
+          in: query
+          type: string
+          required: false
+          description: 'Beginning of the desired reservation time frame. Format: HH:mm'
+        - name: toTime
+          in: query
+          type: string
+          required: false
+          description: 'End of the desired reservation time frame. Format: HH:mm'
+        - name: areaId
+          in: query
+          type: integer
+          required: false
+          description: Id of the area
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: merchants-merchantid-availabilities
+      path: /v1/merchants/{merchantId}/availabilities
+      operations:
+      - name: availabilityDays_1
+        method: GET
+        description: Quandoo Get Merchant Availability Days
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: integer
+          required: true
+          description: Id of the merchant
+        - name: agentId
+          in: query
+          type: integer
+          required: true
+          description: Id of the agent
+        - name: capacity
+          in: query
+          type: integer
+          required: false
+          description: Number of people
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: quandoo-public-partner-api-availabilities-rest
+    port: 8080
+    description: REST adapter for Quandoo Public Partner API — Availabilities. One Spectral-compliant resource per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/merchants/{merchantid}/availabilities/{date}/times
+      name: merchants-merchantid-availabilities-date-times
+      description: REST surface for merchants-merchantid-availabilities-date-times.
+      operations:
+      - method: GET
+        name: availabilityOptions_1
+        description: Quandoo Get Merchant Availability Time Slots
+        call: quandoo-public-partner-api-availabilities.availabilityOptions_1
+        with:
+          merchantId: rest.merchantId
+          agentId: rest.agentId
+          capacity: rest.capacity
+          date: rest.date
+          fromTime: rest.fromTime
+          toTime: rest.toTime
+          areaId: rest.areaId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/availabilities
+      name: merchants-merchantid-availabilities
+      description: REST surface for merchants-merchantid-availabilities.
+      operations:
+      - method: GET
+        name: availabilityDays_1
+        description: Quandoo Get Merchant Availability Days
+        call: quandoo-public-partner-api-availabilities.availabilityDays_1
+        with:
+          merchantId: rest.merchantId
+          agentId: rest.agentId
+          capacity: rest.capacity
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: quandoo-public-partner-api-availabilities-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Quandoo Public Partner API — Availabilities. One tool per consumed operation, routed inline through this capability's consumes block.
+    tools:
+    - name: get-merchant-availability-time-slots
+      description: Quandoo Get Merchant Availability Time Slots
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: quandoo-public-partner-api-availabilities.availabilityOptions_1
+      with:
+        merchantId: tools.merchantId
+        agentId: tools.agentId
+        capacity: tools.capacity
+        date: tools.date
+        fromTime: tools.fromTime
+        toTime: tools.toTime
+        areaId: tools.areaId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-merchant-availability-days
+      description: Quandoo Get Merchant Availability Days
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: quandoo-public-partner-api-availabilities.availabilityDays_1
+      with:
+        merchantId: tools.merchantId
+        agentId: tools.agentId
+        capacity: tools.capacity
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-structure/quandoo-public-partner-api-coordinates-dto-structure.json",
+  "name": "CoordinatesDto",
+  "description": "CoordinatesDto schema from Quandoo Public Partner API",
+  "type": "object",
+  "properties": {
+    "latitude": {
+      "type": "double"
+    },
+    "longitude": {
+      "type": "double"
+    }
+  }
+}

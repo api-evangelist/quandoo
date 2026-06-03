@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CreatedReservationEnquiryData",
+  "description": "CreatedReservationEnquiryData schema from Quandoo Public Partner API",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-schema/quandoo-public-partner-api-created-reservation-enquiry-data-schema.json",
+  "type": "object",
+  "required": [
+    "customer",
+    "links",
+    "reservationEnquiry"
+  ],
+  "properties": {
+    "reservationEnquiry": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The identifier of the reservation enquiry for the calling agent (Agent-dependent field)"
+        }
+      }
+    },
+    "customer": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The id of the customer for the calling agent. (Agent dependent field)"
+        }
+      }
+    },
+    "links": {
+      "type": "array",
+      "description": "Related links to follow",
+      "items": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "format": "url"
+          },
+          "method": {
+            "type": "string"
+          },
+          "rel": {
+            "type": "string",
+            "enum": [
+              "DETAILS",
+              "WIDGET",
+              "WIDGET_DETAILS",
+              "GET_MERCHANT",
+              "PARENT",
+              "SELF",
+              "SETTINGS",
+              "AVAILABILITY_DAYS",
+              "AVAILABILITIES",
+              "CREATE_RESERVATION",
+              "GET_RESERVATION",
+              "UPDATE_RESERVATION",
+              "GET_CUSTOMER_RESERVATION",
+              "GET_REVIEW",
+              "PORTAL_PREORDER_FORM",
+              "RESERVATION_CHECKOUT_PAGE",
+              "CREDIT_CARD_DETAILS_PAGE",
+              "CUSTOMER_EDIT_RESERVATION"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

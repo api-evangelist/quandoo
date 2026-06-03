@@ -1,0 +1,14 @@
+{
+  "id": "88086",
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "emailAddress": "jane.smith@example.com",
+  "phoneNumber": "030120765890",
+  "locale": "de_DE",
+  "country": "DE",
+  "subscriptions": [
+    {
+      "id": "QUANDOO"
+    }
+  ]
+}

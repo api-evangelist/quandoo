@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MerchantCustomer",
+  "description": "MerchantCustomer schema from Quandoo Public Partner API",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-schema/quandoo-public-partner-api-merchant-customer-schema.json",
+  "type": "object",
+  "required": [
+    "country",
+    "locale",
+    "phoneNumber"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the customer for the calling agent. (Agent dependent field)"
+    },
+    "firstName": {
+      "type": "string",
+      "description": "The first name of the customer. Optional."
+    },
+    "lastName": {
+      "type": "string",
+      "description": "The last name of the customer."
+    },
+    "emailAddress": {
+      "type": "string",
+      "description": "The email address of the customer."
+    },
+    "phoneNumber": {
+      "type": "string",
+      "description": "The phone number of the customer. The expected format is E164 e.g. +4930120765890"
+    },
+    "locale": {
+      "type": "string",
+      "description": "The locale of the customer. E.g. de_DE"
+    },
+    "country": {
+      "type": "string",
+      "description": "The 2 letter ISO country of the customer, e.g. DE"
+    },
+    "subscriptions": {
+      "type": "array",
+      "description": "The requested subscriptions, e.g. QUANDOO, MERCHANT",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": [
+              "QUANDOO",
+              "MERCHANT"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

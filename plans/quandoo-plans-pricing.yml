@@ -1,0 +1,135 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Quandoo
+providerId: quandoo
+created: '2026-06-03'
+modified: '2026-06-03'
+reconciled: false
+tags:
+  - Restaurant
+  - Reservations
+  - Marketplace
+  - Commission
+  - Subscription
+description: >-
+  Quandoo for Restaurants prices on a hybrid model: a monthly software
+  subscription plus a per-cover (per-seated-guest) commission, with a one-time
+  setup fee. Per-cover commission amounts vary by country and by acquisition
+  channel — covers sourced through the merchant's own Quandoo booking widget,
+  the Google network, and social media integrations are free, while covers
+  sourced via the Quandoo marketplace carry a per-cover fee. The Public Partner
+  API itself is made available to integration partners under partner
+  agreements (Core vs Extended functionality is gated by the Partner Service
+  Level), not as a separately metered API product. Figures below are drawn from
+  published comparison and pricing sources and should be reconciled against the
+  current Quandoo for Restaurants pricing page before relying on them. Note:
+  Quandoo announced in March 2026 that it will wind down operations, with new
+  bookings ending 30 September 2026.
+sources:
+  - https://restaurants.quandoo.com/
+  - https://restaurants.quandoo.com/en-gb/pricing-plans
+  - https://www.capterra.com/p/177212/Quandoo/
+plans:
+  - id: quandoo-restaurants-base-subscription
+    name: Quandoo for Restaurants Subscription
+    type: subscription
+    description: >-
+      Monthly software subscription giving merchants the reservation book,
+      table management, and marketplace listing, billed alongside per-cover
+      commission.
+    entries:
+      - label: Monthly software fee
+        name: monthly_software_fee
+        type: subscription
+        metric: month
+        limit: 1
+        timeFrame: month
+        geo: EU
+        unit: '1'
+        price: 'from EUR 29 / month'
+        userMultiplied: false
+      - label: One-time setup fee
+        name: setup_fee
+        type: flat
+        metric: varies
+        limit: 1
+        timeFrame: usage
+        geo: global
+        unit: '1'
+        price: 'one-time setup fee (varies by market)'
+        userMultiplied: false
+    elements:
+      - name: Reservation book and table management
+      - name: Quandoo marketplace listing
+      - name: Booking widget for own channels
+      - name: Public Partner API access (per partner agreement)
+  - id: quandoo-restaurants-marketplace-covers
+    name: Marketplace Cover Commission
+    type: usage-based
+    description: >-
+      Per-cover (per-seated-guest) commission charged on reservations sourced
+      through the Quandoo marketplace. Amount varies by country.
+    entries:
+      - label: Marketplace cover (United Kingdom)
+        name: cover_commission_uk
+        type: metered
+        metric: transaction
+        limit: -1
+        timeFrame: usage
+        geo: GB
+        unit: '1'
+        price: 'GBP 3.90 per cover'
+        userMultiplied: false
+      - label: Marketplace cover (Australia)
+        name: cover_commission_au
+        type: metered
+        metric: transaction
+        limit: -1
+        timeFrame: usage
+        geo: AU
+        unit: '1'
+        price: 'AUD 3.50 per cover'
+        userMultiplied: false
+      - label: Marketplace cover (Switzerland, Pro)
+        name: cover_commission_ch
+        type: metered
+        metric: transaction
+        limit: -1
+        timeFrame: usage
+        geo: CH
+        unit: '1'
+        price: 'CHF 3 per cover (Pro)'
+        userMultiplied: false
+      - label: Marketplace cover (Eurozone reference)
+        name: cover_commission_eu
+        type: metered
+        metric: transaction
+        limit: -1
+        timeFrame: usage
+        geo: EU
+        unit: '1'
+        price: 'EUR 2.50 per cover'
+        userMultiplied: false
+    elements:
+      - name: Diner acquired via Quandoo marketplace
+  - id: quandoo-restaurants-own-channel-covers
+    name: Own-Channel Covers
+    type: usage-based
+    description: >-
+      Covers sourced through the merchant's own booking widget, the Google
+      network, and social media integrations are not charged a per-cover
+      commission.
+    entries:
+      - label: Widget / Google / social covers
+        name: own_channel_cover
+        type: metered
+        metric: transaction
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: '1'
+        price: 'free'
+        userMultiplied: false
+    elements:
+      - name: Diner acquired via own widget, Google network, or social media

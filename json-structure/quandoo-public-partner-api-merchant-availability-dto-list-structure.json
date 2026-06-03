@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-structure/quandoo-public-partner-api-merchant-availability-dto-list-structure.json",
+  "name": "MerchantAvailabilityDtoList",
+  "description": "MerchantAvailabilityDtoList schema from Quandoo Public Partner API",
+  "type": "object",
+  "required": [
+    "links"
+  ],
+  "properties": {
+    "timeSlots": {
+      "type": "array",
+      "description": "The availability time slots to reserve.",
+      "readOnly": true,
+      "items": {
+        "type": "object",
+        "required": [
+          "occupancy"
+        ],
+        "properties": {
+          "dateTime": {
+            "type": "datetime",
+            "description": "The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ"
+          },
+          "occupancy": {
+            "type": "int32",
+            "description": "The occupancy of this availability option across the restaurant. This is an integer number between 0 and 100.",
+            "readOnly": true
+          },
+          "areaIds": {
+            "type": "array",
+            "description": "The ids of the areas this availability option can be reserved for.",
+            "items": {
+              "type": "int32"
+            }
+          },
+          "vaultSettingsId": {
+            "type": "uuid",
+            "description": "The id of the Vault Settings applicable on this availability option."
+          }
+        }
+      }
+    },
+    "vaultSettings": {
+      "type": "array",
+      "description": "The credit card vault settings.",
+      "readOnly": true,
+      "items": {
+        "type": "object",
+        "required": [
+          "fee",
+          "feeType",
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "uuid",
+            "description": "The id of the vault settings.",
+            "readOnly": true
+          },
+          "fee": {
+            "type": "double",
+            "description": "The fee customer should pay in the case of cancellation.",
+            "readOnly": true
+          },
+          "feeType": {
+            "type": "string",
+            "description": "The type of the fee to pay.",
+            "readOnly": true
+          },
+          "feePercentageForTime": {
+            "type": "object",
+            "description": "Fee percentage depending of the time of cancellation.",
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        }
+      }
+    },
+    "links": {
+      "type": "array",
+      "description": "The links related to this entity.",
+      "readOnly": true,
+      "items": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "format": "url"
+          },
+          "method": {
+            "type": "string"
+          },
+          "rel": {
+            "type": "string",
+            "enum": [
+              "DETAILS",
+              "WIDGET",
+              "WIDGET_DETAILS",
+              "GET_MERCHANT",
+              "PARENT",
+              "SELF",
+              "SETTINGS",
+              "AVAILABILITY_DAYS",
+              "AVAILABILITIES",
+              "CREATE_RESERVATION",
+              "GET_RESERVATION",
+              "UPDATE_RESERVATION",
+              "GET_CUSTOMER_RESERVATION",
+              "GET_REVIEW",
+              "PORTAL_PREORDER_FORM",
+              "RESERVATION_CHECKOUT_PAGE",
+              "CREDIT_CARD_DETAILS_PAGE",
+              "CUSTOMER_EDIT_RESERVATION"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

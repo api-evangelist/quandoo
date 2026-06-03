@@ -1,0 +1,279 @@
+# Spectral ruleset for the Quandoo Public Partner API
+# Derived from the official Quandoo Swagger specification (api.quandoo.com/swagger.json).
+# Conventions observed: OpenAPI 3.0.x, /v1 version-prefixed kebab paths, camelCase
+# path/query parameters and schema properties, apiKey auth via X-Quandoo-AuthToken header,
+# Title Case tags, "Quandoo ..." summary prefix.
+rules:
+
+  # ── INFO / METADATA ───────────────────────────────────────────────
+  info-title-quandoo:
+    description: Info title should start with "Quandoo".
+    severity: warn
+    given: $.info.title
+    then:
+      function: pattern
+      functionOptions:
+        match: "^Quandoo"
+  info-description-required:
+    description: A meaningful info.description is required (min 40 chars).
+    severity: warn
+    given: $.info
+    then:
+      field: description
+      function: length
+      functionOptions:
+        min: 40
+  info-version-required:
+    description: info.version must be present.
+    severity: error
+    given: $.info
+    then:
+      field: version
+      function: truthy
+  info-contact-required:
+    description: A contact block should be present.
+    severity: info
+    given: $.info
+    then:
+      field: contact
+      function: truthy
+
+  # ── OPENAPI VERSION ───────────────────────────────────────────────
+  openapi-3-required:
+    description: Must be an OpenAPI 3.0.x document.
+    severity: error
+    given: $.openapi
+    then:
+      function: pattern
+      functionOptions:
+        match: "^3\\.0\\."
+
+  # ── SERVERS ───────────────────────────────────────────────────────
+  servers-defined:
+    description: At least one server must be defined.
+    severity: error
+    given: $.servers
+    then:
+      function: truthy
+  servers-https:
+    description: Server URLs must use HTTPS.
+    severity: error
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: "^https://"
+
+  # ── PATHS — NAMING CONVENTIONS ────────────────────────────────────
+  paths-version-prefix:
+    description: Paths should be version-prefixed with /v1.
+    severity: warn
+    given: $.paths[*]~
+    then:
+      function: pattern
+      functionOptions:
+        match: "^/v1/"
+  paths-no-trailing-slash:
+    description: Paths must not end with a trailing slash.
+    severity: error
+    given: $.paths[*]~
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: ".+/$"
+  paths-kebab-or-camel-segments:
+    description: Static path segments should be lowercase (kebab-case), no underscores.
+    severity: warn
+    given: $.paths[*]~
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "_"
+
+  # ── OPERATIONS ────────────────────────────────────────────────────
+  operation-summary-required:
+    description: Every operation must have a summary.
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: summary
+      function: truthy
+  operation-summary-quandoo-prefix:
+    description: Operation summaries should start with "Quandoo".
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].summary
+    then:
+      function: pattern
+      functionOptions:
+        match: "^Quandoo "
+  operation-operationid-required:
+    description: Every operation must declare an operationId.
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: operationId
+      function: truthy
+  operation-tags-required:
+    description: Every operation must be tagged.
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: tags
+      function: truthy
+  operation-description-encouraged:
+    description: Operations should carry a description.
+    severity: info
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: description
+      function: truthy
+
+  # ── TAGS ──────────────────────────────────────────────────────────
+  tags-global-defined:
+    description: A global tags array should be defined.
+    severity: info
+    given: $
+    then:
+      field: tags
+      function: truthy
+  tag-title-case:
+    description: Tag names should use Title Case (no kebab-case or underscores).
+    severity: warn
+    given: $.tags[*].name
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "[_-]"
+
+  # ── PARAMETERS ────────────────────────────────────────────────────
+  parameter-description-required:
+    description: Parameters should have descriptions.
+    severity: info
+    given: $.paths[*][*].parameters[*]
+    then:
+      field: description
+      function: truthy
+  parameter-camelcase:
+    description: Parameter names should be camelCase (no underscores or hyphens).
+    severity: warn
+    given: $.paths[*][*].parameters[*].name
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "[_-]"
+  parameter-apikey-not-in-query:
+    description: The auth token must travel in the X-Quandoo-AuthToken header, never as a query parameter.
+    severity: error
+    given: $.paths[*][*].parameters[?(@.in=='query')].name
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "(?i)token|apikey|auth"
+
+  # ── REQUEST BODIES ────────────────────────────────────────────────
+  request-body-json:
+    description: Request bodies should offer application/json.
+    severity: warn
+    given: $.paths[*][put,post,patch].requestBody.content
+    then:
+      field: application/json
+      function: truthy
+
+  # ── RESPONSES ─────────────────────────────────────────────────────
+  response-2xx-required:
+    description: Every operation must define a successful (2xx) response.
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].responses
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          patternProperties:
+            "^2": {}
+          minProperties: 1
+  response-error-documented:
+    description: Mutating operations should document a 4xx error response.
+    severity: info
+    given: $.paths[*][put,post,patch,delete].responses
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          anyOf:
+            - required: ["400"]
+            - required: ["409"]
+            - required: ["404"]
+  response-json-content:
+    description: 2xx responses with content should provide application/json.
+    severity: info
+    given: $.paths[*][*].responses[?(@property.match(/^2/))].content
+    then:
+      field: application/json
+      function: truthy
+
+  # ── SCHEMAS — PROPERTY NAMING ─────────────────────────────────────
+  schema-property-camelcase:
+    description: Schema properties should be camelCase (Quandoo convention).
+    severity: warn
+    given: $.components.schemas[*].properties[*]~
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "[_-]"
+  schema-types-defined:
+    description: Top-level component schemas should declare a type.
+    severity: info
+    given: $.components.schemas[*]
+    then:
+      field: type
+      function: truthy
+
+  # ── SECURITY ──────────────────────────────────────────────────────
+  security-global-defined:
+    description: A global security requirement must be declared.
+    severity: error
+    given: $
+    then:
+      field: security
+      function: truthy
+  security-scheme-quandoo-token:
+    description: The API_TOKEN scheme must be an apiKey carried in the X-Quandoo-AuthToken header.
+    severity: error
+    given: $.components.securitySchemes.API_TOKEN
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          properties:
+            type: { const: apiKey }
+            in: { const: header }
+            name: { const: X-Quandoo-AuthToken }
+          required: [type, in, name]
+
+  # ── HTTP METHOD CONVENTIONS ───────────────────────────────────────
+  get-no-request-body:
+    description: GET operations must not declare a request body.
+    severity: error
+    given: $.paths[*].get
+    then:
+      field: requestBody
+      function: falsy
+  mutating-has-request-body:
+    description: PUT/PATCH operations should declare a request body.
+    severity: warn
+    given: $.paths[*][put,patch]
+    then:
+      field: requestBody
+      function: truthy
+
+  # ── GENERAL QUALITY ───────────────────────────────────────────────
+  examples-encouraged:
+    description: Operations are encouraged to provide examples for mock/test tooling.
+    severity: info
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: x-microcks-operation
+      function: truthy

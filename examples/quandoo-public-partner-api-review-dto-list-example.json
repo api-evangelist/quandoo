@@ -1,0 +1,18 @@
+{
+  "reviews": [
+    {
+      "customer": {
+        "firstName": "Jane",
+        "lastName": "Smith",
+        "profileImage": "string"
+      },
+      "rating": 1,
+      "description": "Window table preferred if available.",
+      "locale": "de_DE",
+      "date": "2026-07-15"
+    }
+  ],
+  "size": 1,
+  "offset": 1,
+  "limit": 1
+}

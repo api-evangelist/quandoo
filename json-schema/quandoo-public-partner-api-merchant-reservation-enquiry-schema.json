@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MerchantReservationEnquiry",
+  "description": "MerchantReservationEnquiry schema from Quandoo Public Partner API",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-schema/quandoo-public-partner-api-merchant-reservation-enquiry-schema.json",
+  "type": "object",
+  "required": [
+    "capacity",
+    "endDateTime",
+    "id",
+    "merchantId",
+    "message",
+    "startDateTime"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the reservation enquiry for the calling agent (Agent dependent field) or NULL if the agent identifier should be created. Optional."
+    },
+    "merchantId": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The ID of the merchant at which this reservation will be made."
+    },
+    "capacity": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The capacity (people count) of the reservation enquiry.",
+      "minimum": 1
+    },
+    "startDateTime": {
+      "type": "string",
+      "description": "The start date and time of the potential reservation. Format: yyyy-MM-ddTHH:mm:ssZ"
+    },
+    "endDateTime": {
+      "type": "string",
+      "description": "The end date and time of the potential reservation. Format: yyyy-MM-ddTHH:mm:ssZ"
+    },
+    "message": {
+      "type": "string",
+      "description": "A message from the customer.",
+      "minLength": 0,
+      "maxLength": 5000
+    }
+  }
+}

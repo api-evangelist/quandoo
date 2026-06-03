@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-structure/quandoo-public-partner-api-update-reservation-data-structure.json",
+  "name": "UpdateReservationData",
+  "description": "UpdateReservationData schema from Quandoo Public Partner API",
+  "type": "object",
+  "required": [
+    "reservation"
+  ],
+  "properties": {
+    "reservation": {
+      "type": "object",
+      "required": [
+        "capacity",
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "The status of the reservation."
+        },
+        "capacity": {
+          "type": "int32",
+          "description": "The capacity (people count) of the reservation."
+        },
+        "areaId": {
+          "type": "int32",
+          "description": "The id of the area this reservation should be in. Optional."
+        },
+        "dateTime": {
+          "type": "datetime",
+          "description": "The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ"
+        },
+        "reservationTags": {
+          "type": "array",
+          "description": "Reservation tag IDs.",
+          "items": {
+            "type": "int32"
+          }
+        },
+        "extraInfo": {
+          "type": "string",
+          "description": "Additional text information about the reservation. Pass empty string to remove it."
+        }
+      }
+    }
+  }
+}

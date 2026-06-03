@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-structure/quandoo-public-partner-api-merchant-customer-data-structure.json",
+  "name": "MerchantCustomerData",
+  "description": "MerchantCustomerData schema from Quandoo Public Partner API",
+  "type": "object",
+  "required": [
+    "customerRef",
+    "email",
+    "firstName",
+    "id",
+    "lastName",
+    "links",
+    "locale",
+    "marketingFlags",
+    "mobileNumber",
+    "phoneNumber",
+    "statistics",
+    "subscriptions",
+    "title"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The id of the customer."
+    },
+    "customerRef": {
+      "type": "string",
+      "description": "Customer reference "
+    },
+    "marketingFlags": {
+      "type": "array",
+      "description": "Marketing flags for customer.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "marketingSettingType": {
+            "type": "string",
+            "enum": [
+              "SMART_OFFERS_AND_DEALS",
+              "PROMO_CODES",
+              "RESTAURANT_RECOMMENDATIONS",
+              "NEWSLETTERS"
+            ]
+          },
+          "marketingSettingStatus": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "INACTIVE"
+            ]
+          }
+        }
+      }
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the customer."
+    },
+    "firstName": {
+      "type": "string",
+      "description": "First name of the customer."
+    },
+    "lastName": {
+      "type": "string",
+      "description": "Last name of the customer."
+    },
+    "email": {
+      "type": "string",
+      "description": "Email of the customer."
+    },
+    "phoneNumber": {
+      "type": "string",
+      "description": "Fixed line phone number of the customer."
+    },
+    "mobileNumber": {
+      "type": "string",
+      "description": "Mobile phone number of the customer."
+    },
+    "locale": {
+      "type": "string",
+      "description": "Locale of the customer."
+    },
+    "links": {
+      "type": "array",
+      "description": "The links related to this entity.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "format": "url"
+          },
+          "method": {
+            "type": "string"
+          },
+          "rel": {
+            "type": "string",
+            "enum": [
+              "DETAILS",
+              "WIDGET",
+              "WIDGET_DETAILS",
+              "GET_MERCHANT",
+              "PARENT",
+              "SELF",
+              "SETTINGS",
+              "AVAILABILITY_DAYS",
+              "AVAILABILITIES",
+              "CREATE_RESERVATION",
+              "GET_RESERVATION",
+              "UPDATE_RESERVATION",
+              "GET_CUSTOMER_RESERVATION",
+              "GET_REVIEW",
+              "PORTAL_PREORDER_FORM",
+              "RESERVATION_CHECKOUT_PAGE",
+              "CREDIT_CARD_DETAILS_PAGE",
+              "CUSTOMER_EDIT_RESERVATION"
+            ]
+          }
+        }
+      }
+    },
+    "subscriptions": {
+      "type": "array",
+      "description": "The newsletter subscriptions, e.g. QUANDOO, MERCHANT.",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": [
+              "QUANDOO",
+              "MERCHANT"
+            ]
+          }
+        }
+      }
+    },
+    "statistics": {
+      "type": "object",
+      "required": [
+        "reservationCancelledCount",
+        "reservationNoShowCount",
+        "reservationSuccessfulCount"
+      ],
+      "properties": {
+        "reservationSuccessfulCount": {
+          "type": "int32",
+          "description": "The number of reservations made by the customer that were actually seated"
+        },
+        "reservationCancelledCount": {
+          "type": "int32",
+          "description": "The number of reservations made by the customer that were cancelled before taking place"
+        },
+        "reservationNoShowCount": {
+          "type": "int32",
+          "description": "The number of reservations made by the customer that he did not show up"
+        }
+      }
+    },
+    "updatedAt": {
+      "type": "datetime",
+      "description": "The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ"
+    }
+  }
+}

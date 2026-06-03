@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-structure/quandoo-public-partner-api-agent-tracking-structure.json",
+  "name": "AgentTracking",
+  "description": "AgentTracking schema from Quandoo Public Partner API",
+  "type": "object",
+  "required": [
+    "id"
+  ],
+  "properties": {
+    "id": {
+      "type": "int32",
+      "description": "An agent id. Required."
+    }
+  }
+}

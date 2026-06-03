@@ -1,0 +1,14 @@
+{
+  "coordinates": {
+    "latitude": 1.0,
+    "longitude": 1.0
+  },
+  "address": {
+    "street": "string",
+    "number": "string",
+    "zipcode": "string",
+    "city": "string",
+    "country": "DE",
+    "district": "string"
+  }
+}

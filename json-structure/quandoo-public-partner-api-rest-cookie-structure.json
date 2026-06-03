@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-structure/quandoo-public-partner-api-rest-cookie-structure.json",
+  "name": "RestCookie",
+  "description": "RestCookie schema from Quandoo Public Partner API",
+  "type": "object",
+  "properties": {
+    "tracking": {
+      "type": "string",
+      "description": "A tracking string to be stored with the reservation. Optional."
+    },
+    "referenceId": {
+      "type": "string",
+      "description": "A reference id to be stored with the reservation. Optional."
+    }
+  }
+}

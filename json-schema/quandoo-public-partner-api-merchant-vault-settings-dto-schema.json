@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MerchantVaultSettingsDto",
+  "description": "MerchantVaultSettingsDto schema from Quandoo Public Partner API",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-schema/quandoo-public-partner-api-merchant-vault-settings-dto-schema.json",
+  "type": "object",
+  "required": [
+    "fee",
+    "feeType",
+    "id"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The id of the vault settings.",
+      "readOnly": true
+    },
+    "fee": {
+      "type": "number",
+      "description": "The fee customer should pay in the case of cancellation.",
+      "readOnly": true
+    },
+    "feeType": {
+      "type": "string",
+      "description": "The type of the fee to pay.",
+      "readOnly": true
+    },
+    "feePercentageForTime": {
+      "type": "object",
+      "description": "Fee percentage depending of the time of cancellation.",
+      "additionalProperties": {
+        "type": "integer",
+        "format": "int32"
+      }
+    }
+  }
+}

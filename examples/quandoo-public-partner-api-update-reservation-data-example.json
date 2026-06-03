@@ -1,0 +1,12 @@
+{
+  "reservation": {
+    "status": "CONFIRMED",
+    "capacity": 4,
+    "areaId": 1,
+    "dateTime": "2026-07-15T19:30:00",
+    "reservationTags": [
+      1
+    ],
+    "extraInfo": "Window table preferred if available."
+  }
+}

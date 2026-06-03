@@ -1,0 +1,249 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MerchantDetailsDto",
+  "description": "MerchantDetailsDto schema from Quandoo Public Partner API",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-schema/quandoo-public-partner-api-merchant-details-dto-schema.json",
+  "type": "object",
+  "required": [
+    "bookable",
+    "ccvEnabled",
+    "id",
+    "links",
+    "location",
+    "name",
+    "openingTimes",
+    "phoneNumber",
+    "reviewScore",
+    "timezone"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The id of the merchant."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the merchant."
+    },
+    "phoneNumber": {
+      "type": "string",
+      "description": "The phone number of the merchant."
+    },
+    "currency": {
+      "type": "string",
+      "description": "The currency of the merchant."
+    },
+    "locale": {
+      "type": "string",
+      "description": "The locale of the merchant."
+    },
+    "timezone": {
+      "type": "string",
+      "description": "The timezone of the merchant."
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "coordinates": {
+          "type": "object",
+          "properties": {
+            "latitude": {
+              "type": "number",
+              "format": "double",
+              "example": 1.0
+            },
+            "longitude": {
+              "type": "number",
+              "format": "double",
+              "example": 1.0
+            }
+          }
+        },
+        "address": {
+          "type": "object",
+          "properties": {
+            "street": {
+              "type": "string",
+              "example": "string"
+            },
+            "number": {
+              "type": "string",
+              "example": "string"
+            },
+            "zipcode": {
+              "type": "string",
+              "example": "string"
+            },
+            "city": {
+              "type": "string",
+              "example": "string"
+            },
+            "country": {
+              "type": "string",
+              "example": "DE"
+            },
+            "district": {
+              "type": "string",
+              "example": "string"
+            }
+          }
+        }
+      }
+    },
+    "reviewScore": {
+      "type": "string",
+      "description": "The review score of the merchant."
+    },
+    "tagGroups": {
+      "type": "array",
+      "description": "The tag groups this merchant belongs to, requires permission. Without permissions returns only CUISINE and PRICE.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "CUISINE",
+              "MEAL_TYPE",
+              "ESTABLISHMENT_TYPE",
+              "AREA",
+              "INTERNET",
+              "FOOD_RELATED",
+              "ACCESSIBILITY",
+              "PAYMENT",
+              "PRICE",
+              "ATMOSPHERE",
+              "PARKING",
+              "EXTRAS",
+              "GOOD_FOR",
+              "MENU_DETAILS"
+            ]
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TranslatedTagDto"
+            }
+          }
+        }
+      }
+    },
+    "images": {
+      "type": "array",
+      "description": "The slider images this merchant has.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "url"
+          }
+        }
+      }
+    },
+    "documents": {
+      "type": "array",
+      "description": "The documents this merchant has, requires permission.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "links": {
+      "type": "array",
+      "description": "The links related to this entity.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "format": "url"
+          },
+          "method": {
+            "type": "string"
+          },
+          "rel": {
+            "type": "string",
+            "enum": [
+              "DETAILS",
+              "WIDGET",
+              "WIDGET_DETAILS",
+              "GET_MERCHANT",
+              "PARENT",
+              "SELF",
+              "SETTINGS",
+              "AVAILABILITY_DAYS",
+              "AVAILABILITIES",
+              "CREATE_RESERVATION",
+              "GET_RESERVATION",
+              "UPDATE_RESERVATION",
+              "GET_CUSTOMER_RESERVATION",
+              "GET_REVIEW",
+              "PORTAL_PREORDER_FORM",
+              "RESERVATION_CHECKOUT_PAGE",
+              "CREDIT_CARD_DETAILS_PAGE",
+              "CUSTOMER_EDIT_RESERVATION"
+            ]
+          }
+        }
+      }
+    },
+    "bookable": {
+      "type": "boolean",
+      "description": "The flag indicates whether the merchant is bookable or not."
+    },
+    "openingTimes": {
+      "type": "object",
+      "required": [
+        "standardOpeningTimes"
+      ],
+      "properties": {
+        "standardOpeningTimes": {
+          "type": "object"
+        }
+      }
+    },
+    "ccvEnabled": {
+      "type": "boolean",
+      "description": "If true, credit card information is required when creating a reservation."
+    },
+    "chain": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "ivrRedirectNumber": {
+      "type": "string",
+      "description": "The IVR forwarding phone number, requires permission."
+    },
+    "shortDescription": {
+      "type": "string",
+      "description": "Merchant short description, requires permission."
+    },
+    "longDescription": {
+      "type": "string",
+      "description": "Merchant long description, requires permission."
+    }
+  }
+}

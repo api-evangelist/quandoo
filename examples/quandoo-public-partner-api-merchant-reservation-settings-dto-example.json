@@ -1,0 +1,27 @@
+{
+  "areaIds": [
+    {
+      "id": 1,
+      "name": "Sample Restaurant",
+      "priority": 1
+    }
+  ],
+  "capacities": [
+    1
+  ],
+  "merchantNewsletterSelectionRequired": true,
+  "areaSelectionRequired": true,
+  "reservationEnquiryEnabled": true,
+  "minimumCapacityForEnquiries": 4,
+  "onlineReservationInterval": 1,
+  "specialTerms": "string",
+  "links": [
+    {
+      "href": "https://www.quandoo.com/place/sample-restaurant",
+      "method": "string",
+      "rel": "DETAILS"
+    }
+  ],
+  "automaticConfirmation": true,
+  "ccvEnabled": true
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-structure/quandoo-public-partner-api-document-dto-structure.json",
+  "name": "DocumentDto",
+  "description": "DocumentDto schema from Quandoo Public Partner API",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+    "format": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "customer": {
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "profileImage": {
+      "url": "https://www.quandoo.com/place/sample-restaurant"
+    }
+  },
+  "rating": 1,
+  "description": "Window table preferred if available.",
+  "locale": "de_DE",
+  "date": "2026-07-15"
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-structure/quandoo-public-partner-api-marketing-setting-dto-structure.json",
+  "name": "MarketingSettingDto",
+  "description": "MarketingSettingDto schema from Quandoo Public Partner API",
+  "type": "object",
+  "properties": {
+    "marketingSettingType": {
+      "type": "string",
+      "enum": [
+        "SMART_OFFERS_AND_DEALS",
+        "PROMO_CODES",
+        "RESTAURANT_RECOMMENDATIONS",
+        "NEWSLETTERS"
+      ]
+    },
+    "marketingSettingStatus": {
+      "type": "string",
+      "enum": [
+        "ACTIVE",
+        "INACTIVE"
+      ]
+    }
+  }
+}

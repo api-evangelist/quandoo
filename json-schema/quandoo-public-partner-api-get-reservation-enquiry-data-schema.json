@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GetReservationEnquiryData",
+  "description": "GetReservationEnquiryData schema from Quandoo Public Partner API",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-schema/quandoo-public-partner-api-get-reservation-enquiry-data-schema.json",
+  "type": "object",
+  "required": [
+    "customerId"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The agent-dependent unique id of the reservation enquiry"
+    },
+    "merchantId": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The ID of the merchant at which this reservation enquiry was made"
+    },
+    "customerId": {
+      "type": "string",
+      "description": "The ID of the customer to which this reservation enquiry belongs"
+    },
+    "capacity": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The capacity (people count) of the reservation enquiry"
+    },
+    "startDateTime": {
+      "type": "string",
+      "description": "The start date time of the reservation enquiry. Format: yyyy-MM-ddTHH:mm:ssZ"
+    },
+    "endDateTime": {
+      "type": "string",
+      "description": "The end date time of the reservation enquiry. Format: yyyy-MM-ddTHH:mm:ssZ"
+    },
+    "status": {
+      "type": "string",
+      "description": "The status of the reservation enquiry which can be one of:  NEW, IN_PROGRESS, ACCEPTED or REJECTED"
+    }
+  }
+}

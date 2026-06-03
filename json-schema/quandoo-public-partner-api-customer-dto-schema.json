@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CustomerDto",
+  "description": "CustomerDto schema from Quandoo Public Partner API",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-schema/quandoo-public-partner-api-customer-dto-schema.json",
+  "type": "object",
+  "properties": {
+    "firstName": {
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "profileImage": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "url"
+        }
+      }
+    }
+  }
+}

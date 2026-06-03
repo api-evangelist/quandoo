@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReviewDtoList",
+  "description": "ReviewDtoList schema from Quandoo Public Partner API",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-schema/quandoo-public-partner-api-review-dto-list-schema.json",
+  "type": "object",
+  "required": [
+    "reviews"
+  ],
+  "properties": {
+    "reviews": {
+      "type": "array",
+      "description": "Merchant customer review collection.",
+      "items": {
+        "type": "object",
+        "required": [
+          "customer",
+          "date",
+          "rating"
+        ],
+        "properties": {
+          "customer": {
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "type": "string",
+                "example": "Jane"
+              },
+              "lastName": {
+                "type": "string",
+                "example": "Smith"
+              },
+              "profileImage": {
+                "$ref": "#/components/schemas/ImageDto"
+              }
+            }
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Possible values: 1 to 6."
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the review."
+          },
+          "locale": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "The date when the review was written."
+          }
+        }
+      }
+    },
+    "size": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "offset": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "limit": {
+      "type": "integer",
+      "format": "int32"
+    }
+  }
+}

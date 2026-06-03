@@ -1,0 +1,27 @@
+{
+  "timeSlots": [
+    {
+      "dateTime": "2026-07-15T19:30:00",
+      "occupancy": 1,
+      "areaIds": [
+        1
+      ],
+      "vaultSettingsId": "88086"
+    }
+  ],
+  "vaultSettings": [
+    {
+      "id": "88086",
+      "fee": 1.0,
+      "feeType": "string",
+      "feePercentageForTime": {}
+    }
+  ],
+  "links": [
+    {
+      "href": "https://www.quandoo.com/place/sample-restaurant",
+      "method": "string",
+      "rel": "DETAILS"
+    }
+  ]
+}

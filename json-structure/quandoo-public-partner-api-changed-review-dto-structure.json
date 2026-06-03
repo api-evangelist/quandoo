@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-structure/quandoo-public-partner-api-changed-review-dto-structure.json",
+  "name": "ChangedReviewDto",
+  "description": "ChangedReviewDto schema from Quandoo Public Partner API",
+  "type": "object",
+  "required": [
+    "links",
+    "reviewId"
+  ],
+  "properties": {
+    "reviewId": {
+      "type": "uuid",
+      "description": "Id of to the review."
+    },
+    "status": {
+      "type": "string",
+      "description": "The status of the change.",
+      "enum": [
+        "AVAILABLE_TO_REVIEW",
+        "CREATED",
+        "DENIED",
+        "PUBLISHED"
+      ]
+    },
+    "links": {
+      "type": "array",
+      "description": "The links related to this entity.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "format": "url"
+          },
+          "method": {
+            "type": "string"
+          },
+          "rel": {
+            "type": "string",
+            "enum": [
+              "DETAILS",
+              "WIDGET",
+              "WIDGET_DETAILS",
+              "GET_MERCHANT",
+              "PARENT",
+              "SELF",
+              "SETTINGS",
+              "AVAILABILITY_DAYS",
+              "AVAILABILITIES",
+              "CREATE_RESERVATION",
+              "GET_RESERVATION",
+              "UPDATE_RESERVATION",
+              "GET_CUSTOMER_RESERVATION",
+              "GET_REVIEW",
+              "PORTAL_PREORDER_FORM",
+              "RESERVATION_CHECKOUT_PAGE",
+              "CREDIT_CARD_DETAILS_PAGE",
+              "CUSTOMER_EDIT_RESERVATION"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

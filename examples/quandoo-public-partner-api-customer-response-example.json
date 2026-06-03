@@ -1,0 +1,22 @@
+{
+  "id": "88086",
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "gender": "male",
+  "email": "jane.smith@example.com",
+  "phoneNumber": "030120765890",
+  "mobileNumber": "string",
+  "country": "DE",
+  "links": [
+    {
+      "href": "https://www.quandoo.com/place/sample-restaurant",
+      "method": "string",
+      "rel": "DETAILS"
+    }
+  ],
+  "subscriptions": [
+    {
+      "id": "QUANDOO"
+    }
+  ]
+}

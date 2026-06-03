@@ -1,0 +1,92 @@
+{
+  "merchant": {
+    "id": 1,
+    "name": "Sample Restaurant",
+    "phoneNumber": "030120765890",
+    "currency": "EUR",
+    "locale": "de_DE",
+    "timezone": "19:30:00",
+    "location": {
+      "coordinates": "string",
+      "address": "string"
+    },
+    "reviewScore": "string",
+    "tagGroups": [
+      {
+        "type": "CUISINE",
+        "tags": [
+          {}
+        ]
+      }
+    ],
+    "images": [
+      {
+        "url": "https://www.quandoo.com/place/sample-restaurant"
+      }
+    ],
+    "documents": [
+      {
+        "name": "Sample Restaurant",
+        "url": "https://www.quandoo.com/place/sample-restaurant",
+        "format": "string",
+        "description": "Window table preferred if available."
+      }
+    ],
+    "links": [
+      {
+        "href": "https://www.quandoo.com/place/sample-restaurant",
+        "method": "string",
+        "rel": "DETAILS"
+      }
+    ],
+    "bookable": true,
+    "openingTimes": {
+      "standardOpeningTimes": "19:30:00"
+    },
+    "ccvEnabled": true,
+    "chain": {
+      "id": 1,
+      "name": "Sample Restaurant"
+    },
+    "ivrRedirectNumber": "string",
+    "shortDescription": "Window table preferred if available.",
+    "longDescription": "Window table preferred if available."
+  },
+  "merchantSearchMessage": "MERCHANT_NOT_BOOKABLE",
+  "recommendedMerchants": {
+    "merchants": [
+      {
+        "id": 1,
+        "name": "Sample Restaurant",
+        "phoneNumber": "030120765890",
+        "currency": "EUR",
+        "locale": "de_DE",
+        "timezone": "19:30:00",
+        "location": "string",
+        "reviewScore": "string",
+        "tagGroups": [
+          {}
+        ],
+        "images": [
+          {}
+        ],
+        "documents": [
+          {}
+        ],
+        "links": [
+          {}
+        ],
+        "bookable": true,
+        "openingTimes": "19:30:00",
+        "ccvEnabled": true,
+        "chain": "string",
+        "ivrRedirectNumber": "string",
+        "shortDescription": "Window table preferred if available.",
+        "longDescription": "Window table preferred if available."
+      }
+    ],
+    "size": 1,
+    "offset": 1,
+    "limit": 1
+  }
+}

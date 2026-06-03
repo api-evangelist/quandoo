@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CustomerResponse",
+  "description": "CustomerResponse schema from Quandoo Public Partner API",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-schema/quandoo-public-partner-api-customer-response-schema.json",
+  "type": "object",
+  "required": [
+    "country",
+    "email",
+    "firstName",
+    "gender",
+    "id",
+    "lastName",
+    "links",
+    "mobileNumber",
+    "phoneNumber",
+    "subscriptions"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The id of the customer."
+    },
+    "firstName": {
+      "type": "string",
+      "description": "First name of the customer."
+    },
+    "lastName": {
+      "type": "string",
+      "description": "Last name of the customer."
+    },
+    "gender": {
+      "type": "string",
+      "description": "Gender of the customer.",
+      "enum": [
+        "male",
+        "female",
+        "other",
+        "undefined"
+      ]
+    },
+    "email": {
+      "type": "string",
+      "description": "Email of the customer."
+    },
+    "phoneNumber": {
+      "type": "string",
+      "description": "Fixed line phone number of the customer."
+    },
+    "mobileNumber": {
+      "type": "string",
+      "description": "Mobile phone number of the customer."
+    },
+    "country": {
+      "type": "string",
+      "description": "2-letter ISO country code of the customer, e.g. DE."
+    },
+    "links": {
+      "type": "array",
+      "description": "The links related to this entity.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "format": "url"
+          },
+          "method": {
+            "type": "string"
+          },
+          "rel": {
+            "type": "string",
+            "enum": [
+              "DETAILS",
+              "WIDGET",
+              "WIDGET_DETAILS",
+              "GET_MERCHANT",
+              "PARENT",
+              "SELF",
+              "SETTINGS",
+              "AVAILABILITY_DAYS",
+              "AVAILABILITIES",
+              "CREATE_RESERVATION",
+              "GET_RESERVATION",
+              "UPDATE_RESERVATION",
+              "GET_CUSTOMER_RESERVATION",
+              "GET_REVIEW",
+              "PORTAL_PREORDER_FORM",
+              "RESERVATION_CHECKOUT_PAGE",
+              "CREDIT_CARD_DETAILS_PAGE",
+              "CUSTOMER_EDIT_RESERVATION"
+            ]
+          }
+        }
+      }
+    },
+    "subscriptions": {
+      "type": "array",
+      "description": "The newsletter subscriptions, e.g. QUANDOO, MERCHANT.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": [
+              "QUANDOO",
+              "MERCHANT"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

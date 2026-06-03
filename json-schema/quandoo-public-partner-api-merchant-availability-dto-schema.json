@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MerchantAvailabilityDto",
+  "description": "MerchantAvailabilityDto schema from Quandoo Public Partner API",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-schema/quandoo-public-partner-api-merchant-availability-dto-schema.json",
+  "type": "object",
+  "required": [
+    "occupancy"
+  ],
+  "properties": {
+    "dateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ"
+    },
+    "occupancy": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The occupancy of this availability option across the restaurant. This is an integer number between 0 and 100.",
+      "readOnly": true
+    },
+    "areaIds": {
+      "type": "array",
+      "description": "The ids of the areas this availability option can be reserved for.",
+      "items": {
+        "type": "integer",
+        "format": "int32"
+      }
+    },
+    "vaultSettingsId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The id of the Vault Settings applicable on this availability option."
+    }
+  }
+}

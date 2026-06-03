@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UpdateReviewDto",
+  "description": "UpdateReviewDto schema from Quandoo Public Partner API",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-schema/quandoo-public-partner-api-update-review-dto-schema.json",
+  "type": "object",
+  "required": [
+    "reviewId"
+  ],
+  "properties": {
+    "reviewId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID identifying the review."
+    },
+    "rating": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Rating associated to this review. Possible values: 1 to 6."
+    },
+    "description": {
+      "type": "string",
+      "description": "Description associated to this review."
+    }
+  }
+}

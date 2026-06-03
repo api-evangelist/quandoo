@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "StandardOpeningTimesDto",
+  "description": "StandardOpeningTimesDto schema from Quandoo Public Partner API",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-schema/quandoo-public-partner-api-standard-opening-times-dto-schema.json",
+  "type": "object"
+}

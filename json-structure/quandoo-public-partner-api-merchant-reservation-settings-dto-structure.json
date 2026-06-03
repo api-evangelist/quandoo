@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-structure/quandoo-public-partner-api-merchant-reservation-settings-dto-structure.json",
+  "name": "MerchantReservationSettingsDto",
+  "description": "MerchantReservationSettingsDto schema from Quandoo Public Partner API",
+  "type": "object",
+  "properties": {
+    "areaIds": {
+      "type": "array",
+      "description": "List of all the areas defined for the merchant. Each area will contain:",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "int32",
+            "description": "Id of the area"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the area"
+          },
+          "priority": {
+            "type": "int32",
+            "description": "Priority set for this area"
+          }
+        }
+      }
+    },
+    "capacities": {
+      "type": "array",
+      "description": "Number of guests allowed in a reservation",
+      "items": {
+        "type": "int32"
+      }
+    },
+    "merchantNewsletterSelectionRequired": {
+      "type": "boolean",
+      "description": "If true, a separate checkbox is displayed in the checkout for newsletter received from the restaurant"
+    },
+    "areaSelectionRequired": {
+      "type": "boolean",
+      "description": "If true, we display available areas in a dropdown when a guest is making an online reservation"
+    },
+    "reservationEnquiryEnabled": {
+      "type": "boolean",
+      "description": "If true, the restaurants allows enquiries"
+    },
+    "minimumCapacityForEnquiries": {
+      "type": "int32",
+      "description": "Minimum number of guests for an enquiry"
+    },
+    "onlineReservationInterval": {
+      "type": "int32",
+      "description": "Time slots displayed for making a reservation"
+    },
+    "specialTerms": {
+      "type": "string",
+      "description": "If true, special terms and conditions of the restaurant need to be confirmed upon making an online reservation"
+    },
+    "links": {
+      "type": "array",
+      "description": "Related links that can be followed based on this response",
+      "items": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "format": "url"
+          },
+          "method": {
+            "type": "string"
+          },
+          "rel": {
+            "type": "string",
+            "enum": [
+              "DETAILS",
+              "WIDGET",
+              "WIDGET_DETAILS",
+              "GET_MERCHANT",
+              "PARENT",
+              "SELF",
+              "SETTINGS",
+              "AVAILABILITY_DAYS",
+              "AVAILABILITIES",
+              "CREATE_RESERVATION",
+              "GET_RESERVATION",
+              "UPDATE_RESERVATION",
+              "GET_CUSTOMER_RESERVATION",
+              "GET_REVIEW",
+              "PORTAL_PREORDER_FORM",
+              "RESERVATION_CHECKOUT_PAGE",
+              "CREDIT_CARD_DETAILS_PAGE",
+              "CUSTOMER_EDIT_RESERVATION"
+            ]
+          }
+        }
+      }
+    },
+    "automaticConfirmation": {
+      "type": "boolean",
+      "description": "If true, the customer will receive an automatic email confirmation after he makes a reservation"
+    },
+    "ccvEnabled": {
+      "type": "boolean",
+      "description": "If true, credit card information is required when creating a reservation"
+    }
+  }
+}

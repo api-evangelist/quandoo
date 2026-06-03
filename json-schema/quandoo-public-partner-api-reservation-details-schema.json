@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReservationDetails",
+  "description": "ReservationDetails schema from Quandoo Public Partner API",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-schema/quandoo-public-partner-api-reservation-details-schema.json",
+  "type": "object",
+  "required": [
+    "capacity",
+    "status"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "The status of the reservation."
+    },
+    "capacity": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The capacity (people count) of the reservation."
+    },
+    "areaId": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The id of the area this reservation should be in. Optional."
+    },
+    "dateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ"
+    },
+    "reservationTags": {
+      "type": "array",
+      "description": "Reservation tag IDs.",
+      "items": {
+        "type": "integer",
+        "format": "int32"
+      }
+    },
+    "extraInfo": {
+      "type": "string",
+      "description": "Additional text information about the reservation. Pass empty string to remove it."
+    }
+  }
+}

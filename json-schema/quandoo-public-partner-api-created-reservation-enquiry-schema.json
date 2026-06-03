@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CreatedReservationEnquiry",
+  "description": "CreatedReservationEnquiry schema from Quandoo Public Partner API",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-schema/quandoo-public-partner-api-created-reservation-enquiry-schema.json",
+  "type": "object",
+  "required": [
+    "id"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The identifier of the reservation enquiry for the calling agent (Agent-dependent field)"
+    }
+  }
+}

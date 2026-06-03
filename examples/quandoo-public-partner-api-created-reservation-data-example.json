@@ -1,0 +1,19 @@
+{
+  "reservation": {
+    "id": "88086",
+    "number": 1,
+    "reservationNumber": "string",
+    "status": "CONFIRMED",
+    "quandooId": "88086"
+  },
+  "customer": {
+    "id": "88086"
+  },
+  "links": [
+    {
+      "href": "https://www.quandoo.com/place/sample-restaurant",
+      "method": "string",
+      "rel": "DETAILS"
+    }
+  ]
+}

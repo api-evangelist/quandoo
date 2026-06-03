@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReviewDto",
+  "description": "ReviewDto schema from Quandoo Public Partner API",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-schema/quandoo-public-partner-api-review-dto-schema.json",
+  "type": "object",
+  "required": [
+    "customer",
+    "date",
+    "rating"
+  ],
+  "properties": {
+    "customer": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "profileImage": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "url",
+              "example": "https://www.quandoo.com/place/sample-restaurant"
+            }
+          }
+        }
+      }
+    },
+    "rating": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Possible values: 1 to 6."
+    },
+    "description": {
+      "type": "string",
+      "description": "The description of the review."
+    },
+    "locale": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "The date when the review was written."
+    }
+  }
+}

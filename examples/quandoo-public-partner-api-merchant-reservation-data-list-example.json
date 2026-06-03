@@ -1,0 +1,25 @@
+{
+  "reservations": [
+    {
+      "id": "88086",
+      "number": 1,
+      "reservationNumber": "string",
+      "quandooId": "88086",
+      "status": "CONFIRMED",
+      "updatedAt": "2026-07-15T19:30:00",
+      "capacity": 4,
+      "merchantId": 88086,
+      "customerId": "88086",
+      "promocode": "string",
+      "extraInfo": "Window table preferred if available.",
+      "links": [
+        "string"
+      ],
+      "reservationTags": [
+        1
+      ]
+    }
+  ],
+  "offset": 1,
+  "limit": 1
+}

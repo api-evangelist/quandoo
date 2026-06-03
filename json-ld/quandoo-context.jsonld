@@ -1,0 +1,536 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "qdo": "https://docs.quandoo.com/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "AgentTracking": "qdo:AgentTracking",
+    "id": {
+      "@id": "qdo:id",
+      "@type": "xsd:integer"
+    },
+    "AreaDto": "qdo:AreaDto",
+    "name": {
+      "@id": "schema:name"
+    },
+    "priority": {
+      "@id": "qdo:priority",
+      "@type": "xsd:integer"
+    },
+    "ChainDto": "qdo:ChainDto",
+    "ChangedReviewDto": "qdo:ChangedReviewDto",
+    "reviewId": {
+      "@id": "qdo:reviewId",
+      "@type": "xsd:string"
+    },
+    "status": {
+      "@id": "qdo:status",
+      "@type": "xsd:string"
+    },
+    "links": {
+      "@id": "qdo:links",
+      "@container": "@set"
+    },
+    "href": {
+      "@id": "qdo:href",
+      "@type": "xsd:string"
+    },
+    "method": {
+      "@id": "qdo:method",
+      "@type": "xsd:string"
+    },
+    "rel": {
+      "@id": "qdo:rel",
+      "@type": "xsd:string"
+    },
+    "CoordinatesDto": "qdo:CoordinatesDto",
+    "latitude": {
+      "@id": "qdo:latitude",
+      "@type": "xsd:double"
+    },
+    "longitude": {
+      "@id": "qdo:longitude",
+      "@type": "xsd:double"
+    },
+    "CreateReviewDto": "qdo:CreateReviewDto",
+    "reservationId": {
+      "@id": "qdo:reservationId",
+      "@type": "xsd:string"
+    },
+    "rating": {
+      "@id": "qdo:rating",
+      "@type": "xsd:integer"
+    },
+    "description": {
+      "@id": "schema:description"
+    },
+    "CreatedCustomer": "qdo:CreatedCustomer",
+    "CreatedReservationData": "qdo:CreatedReservationData",
+    "reservation": {
+      "@id": "qdo:reservation",
+      "@type": "@id"
+    },
+    "number": {
+      "@id": "qdo:number",
+      "@type": "xsd:integer"
+    },
+    "reservationNumber": {
+      "@id": "qdo:reservationNumber",
+      "@type": "xsd:string"
+    },
+    "quandooId": {
+      "@id": "qdo:quandooId",
+      "@type": "xsd:string"
+    },
+    "customer": {
+      "@id": "qdo:customer",
+      "@type": "@id"
+    },
+    "CreatedReservationEnquiryData": "qdo:CreatedReservationEnquiryData",
+    "reservationEnquiry": {
+      "@id": "qdo:reservationEnquiry",
+      "@type": "@id"
+    },
+    "CreatedReservationEnquiry": "qdo:CreatedReservationEnquiry",
+    "CreatedReservation": "qdo:CreatedReservation",
+    "CustomerDataList": "qdo:CustomerDataList",
+    "result": {
+      "@id": "qdo:result",
+      "@container": "@set"
+    },
+    "customerRef": {
+      "@id": "qdo:customerRef",
+      "@type": "xsd:string"
+    },
+    "marketingFlags": {
+      "@id": "qdo:marketingFlags",
+      "@container": "@set"
+    },
+    "title": {
+      "@id": "qdo:title",
+      "@type": "xsd:string"
+    },
+    "firstName": {
+      "@id": "qdo:firstName",
+      "@type": "xsd:string"
+    },
+    "lastName": {
+      "@id": "qdo:lastName",
+      "@type": "xsd:string"
+    },
+    "email": {
+      "@id": "schema:email"
+    },
+    "phoneNumber": {
+      "@id": "qdo:phoneNumber",
+      "@type": "xsd:string"
+    },
+    "mobileNumber": {
+      "@id": "qdo:mobileNumber",
+      "@type": "xsd:string"
+    },
+    "locale": {
+      "@id": "qdo:locale",
+      "@type": "xsd:string"
+    },
+    "subscriptions": {
+      "@id": "qdo:subscriptions",
+      "@container": "@set"
+    },
+    "statistics": {
+      "@id": "qdo:statistics",
+      "@type": "@id"
+    },
+    "reservationSuccessfulCount": {
+      "@id": "qdo:reservationSuccessfulCount",
+      "@type": "xsd:integer"
+    },
+    "reservationCancelledCount": {
+      "@id": "qdo:reservationCancelledCount",
+      "@type": "xsd:integer"
+    },
+    "reservationNoShowCount": {
+      "@id": "qdo:reservationNoShowCount",
+      "@type": "xsd:integer"
+    },
+    "updatedAt": {
+      "@id": "qdo:updatedAt",
+      "@type": "xsd:dateTime"
+    },
+    "offset": {
+      "@id": "qdo:offset",
+      "@type": "xsd:integer"
+    },
+    "limit": {
+      "@id": "qdo:limit",
+      "@type": "xsd:integer"
+    },
+    "CustomerDto": "qdo:CustomerDto",
+    "profileImage": {
+      "@id": "qdo:profileImage",
+      "@type": "@id"
+    },
+    "url": {
+      "@id": "schema:url"
+    },
+    "CustomerResponse": "qdo:CustomerResponse",
+    "gender": {
+      "@id": "qdo:gender",
+      "@type": "xsd:string"
+    },
+    "country": {
+      "@id": "qdo:country",
+      "@type": "xsd:string"
+    },
+    "CustomerReviewData": "qdo:CustomerReviewData",
+    "identifier": {
+      "@id": "qdo:identifier",
+      "@type": "xsd:string"
+    },
+    "CustomerStatisticsData": "qdo:CustomerStatisticsData",
+    "DocumentDto": "qdo:DocumentDto",
+    "format": {
+      "@id": "qdo:format",
+      "@type": "xsd:string"
+    },
+    "GetReservationEnquiryData": "qdo:GetReservationEnquiryData",
+    "merchantId": {
+      "@id": "qdo:merchantId",
+      "@type": "xsd:integer"
+    },
+    "customerId": {
+      "@id": "qdo:customerId",
+      "@type": "xsd:string"
+    },
+    "capacity": {
+      "@id": "qdo:capacity",
+      "@type": "xsd:integer"
+    },
+    "startDateTime": {
+      "@id": "qdo:startDateTime",
+      "@type": "xsd:string"
+    },
+    "endDateTime": {
+      "@id": "qdo:endDateTime",
+      "@type": "xsd:string"
+    },
+    "GetReviewDto": "qdo:GetReviewDto",
+    "createdAt": {
+      "@id": "qdo:createdAt",
+      "@type": "xsd:dateTime"
+    },
+    "GetReviewsDto": "qdo:GetReviewsDto",
+    "reviews": {
+      "@id": "qdo:reviews",
+      "@container": "@set"
+    },
+    "size": {
+      "@id": "qdo:size",
+      "@type": "xsd:integer"
+    },
+    "ImageDto": "qdo:ImageDto",
+    "LinkRelationDto": "qdo:LinkRelationDto",
+    "LocationDto": "qdo:LocationDto",
+    "coordinates": {
+      "@id": "qdo:coordinates",
+      "@type": "@id"
+    },
+    "address": {
+      "@id": "qdo:address",
+      "@type": "@id"
+    },
+    "street": {
+      "@id": "qdo:street",
+      "@type": "xsd:string"
+    },
+    "zipcode": {
+      "@id": "qdo:zipcode",
+      "@type": "xsd:string"
+    },
+    "city": {
+      "@id": "qdo:city",
+      "@type": "xsd:string"
+    },
+    "district": {
+      "@id": "qdo:district",
+      "@type": "xsd:string"
+    },
+    "MarketingSettingDto": "qdo:MarketingSettingDto",
+    "marketingSettingType": {
+      "@id": "qdo:marketingSettingType",
+      "@type": "xsd:string"
+    },
+    "marketingSettingStatus": {
+      "@id": "qdo:marketingSettingStatus",
+      "@type": "xsd:string"
+    },
+    "MerchantAddressDto": "qdo:MerchantAddressDto",
+    "MerchantAvailabilityDaysDto": "qdo:MerchantAvailabilityDaysDto",
+    "days": {
+      "@id": "qdo:days",
+      "@container": "@set",
+      "@type": "xsd:date"
+    },
+    "MerchantAvailabilityDtoList": "qdo:MerchantAvailabilityDtoList",
+    "timeSlots": {
+      "@id": "qdo:timeSlots",
+      "@container": "@set"
+    },
+    "dateTime": {
+      "@id": "qdo:dateTime",
+      "@type": "xsd:dateTime"
+    },
+    "occupancy": {
+      "@id": "qdo:occupancy",
+      "@type": "xsd:integer"
+    },
+    "areaIds": {
+      "@id": "qdo:areaIds",
+      "@container": "@set",
+      "@type": "xsd:integer"
+    },
+    "vaultSettingsId": {
+      "@id": "qdo:vaultSettingsId",
+      "@type": "xsd:string"
+    },
+    "vaultSettings": {
+      "@id": "qdo:vaultSettings",
+      "@container": "@set"
+    },
+    "fee": {
+      "@id": "qdo:fee",
+      "@type": "xsd:double"
+    },
+    "feeType": {
+      "@id": "qdo:feeType",
+      "@type": "xsd:string"
+    },
+    "feePercentageForTime": {
+      "@id": "qdo:feePercentageForTime",
+      "@type": "@id"
+    },
+    "MerchantAvailabilityDto": "qdo:MerchantAvailabilityDto",
+    "MerchantCustomerData": "qdo:MerchantCustomerData",
+    "MerchantCustomer": "qdo:MerchantCustomer",
+    "emailAddress": {
+      "@id": "qdo:emailAddress",
+      "@type": "xsd:string"
+    },
+    "MerchantDetailsDtoList": "qdo:MerchantDetailsDtoList",
+    "merchants": {
+      "@id": "qdo:merchants",
+      "@container": "@set"
+    },
+    "currency": {
+      "@id": "qdo:currency",
+      "@type": "xsd:string"
+    },
+    "timezone": {
+      "@id": "qdo:timezone",
+      "@type": "xsd:string"
+    },
+    "location": {
+      "@id": "qdo:location",
+      "@type": "@id"
+    },
+    "reviewScore": {
+      "@id": "qdo:reviewScore",
+      "@type": "xsd:string"
+    },
+    "tagGroups": {
+      "@id": "qdo:tagGroups",
+      "@container": "@set"
+    },
+    "images": {
+      "@id": "qdo:images",
+      "@container": "@set"
+    },
+    "documents": {
+      "@id": "qdo:documents",
+      "@container": "@set"
+    },
+    "bookable": {
+      "@id": "qdo:bookable",
+      "@type": "xsd:boolean"
+    },
+    "openingTimes": {
+      "@id": "qdo:openingTimes",
+      "@type": "@id"
+    },
+    "standardOpeningTimes": {
+      "@id": "qdo:standardOpeningTimes",
+      "@type": "@id"
+    },
+    "ccvEnabled": {
+      "@id": "qdo:ccvEnabled",
+      "@type": "xsd:boolean"
+    },
+    "chain": {
+      "@id": "qdo:chain",
+      "@type": "@id"
+    },
+    "ivrRedirectNumber": {
+      "@id": "qdo:ivrRedirectNumber",
+      "@type": "xsd:string"
+    },
+    "shortDescription": {
+      "@id": "qdo:shortDescription",
+      "@type": "xsd:string"
+    },
+    "longDescription": {
+      "@id": "qdo:longDescription",
+      "@type": "xsd:string"
+    },
+    "MerchantDetailsDto": "qdo:MerchantDetailsDto",
+    "type": {
+      "@id": "qdo:type",
+      "@type": "xsd:string"
+    },
+    "tags": {
+      "@id": "qdo:tags",
+      "@container": "@set"
+    },
+    "MerchantReservationDataList": "qdo:MerchantReservationDataList",
+    "reservations": {
+      "@id": "qdo:reservations",
+      "@container": "@set"
+    },
+    "promocode": {
+      "@id": "qdo:promocode",
+      "@type": "xsd:string"
+    },
+    "extraInfo": {
+      "@id": "qdo:extraInfo",
+      "@type": "xsd:string"
+    },
+    "reservationTags": {
+      "@id": "qdo:reservationTags",
+      "@container": "@set",
+      "@type": "xsd:integer"
+    },
+    "MerchantReservationData": "qdo:MerchantReservationData",
+    "areaId": {
+      "@id": "qdo:areaId",
+      "@type": "xsd:integer"
+    },
+    "promoCode": {
+      "@id": "qdo:promoCode",
+      "@type": "xsd:string"
+    },
+    "creditCardVaultSettingsId": {
+      "@id": "qdo:creditCardVaultSettingsId",
+      "@type": "xsd:string"
+    },
+    "recurringCardDetailId": {
+      "@id": "qdo:recurringCardDetailId",
+      "@type": "xsd:string"
+    },
+    "tracking": {
+      "@id": "qdo:tracking",
+      "@type": "@id"
+    },
+    "agent": {
+      "@id": "qdo:agent",
+      "@type": "@id"
+    },
+    "cookie": {
+      "@id": "qdo:cookie",
+      "@type": "@id"
+    },
+    "referenceId": {
+      "@id": "qdo:referenceId",
+      "@type": "xsd:string"
+    },
+    "MerchantReservationEnquiryData": "qdo:MerchantReservationEnquiryData",
+    "message": {
+      "@id": "qdo:message",
+      "@type": "xsd:string"
+    },
+    "MerchantReservationEnquiry": "qdo:MerchantReservationEnquiry",
+    "MerchantReservation": "qdo:MerchantReservation",
+    "MerchantReservationSettingsDto": "qdo:MerchantReservationSettingsDto",
+    "capacities": {
+      "@id": "qdo:capacities",
+      "@container": "@set",
+      "@type": "xsd:integer"
+    },
+    "merchantNewsletterSelectionRequired": {
+      "@id": "qdo:merchantNewsletterSelectionRequired",
+      "@type": "xsd:boolean"
+    },
+    "areaSelectionRequired": {
+      "@id": "qdo:areaSelectionRequired",
+      "@type": "xsd:boolean"
+    },
+    "reservationEnquiryEnabled": {
+      "@id": "qdo:reservationEnquiryEnabled",
+      "@type": "xsd:boolean"
+    },
+    "minimumCapacityForEnquiries": {
+      "@id": "qdo:minimumCapacityForEnquiries",
+      "@type": "xsd:integer"
+    },
+    "onlineReservationInterval": {
+      "@id": "qdo:onlineReservationInterval",
+      "@type": "xsd:integer"
+    },
+    "specialTerms": {
+      "@id": "qdo:specialTerms",
+      "@type": "xsd:string"
+    },
+    "automaticConfirmation": {
+      "@id": "qdo:automaticConfirmation",
+      "@type": "xsd:boolean"
+    },
+    "MerchantSubscription": "qdo:MerchantSubscription",
+    "MerchantVaultSettingsDto": "qdo:MerchantVaultSettingsDto",
+    "MerchantWithRecommendationsDto": "qdo:MerchantWithRecommendationsDto",
+    "merchant": {
+      "@id": "qdo:merchant",
+      "@type": "@id"
+    },
+    "merchantSearchMessage": {
+      "@id": "qdo:merchantSearchMessage",
+      "@type": "xsd:string"
+    },
+    "recommendedMerchants": {
+      "@id": "qdo:recommendedMerchants",
+      "@type": "@id"
+    },
+    "OpeningTimesDto": "qdo:OpeningTimesDto",
+    "ReservationDataList": "qdo:ReservationDataList",
+    "ReservationData": "qdo:ReservationData",
+    "ReservationDetails": "qdo:ReservationDetails",
+    "ReservationEnquiryMessageData": "qdo:ReservationEnquiryMessageData",
+    "senderType": {
+      "@id": "qdo:senderType",
+      "@type": "xsd:string"
+    },
+    "creationDate": {
+      "@id": "qdo:creationDate",
+      "@type": "xsd:dateTime"
+    },
+    "ReservationEnquiryMessageList": "qdo:ReservationEnquiryMessageList",
+    "messages": {
+      "@id": "qdo:messages",
+      "@container": "@set"
+    },
+    "ReservationTagDto": "qdo:ReservationTagDto",
+    "ReservationTagsDto": "qdo:ReservationTagsDto",
+    "RestCookie": "qdo:RestCookie",
+    "ReviewDtoList": "qdo:ReviewDtoList",
+    "date": {
+      "@id": "qdo:date",
+      "@type": "xsd:date"
+    },
+    "ReviewDto": "qdo:ReviewDto",
+    "StandardOpeningTimesDto": "qdo:StandardOpeningTimesDto",
+    "TagGroupDto": "qdo:TagGroupDto",
+    "Tracking": "qdo:Tracking",
+    "TranslatedTagDto": "qdo:TranslatedTagDto",
+    "UpdateReservationData": "qdo:UpdateReservationData",
+    "UpdateReservationEnquiryData": "qdo:UpdateReservationEnquiryData",
+    "UpdateReviewDto": "qdo:UpdateReviewDto"
+  }
+}

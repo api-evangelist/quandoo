@@ -1,0 +1,15 @@
+{
+  "reservationEnquiry": {
+    "id": "88086"
+  },
+  "customer": {
+    "id": "88086"
+  },
+  "links": [
+    {
+      "href": "https://www.quandoo.com/place/sample-restaurant",
+      "method": "string",
+      "rel": "DETAILS"
+    }
+  ]
+}

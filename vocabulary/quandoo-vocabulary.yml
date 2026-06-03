@@ -1,0 +1,280 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: "Quandoo"
+  description: >-
+    Unified vocabulary for the Quandoo Public Partner API, mapping the operational
+    dimension (REST resources, actions, schemas, parameters, enums, and authentication
+    drawn from the OpenAPI spec) to the capability dimension (Naftiko workflow
+    capabilities, personas, and business domains) for restaurant reservation booking.
+  created: "2026-06-03"
+  modified: "2026-06-03"
+
+# OPERATIONAL DIMENSION (from OpenAPI)
+operational:
+  apis:
+    - name: "Quandoo Public Partner API"
+      namespace: "quandoo-public-partner-api"
+      version: "1.0.0"
+      baseUrl: "https://public-api.prod.quandoo.com"
+      status: active
+
+  resources:
+    - name: status
+      api: quandoo-public-partner-api
+      actions: [get]
+    - name: customers
+      api: quandoo-public-partner-api
+      actions: [get, list]
+    - name: merchants
+      api: quandoo-public-partner-api
+      actions: [get, search, list]
+    - name: availabilities
+      api: quandoo-public-partner-api
+      actions: [list, query]
+    - name: reservations
+      api: quandoo-public-partner-api
+      actions: [get, create, update, list]
+    - name: reservation-enquiries
+      api: quandoo-public-partner-api
+      actions: [get, create, update, list]
+    - name: reservation-settings
+      api: quandoo-public-partner-api
+      actions: [get]
+    - name: reservation-tags
+      api: quandoo-public-partner-api
+      actions: [list]
+    - name: reviews
+      api: quandoo-public-partner-api
+      actions: [get, create, update, list]
+    - name: validations
+      api: quandoo-public-partner-api
+      actions: [validate]
+
+  actions:
+    - name: get
+      httpMethod: GET
+      pattern: read
+    - name: list
+      httpMethod: GET
+      pattern: query
+    - name: search
+      httpMethod: GET
+      pattern: query
+    - name: query
+      httpMethod: GET
+      pattern: query
+    - name: validate
+      httpMethod: GET
+      pattern: query
+    - name: create
+      httpMethod: PUT
+      pattern: write
+    - name: update
+      httpMethod: PATCH
+      pattern: write
+
+  schemas:
+    core:
+      - MerchantDetailsDto
+      - MerchantReservation
+      - ReservationData
+      - ReservationDetails
+      - CustomerDto
+      - CustomerResponse
+    availability:
+      - MerchantAvailabilityDto
+      - MerchantAvailabilityDaysDto
+      - MerchantAvailabilityDtoList
+    settings:
+      - MerchantReservationSettingsDto
+      - MerchantVaultSettingsDto
+      - MarketingSettingDto
+    enquiries:
+      - CreatedReservationEnquiry
+      - GetReservationEnquiryData
+      - UpdateReservationEnquiryData
+      - ReservationEnquiryMessageData
+    reviews:
+      - ReviewDto
+      - GetReviewDto
+      - CreateReviewDto
+      - ChangedReviewDto
+    tracking:
+      - AgentTracking
+      - Tracking
+
+  parameters:
+    identifiers:
+      - merchantId
+      - customerId
+      - reservationId
+      - reservationEnquiryId
+    filters:
+      - place
+      - placeIds
+      - tags
+      - tagIds
+      - bookable
+      - date
+      - fromTime
+      - capacity
+    geo:
+      - centerPoint
+      - radius
+      - coordinates
+
+  enums:
+    reservationStatus:
+      - CONFIRMED
+      - CANCELLED
+      - NO_SHOW
+      - SEATED
+    enquiryStatus:
+      - PENDING
+      - ACCEPTED
+      - DECLINED
+
+  authentication:
+    scheme: apiKey
+    placement: header
+    header: X-Quandoo-AuthToken
+    appliesTo:
+      - quandoo-public-partner-api
+
+# CAPABILITY DIMENSION (from Naftiko)
+capability:
+  workflows:
+    - name: "Status"
+      file: capabilities/quandoo-public-partner-api-status.yaml
+      api: quandoo-public-partner-api
+      tools: 1
+      personas: [Integration Engineer]
+      domains: [Platform]
+    - name: "Customers"
+      file: capabilities/quandoo-public-partner-api-customers.yaml
+      api: quandoo-public-partner-api
+      tools: 3
+      personas: [Merchant Operator]
+      domains: [Customer Management]
+    - name: "Merchants"
+      file: capabilities/quandoo-public-partner-api-merchants.yaml
+      api: quandoo-public-partner-api
+      tools: 5
+      personas: [Booking Integrator]
+      domains: [Discovery]
+    - name: "Availabilities"
+      file: capabilities/quandoo-public-partner-api-availabilities.yaml
+      api: quandoo-public-partner-api
+      tools: 2
+      personas: [Booking Integrator]
+      domains: [Discovery]
+    - name: "Reservations"
+      file: capabilities/quandoo-public-partner-api-reservations.yaml
+      api: quandoo-public-partner-api
+      tools: 3
+      personas: [Booking Integrator]
+      domains: [Reservation Management]
+    - name: "Reservation Enquiries"
+      file: capabilities/quandoo-public-partner-api-reservation-enquiries.yaml
+      api: quandoo-public-partner-api
+      tools: 4
+      personas: [Booking Integrator]
+      domains: [Reservation Management]
+    - name: "Reservation Settings"
+      file: capabilities/quandoo-public-partner-api-reservation-settings.yaml
+      api: quandoo-public-partner-api
+      tools: 1
+      personas: [Booking Integrator]
+      domains: [Reservation Management]
+    - name: "Reservations Tags"
+      file: capabilities/quandoo-public-partner-api-reservations-tags.yaml
+      api: quandoo-public-partner-api
+      tools: 1
+      personas: [Merchant Operator]
+      domains: [Reservation Management]
+    - name: "Reviews"
+      file: capabilities/quandoo-public-partner-api-reviews.yaml
+      api: quandoo-public-partner-api
+      tools: 3
+      personas: [Merchant Operator]
+      domains: [Reputation]
+    - name: "Validations"
+      file: capabilities/quandoo-public-partner-api-validations.yaml
+      api: quandoo-public-partner-api
+      tools: 1
+      personas: [Booking Integrator]
+      domains: [Platform]
+
+  personas:
+    - id: booking-integrator
+      name: "Booking Integrator"
+      description: "Builds diner-facing booking experiences that search merchants, check availability, and create reservations or enquiries."
+      workflows: [Merchants, Availabilities, Reservations, Reservation Enquiries, Reservation Settings, Validations]
+    - id: merchant-operator
+      name: "Merchant Operator"
+      description: "Restaurant-side operator managing reservations, customers, tags, and reviews for their venue."
+      workflows: [Customers, Reservations Tags, Reviews]
+    - id: integration-engineer
+      name: "Integration Engineer"
+      description: "Monitors connectivity and service health during integration and operation."
+      workflows: [Status]
+
+  domains:
+    - name: Discovery
+      description: "Finding bookable merchants and their open time slots."
+    - name: Reservation Management
+      description: "Creating, reading, and updating reservations, enquiries, settings, and tags."
+    - name: Customer Management
+      description: "Reading customer profiles and their reservation history."
+    - name: Reputation
+      description: "Reading and submitting customer reviews."
+    - name: Platform
+      description: "Service status and input validation utilities."
+
+  namespaces:
+    - consumed: quandoo-public-partner-api-{tag}
+      rest: quandoo-public-partner-api-{tag}-rest
+      mcp: quandoo-public-partner-api-{tag}-mcp
+      restPort: 8080
+      mcpPort: 9090
+
+  binds:
+    - key: QUANDOO_AUTH_TOKEN
+      description: "Partner authentication token sent as the X-Quandoo-AuthToken header."
+      workflows: [Status, Customers, Merchants, Availabilities, Reservations, Reservation Enquiries, Reservation Settings, Reservations Tags, Reviews, Validations]
+
+# CROSS-REFERENCE
+crossReference:
+  - resource: merchants
+    operations: [search, search_2, searchSimilar_1, getReservations_2, getReviews_1]
+    workflows: [Merchants]
+    personas: [Booking Integrator]
+  - resource: availabilities
+    operations: [availabilityDays_1, availabilityOptions_1]
+    workflows: [Availabilities]
+    personas: [Booking Integrator]
+  - resource: reservations
+    operations: [createReservation_1, getReservation_1, updateReservation_1]
+    workflows: [Reservations]
+    personas: [Booking Integrator]
+  - resource: reservation-enquiries
+    operations: [createReservationEnquiry_1, getReservationEnquiry_1, updateReservationEnquiry_1, getMessagesForReservationEnquiry_1]
+    workflows: [Reservation Enquiries]
+    personas: [Booking Integrator]
+  - resource: reservation-settings
+    operations: [reservationSettings_1]
+    workflows: [Reservation Settings]
+    personas: [Booking Integrator]
+  - resource: customers
+    operations: [getCustomer_1, getReservations_1, getCustomersOfMerchant_1]
+    workflows: [Customers]
+    personas: [Merchant Operator]
+  - resource: reviews
+    operations: [getReviews_2, createReview_1, updateReview_1]
+    workflows: [Reviews]
+    personas: [Merchant Operator]
+  - resource: validations
+    operations: [validatePhoneNumber_1]
+    workflows: [Validations]
+    personas: [Booking Integrator]

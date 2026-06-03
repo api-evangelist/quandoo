@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TagGroupDto",
+  "description": "TagGroupDto schema from Quandoo Public Partner API",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-schema/quandoo-public-partner-api-tag-group-dto-schema.json",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "CUISINE",
+        "MEAL_TYPE",
+        "ESTABLISHMENT_TYPE",
+        "AREA",
+        "INTERNET",
+        "FOOD_RELATED",
+        "ACCESSIBILITY",
+        "PAYMENT",
+        "PRICE",
+        "ATMOSPHERE",
+        "PARKING",
+        "EXTRAS",
+        "GOOD_FOR",
+        "MENU_DETAILS"
+      ]
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

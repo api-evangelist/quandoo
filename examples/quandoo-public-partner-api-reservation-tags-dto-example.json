@@ -1,0 +1,9 @@
+{
+  "reservationTags": [
+    {
+      "id": 1,
+      "name": "Sample Restaurant",
+      "merchantId": 88086
+    }
+  ]
+}

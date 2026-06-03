@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-structure/quandoo-public-partner-api-tracking-structure.json",
+  "name": "Tracking",
+  "description": "Tracking schema from Quandoo Public Partner API",
+  "type": "object",
+  "required": [
+    "agent"
+  ],
+  "properties": {
+    "agent": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "int32",
+          "description": "An agent id. Required."
+        }
+      }
+    },
+    "cookie": {
+      "type": "object",
+      "properties": {
+        "tracking": {
+          "type": "string",
+          "description": "A tracking string to be stored with the reservation. Optional."
+        },
+        "referenceId": {
+          "type": "string",
+          "description": "A reference id to be stored with the reservation. Optional."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-structure/quandoo-public-partner-api-merchant-subscription-structure.json",
+  "name": "MerchantSubscription",
+  "description": "MerchantSubscription schema from Quandoo Public Partner API",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "enum": [
+        "QUANDOO",
+        "MERCHANT"
+      ]
+    }
+  }
+}

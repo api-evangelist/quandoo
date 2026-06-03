@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CustomerReviewData",
+  "description": "CustomerReviewData schema from Quandoo Public Partner API",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/json-schema/quandoo-public-partner-api-customer-review-data-schema.json",
+  "type": "object",
+  "properties": {
+    "identifier": {
+      "type": "string",
+      "description": "Identifier of the customer associated to this review. Only in detailed view."
+    },
+    "firstName": {
+      "type": "string",
+      "description": "Customer first name associated to this review. Only in detailed view."
+    },
+    "lastName": {
+      "type": "string",
+      "description": "First letter of customer last name associated to this review. Only in detailed view."
+    },
+    "profileImage": {
+      "type": "string",
+      "description": "Customer profile image URL associated to this review. Only in detailed view."
+    }
+  }
+}
