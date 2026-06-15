@@ -2,13 +2,20 @@
 
 Quandoo is a restaurant reservations marketplace that connects diners with thousands of restaurants and gives merchants table, reservation, and reputation management tooling. Quandoo publishes the Public Partner API, a multi-purpose REST API (host public-api.prod.quandoo.com, authenticated with the X-Quandoo-AuthToken header) that lets partners check merchant availability, search merchants, read merchant reservation and enquiry settings, create and manage reservations and reservation enquiries, manage customers and reviews, handle reservation tags, and validate phone numbers. Reservation and enquiry creation is idempotent via agent-supplied unique identifiers, and returns HTTP 409 when a slot is no longer bookable. Quandoo offers widget, portal, discovery-widget, and direct integration paths plus an interactive API explorer. Note: Quandoo announced in March 2026 that it will wind down operations, with new bookings ending 30 September 2026; this profile documents the still-live Public Partner API as published.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/apis.yml)
+**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/quandoo/refs/heads/main/apis.yml)
 
-**Run:** [Capabilities Using Naftiko](https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=company-api-evangelist&utm_content=repo)
+## Scope
 
-## Tags:
+- **Type:** Index
 
- - Restaurant, Reservations, Booking, Availability, Merchants, Marketplace
+## Tags
+
+- Restaurant
+- Reservations
+- Booking
+- Availability
+- Merchants
+- Marketplace
 
 ## Timestamps
 
@@ -21,129 +28,223 @@ Quandoo is a restaurant reservations marketplace that connects diners with thous
 
 The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo platform. It lets partners check merchant availability, create reservations and reservation enquiries, read merchant reservation settings, and manage table planning. Reservation creation is idempotent using an agent-specific unique ID. An interactive API explorer is provided for testing endpoints and parameters.
 
-**Human URL:** [https://docs.quandoo.com/](https://docs.quandoo.com/)
+- **Human URL:** [https://docs.quandoo.com/](https://docs.quandoo.com/)
+- **Base URL:** `https://public-api.prod.quandoo.com`
 
-**Base URL:** `https://public-api.prod.quandoo.com`
+#### Tags
 
-#### Tags:
-
- - Reservations, Availability, Merchants, Booking
+- Reservations
+- Availability
+- Merchants
+- Booking
 
 #### Properties
 
 - [Documentation](https://docs.quandoo.com/)
-- [GettingStarted](https://docs.quandoo.com/interactive-api/)
-- [OpenAPI](openapi/quandoo-public-partner-api-openapi.yml)
-- [APIReference](https://api.quandoo.com/docs/swagger.html)
+- [Getting Started](https://docs.quandoo.com/interactive-api/)
+- [OpenAPI](openapi/quandoo-public-partner-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/quandoo-public-partner-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/quandoo-public-partner-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [API Reference](https://api.quandoo.com/docs/swagger.html)
 - [Authentication](https://docs.quandoo.com/development-environments/)
-- 59 [JSONSchema](json-schema/) artifacts
-- 59 [JSONStructure](json-structure/) artifacts
-- 59 [Example](examples/) artifacts
-- 10 [NaftikoCapability](capabilities/) artifacts
+- [JSON Schema](json-schema/quandoo-public-partner-api-agent-tracking-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-area-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-chain-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-changed-review-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-coordinates-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-create-review-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-created-customer-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-created-reservation-data-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-created-reservation-enquiry-data-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-created-reservation-enquiry-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-created-reservation-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-customer-data-list-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-customer-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-customer-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-customer-review-data-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-customer-statistics-data-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-document-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-get-reservation-enquiry-data-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-get-review-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-get-reviews-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-image-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-link-relation-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-location-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-marketing-setting-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-merchant-address-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-merchant-availability-days-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-merchant-availability-dto-list-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-merchant-availability-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-merchant-customer-data-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-merchant-customer-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-merchant-details-dto-list-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-merchant-details-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-merchant-reservation-data-list-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-merchant-reservation-data-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-merchant-reservation-enquiry-data-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-merchant-reservation-enquiry-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-merchant-reservation-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-merchant-reservation-settings-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-merchant-subscription-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-merchant-vault-settings-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-merchant-with-recommendations-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-opening-times-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-reservation-data-list-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-reservation-data-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-reservation-details-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-reservation-enquiry-message-data-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-reservation-enquiry-message-list-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-reservation-tag-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-reservation-tags-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-rest-cookie-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-review-dto-list-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-review-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-standard-opening-times-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-tag-group-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-tracking-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-translated-tag-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-update-reservation-data-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-update-reservation-enquiry-data-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/quandoo-public-partner-api-update-review-dto-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Structure](json-structure/quandoo-public-partner-api-agent-tracking-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-area-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-chain-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-changed-review-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-coordinates-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-create-review-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-created-customer-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-created-reservation-data-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-created-reservation-enquiry-data-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-created-reservation-enquiry-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-created-reservation-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-customer-data-list-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-customer-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-customer-response-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-customer-review-data-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-customer-statistics-data-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-document-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-get-reservation-enquiry-data-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-get-review-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-get-reviews-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-image-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-link-relation-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-location-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-marketing-setting-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-merchant-address-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-merchant-availability-days-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-merchant-availability-dto-list-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-merchant-availability-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-merchant-customer-data-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-merchant-customer-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-merchant-details-dto-list-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-merchant-details-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-merchant-reservation-data-list-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-merchant-reservation-data-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-merchant-reservation-enquiry-data-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-merchant-reservation-enquiry-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-merchant-reservation-settings-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-merchant-reservation-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-merchant-subscription-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-merchant-vault-settings-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-merchant-with-recommendations-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-opening-times-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-reservation-data-list-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-reservation-data-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-reservation-details-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-reservation-enquiry-message-data-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-reservation-enquiry-message-list-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-reservation-tag-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-reservation-tags-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-rest-cookie-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-review-dto-list-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-review-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-standard-opening-times-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-tag-group-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-tracking-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-translated-tag-dto-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-update-reservation-data-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-update-reservation-enquiry-data-structure.json)
+- [JSON Structure](json-structure/quandoo-public-partner-api-update-review-dto-structure.json)
+- [Example](examples/quandoo-public-partner-api-agent-tracking-example.json)
+- [Example](examples/quandoo-public-partner-api-area-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-chain-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-changed-review-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-coordinates-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-create-review-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-created-customer-example.json)
+- [Example](examples/quandoo-public-partner-api-created-reservation-data-example.json)
+- [Example](examples/quandoo-public-partner-api-created-reservation-enquiry-data-example.json)
+- [Example](examples/quandoo-public-partner-api-created-reservation-enquiry-example.json)
+- [Example](examples/quandoo-public-partner-api-created-reservation-example.json)
+- [Example](examples/quandoo-public-partner-api-customer-data-list-example.json)
+- [Example](examples/quandoo-public-partner-api-customer-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-customer-response-example.json)
+- [Example](examples/quandoo-public-partner-api-customer-review-data-example.json)
+- [Example](examples/quandoo-public-partner-api-customer-statistics-data-example.json)
+- [Example](examples/quandoo-public-partner-api-document-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-get-reservation-enquiry-data-example.json)
+- [Example](examples/quandoo-public-partner-api-get-review-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-get-reviews-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-image-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-link-relation-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-location-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-marketing-setting-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-merchant-address-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-merchant-availability-days-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-merchant-availability-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-merchant-availability-dto-list-example.json)
+- [Example](examples/quandoo-public-partner-api-merchant-customer-data-example.json)
+- [Example](examples/quandoo-public-partner-api-merchant-customer-example.json)
+- [Example](examples/quandoo-public-partner-api-merchant-details-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-merchant-details-dto-list-example.json)
+- [Example](examples/quandoo-public-partner-api-merchant-reservation-data-example.json)
+- [Example](examples/quandoo-public-partner-api-merchant-reservation-data-list-example.json)
+- [Example](examples/quandoo-public-partner-api-merchant-reservation-enquiry-data-example.json)
+- [Example](examples/quandoo-public-partner-api-merchant-reservation-enquiry-example.json)
+- [Example](examples/quandoo-public-partner-api-merchant-reservation-example.json)
+- [Example](examples/quandoo-public-partner-api-merchant-reservation-settings-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-merchant-subscription-example.json)
+- [Example](examples/quandoo-public-partner-api-merchant-vault-settings-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-merchant-with-recommendations-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-opening-times-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-reservation-data-example.json)
+- [Example](examples/quandoo-public-partner-api-reservation-data-list-example.json)
+- [Example](examples/quandoo-public-partner-api-reservation-details-example.json)
+- [Example](examples/quandoo-public-partner-api-reservation-enquiry-message-data-example.json)
+- [Example](examples/quandoo-public-partner-api-reservation-enquiry-message-list-example.json)
+- [Example](examples/quandoo-public-partner-api-reservation-tag-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-reservation-tags-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-rest-cookie-example.json)
+- [Example](examples/quandoo-public-partner-api-review-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-review-dto-list-example.json)
+- [Example](examples/quandoo-public-partner-api-standard-opening-times-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-tag-group-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-tracking-example.json)
+- [Example](examples/quandoo-public-partner-api-translated-tag-dto-example.json)
+- [Example](examples/quandoo-public-partner-api-update-reservation-data-example.json)
+- [Example](examples/quandoo-public-partner-api-update-reservation-enquiry-data-example.json)
+- [Example](examples/quandoo-public-partner-api-update-review-dto-example.json)
 
 ## Common Properties
 
 - [Website](https://www.quandoo.com)
 - [Documentation](https://docs.quandoo.com/)
-- [APIReference](https://docs.quandoo.com/interactive-api/)
+- [API Reference](https://docs.quandoo.com/interactive-api/)
 - [Support](mailto:developers@quandoo.com)
-- [GitHubOrganization](https://github.com/quandoo)
-- [SpectralRules](rules/quandoo-public-partner-api-spectral-rules.yml)
+- [GitHub Organization](https://github.com/quandoo)
+- [Spectral Rules](rules/quandoo-public-partner-api-spectral-rules.yml)
 - [Vocabulary](vocabulary/quandoo-vocabulary.yml)
-- [JSON-LD](json-ld/quandoo-context.jsonld)
+- [J S O N- L D](json-ld/quandoo-context.jsonld)
 - [Plans](plans/quandoo-plans-pricing.yml)
-- [RateLimits](rate-limits/quandoo-rate-limits.yml)
-- [FinOps](finops/quandoo-finops.yml)
+- [Rate Limits](rate-limits/quandoo-rate-limits.yml)
+- [Fin Ops](finops/quandoo-finops.yml)
 - [Pricing](https://restaurants.quandoo.com/)
-- [TermsOfService](https://restaurants.quandoo.com/en-gb/terms-and-conditions)
-
-## Features
-
-| Name | Description |
-|------|-------------|
-| Availability Search | Check merchant availability days and time slots and search bookable merchants by place, location, date, time, and capacity. |
-| Reservation Management | Create, retrieve, and update reservations with idempotent creation keyed on an agent-specific unique ID. |
-| Reservation Enquiries | Create and manage reservation enquiries (for larger groups) including reading enquiry messages and updating status. |
-| Merchant Settings | Read merchant reservation and enquiry settings such as capacities, areas, online reservation interval, and credit-card-vault requirements. |
-| Reviews | Read, create, and update customer reviews tied to reservations. |
-| Phone Validation | Validate customer phone numbers before submitting a reservation. |
-| Multiple Integration Paths | Widget, portal, discovery-widget, and direct integration options plus an interactive API explorer. |
-
-## Use Cases
-
-| Name | Description |
-|------|-------------|
-| Embedded Booking Experiences | Build diner-facing booking flows that search merchants, check availability, and create reservations on top of Quandoo inventory. |
-| Group Enquiry Handling | Route large-party requests to the enquiry workflow when group size exceeds the merchant minimum for enquiries. |
-| Merchant Operations | Let restaurant operators manage reservations, customers, tags, and reviews for their venue. |
-| Channel Attribution | Distinguish marketplace covers from free own-channel covers (widget, Google, social) for cost attribution. |
-
-## Integrations
-
-| Name | Description |
-|------|-------------|
-| Booking Widget | Embeddable Quandoo booking widget for merchant websites and apps. |
-| Google Network | Reservations sourced through the Google network. |
-| Social Media | Booking integrations across social media channels. |
-| Discovery Widget | Restaurant discovery widget for surfacing bookable merchants. |
-
-## Artifacts
-
-Machine-readable API specifications organized by format.
-
-### OpenAPI
-
-- [Quandoo Public Partner API](openapi/quandoo-public-partner-api-openapi.yml) — 24 operations, 60 schemas, derived from the official Quandoo Swagger (api.quandoo.com/swagger.json)
-
-### JSON Schema
-
-- 59 schema files in [json-schema/](json-schema/), one per OpenAPI component schema.
-
-### JSON Structure
-
-- 59 structure files in [json-structure/](json-structure/), converted from the JSON Schema set.
-
-### JSON-LD
-
-- [Quandoo Context](json-ld/quandoo-context.jsonld) — linked-data context with 176 property terms and schema.org alignments.
-
-### Examples
-
-- 59 example payloads in [examples/](examples/), one per schema.
-
-## Capabilities
-
-Naftiko capabilities organized as self-contained per-surface definitions, each exposing both a REST and an MCP adapter.
-
-| Capability | Operations | MCP Tools |
-|------------|-----------|-----------|
-| [Status](capabilities/quandoo-public-partner-api-status.yaml) | 1 | 1 |
-| [Customers](capabilities/quandoo-public-partner-api-customers.yaml) | 3 | 3 |
-| [Merchants](capabilities/quandoo-public-partner-api-merchants.yaml) | 5 | 5 |
-| [Availabilities](capabilities/quandoo-public-partner-api-availabilities.yaml) | 2 | 2 |
-| [Reservation Enquiries](capabilities/quandoo-public-partner-api-reservation-enquiries.yaml) | 4 | 4 |
-| [Reservation Settings](capabilities/quandoo-public-partner-api-reservation-settings.yaml) | 1 | 1 |
-| [Reservations](capabilities/quandoo-public-partner-api-reservations.yaml) | 3 | 3 |
-| [Reservations Tags](capabilities/quandoo-public-partner-api-reservations-tags.yaml) | 1 | 1 |
-| [Reviews](capabilities/quandoo-public-partner-api-reviews.yaml) | 3 | 3 |
-| [Validations](capabilities/quandoo-public-partner-api-validations.yaml) | 1 | 1 |
-
-## Vocabulary
-
-- [Quandoo Vocabulary](vocabulary/quandoo-vocabulary.yml) — Unified taxonomy mapping 10 resources, 7 actions, 10 workflows, and 3 personas across operational (OpenAPI) and capability (Naftiko) dimensions.
-
-## Rules
-
-- [Quandoo Public Partner API Spectral Rules](rules/quandoo-public-partner-api-spectral-rules.yml) — 31 rules across info, paths, operations, tags, parameters, request bodies, responses, schemas, security, HTTP method, and quality categories enforcing Quandoo API conventions.
-
-## Plans & Cost
-
-- [Plans & Pricing](plans/quandoo-plans-pricing.yml) — Subscription + per-cover commission model (API Commons Plans 0.1).
-- [Rate Limits](rate-limits/quandoo-rate-limits.yml) — Token-scoped access, idempotency and conflict semantics (API Commons Rate Limits 0.1).
-- [FinOps](finops/quandoo-finops.yml) — FOCUS-aligned billing model and meters (FinOps Framework 1.0).
+- [Terms of Service](https://restaurants.quandoo.com/en-gb/terms-and-conditions)
+- [Features](undefined)
+- [Use Cases](undefined)
+- [Integrations](undefined)
 
 ## Maintainers
 
 **FN:** Kin Lane
-
 **Email:** kin@apievangelist.com
