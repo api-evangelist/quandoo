@@ -11,7 +11,7 @@ description: >-
   plus an interactive API explorer. Note: Quandoo announced in March 2026 that it will wind down operations, with new
   bookings ending 30 September 2026; this profile documents the still-live Public Partner API as published.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - Restaurant
   - Reservations
