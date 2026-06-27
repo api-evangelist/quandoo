@@ -284,123 +284,123 @@ apis:
         url: json-structure/quandoo-public-partner-api-update-reservation-enquiry-data-structure.json
       - type: JSONStructure
         url: json-structure/quandoo-public-partner-api-update-review-dto-structure.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-agent-tracking-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-area-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-chain-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-changed-review-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-coordinates-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-create-review-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-created-customer-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-created-reservation-data-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-created-reservation-enquiry-data-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-created-reservation-enquiry-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-created-reservation-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-customer-data-list-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-customer-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-customer-response-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-customer-review-data-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-customer-statistics-data-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-document-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-get-reservation-enquiry-data-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-get-review-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-get-reviews-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-image-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-link-relation-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-location-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-marketing-setting-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-merchant-address-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-merchant-availability-days-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-merchant-availability-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-merchant-availability-dto-list-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-merchant-customer-data-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-merchant-customer-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-merchant-details-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-merchant-details-dto-list-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-merchant-reservation-data-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-merchant-reservation-data-list-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-merchant-reservation-enquiry-data-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-merchant-reservation-enquiry-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-merchant-reservation-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-merchant-reservation-settings-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-merchant-subscription-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-merchant-vault-settings-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-merchant-with-recommendations-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-opening-times-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-reservation-data-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-reservation-data-list-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-reservation-details-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-reservation-enquiry-message-data-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-reservation-enquiry-message-list-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-reservation-tag-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-reservation-tags-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-rest-cookie-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-review-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-review-dto-list-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-standard-opening-times-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-tag-group-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-tracking-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-translated-tag-dto-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-update-reservation-data-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-update-reservation-enquiry-data-example.json
-      - type: Example
+      - type: Examples
         url: examples/quandoo-public-partner-api-update-review-dto-example.json
     baseURL: https://public-api.prod.quandoo.com
 common:
@@ -418,7 +418,7 @@ common:
     url: rules/quandoo-public-partner-api-spectral-rules.yml
   - type: Vocabulary
     url: vocabulary/quandoo-vocabulary.yml
-  - type: JSON-LD
+  - type: JSONLD
     url: json-ld/quandoo-context.jsonld
   - type: Plans
     url: plans/quandoo-plans-pricing.yml
