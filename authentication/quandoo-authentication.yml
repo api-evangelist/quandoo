@@ -1,0 +1,15 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/quandoo-public-partner-api-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: API_TOKEN
+  type: apiKey
+  in: header
+  parameter: X-Quandoo-AuthToken
+  sources:
+  - openapi/quandoo-public-partner-api-openapi.yml

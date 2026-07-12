@@ -404,6 +404,12 @@ apis:
         url: examples/quandoo-public-partner-api-update-review-dto-example.json
     baseURL: https://public-api.prod.quandoo.com
 common:
+  - type: VulnerabilityDisclosure
+    url: security/quandoo-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/quandoo-domain-security.yml
+  - type: Authentication
+    url: authentication/quandoo-authentication.yml
   - type: Website
     url: https://www.quandoo.com
   - type: Documentation
