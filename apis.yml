@@ -404,6 +404,8 @@ apis:
         url: examples/quandoo-public-partner-api-update-review-dto-example.json
     baseURL: https://public-api.prod.quandoo.com
 common:
+  - type: AgenticAccess
+    url: agentic-access/quandoo-agentic-access.yml
   - type: VulnerabilityDisclosure
     url: security/quandoo-vulnerability-disclosure.yml
   - type: DomainSecurity
