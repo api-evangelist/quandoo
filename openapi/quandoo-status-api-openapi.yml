@@ -1,0 +1,37 @@
+openapi: 3.0.3
+info:
+  title: Quandoo Public Partner Availabilities Status API
+  description: The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo restaurant reservations platform. It lets partners check merchant availability, search merchants, read merchant reservation and enquiry settings, create and manage reservations and reservation enquiries, manage customers and reviews, handle preorders and reservation tags, and validate phone numbers. Reservation and enquiry creation is idempotent via an agent-specific unique identifier. Derived from the official Quandoo Swagger specification at https://api.quandoo.com/swagger.json.
+  version: 1.0.0
+  contact:
+    name: Quandoo Developers
+    email: developers@quandoo.com
+    url: https://docs.quandoo.com/
+servers:
+- url: https://public-api.prod.quandoo.com
+  description: Production
+security:
+- API_TOKEN: []
+tags:
+- name: Status
+paths:
+  /v1/status:
+    get:
+      tags:
+      - Status
+      summary: Quandoo Provides Information on the Status of the Service
+      operationId: getStatusByGet_1
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Internal server error
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  securitySchemes:
+    API_TOKEN:
+      type: apiKey
+      name: X-Quandoo-AuthToken
+      in: header

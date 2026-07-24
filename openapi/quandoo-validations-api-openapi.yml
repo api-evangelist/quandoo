@@ -1,0 +1,133 @@
+openapi: 3.0.3
+info:
+  title: Quandoo Public Partner Availabilities Validations API
+  description: The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo restaurant reservations platform. It lets partners check merchant availability, search merchants, read merchant reservation and enquiry settings, create and manage reservations and reservation enquiries, manage customers and reviews, handle preorders and reservation tags, and validate phone numbers. Reservation and enquiry creation is idempotent via an agent-specific unique identifier. Derived from the official Quandoo Swagger specification at https://api.quandoo.com/swagger.json.
+  version: 1.0.0
+  contact:
+    name: Quandoo Developers
+    email: developers@quandoo.com
+    url: https://docs.quandoo.com/
+servers:
+- url: https://public-api.prod.quandoo.com
+  description: Production
+security:
+- API_TOKEN: []
+tags:
+- name: Validations
+paths:
+  /v1/validations/phone-numbers:
+    get:
+      tags:
+      - Validations
+      summary: Quandoo Validate Phone Number
+      operationId: validatePhoneNumber_1
+      description: "This endpoint validates a phone number. \nIf optional 2-letter country code `country` is not specified, the `phoneNumber` should be formatted according to E164, which means it is expected to be in the international format with a leading `\"+\"` and no spaces or dashes, e.g. `+4930120765890`. Otherwise it may have leading zero instead of country code, e.g. `030120765890`.\n\nThe endpoint will return a status `HTTP 200` which means the `phoneNumber` is successfully validated.\nThe endpoint will return a status `HTTP 400` which means the `phoneNumber` is missing or invalid.\n\nExample curl:\n```\ncurl https://{host}/v{X}/validations/phone-numbers?phoneNumber=030120765890&country=IT\n```\n\nExample response:\n```\n{\n  \"errorMessage\": \"phoneNumber is invalid: 030120765890, country specified is: IT\",\n  \"errorType\": \"PHONE_NUMBER_INVALID\"\n}\n```\n"
+      parameters:
+      - name: phoneNumber
+        in: query
+        required: true
+        description: Phone number
+        schema:
+          type: string
+      - name: country
+        in: query
+        required: false
+        description: Country code
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Phone number validated successfully
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                ValidatePhoneNumber1400Example:
+                  summary: Default validatePhoneNumber_1 400 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errorType:
+          type: string
+          enum:
+          - BAD_REQUEST_ERROR
+          - FORBIDDEN_ERROR
+          - NOT_FOUND_ERROR
+          - METHOD_NOT_ALLOWED_ERROR
+          - NOT_ACCEPTABLE_ERROR
+          - UNSUPPORTED_MEDIA_TYPE_ERROR
+          - START_TIME_NOT_FOUND_ERROR
+          - MERCHANT_ID_INVALID
+          - RESERVATION_CAPACITY_MISSING
+          - RESERVATION_CAPACITY_INVALID
+          - RESERVATION_DATE_TIME_MISSING
+          - RESERVATION_DATE_TIME_INVALID_FORMAT
+          - RESERVATION_EXTRA_INFO_INVALID
+          - RESERVATION_SHOW_POSTCODE
+          - RESERVATION_DATE_TIME_INVALID_IN_THE_PAST
+          - RESERVATION_NO_TABLES_AVAILABLE
+          - RESERVATION_NOT_FOUND
+          - RESERVATION_IN_NON_EDITABLE_STATUS
+          - RESERVATION_WITH_SMART_OFFER_EDIT
+          - RESERVATION_WITH_CCV_EDIT
+          - RESERVATION_IOVOX_OFFER_EDIT
+          - RESERVATION_WITH_PREPAID_MENU_EDIT
+          - RESERVATION_FOR_MERCHANT_WITH_FEEDBACK_TIME
+          - RESERVATION_WALKIN_NOT_EDITABLE
+          - RESERVATION_CUSTOMER_CANNOT_EDIT
+          - RESERVATION_PROMO_CODE_PARAM_INVALID
+          - RESERVATION_PROMO_CODE_NOT_FOUND
+          - RESERVATION_PROMO_CODE_INVALID_DESTINATION
+          - RESERVATION_PROMO_CODE_ALREADY_USED
+          - RESERVATION_PROMO_CODE_INVALID_CAMPAIGN
+          - RESERVATION_PROMO_CODE_DATE_TIME_IN_PAST_OR_FUTURE
+          - RESERVATION_PROMO_CODE_INVALID_DAY_OF_WEEK
+          - RESERVATION_PROMO_CODE_INVALID_AGENT
+          - RESERVATION_PROMO_CODE_INVALID_MERCHANT
+          - RESERVATION_PROMO_CODE_INVALID_PARTNER_VOUCHER
+          - RESERVATION_PROMO_CODE_ALREADY_OWNED_BY_CUSTOMER
+          - RESERVATION_INVITATION_PROMO_CODE_NOT_FIRST_RESERVATION
+          - CCV_SETTINGS_REQUIRED
+          - CCV_CARD_REQUIRED
+          - CCV_SETTINGS_INVALID
+          - CCV_SETTINGS_OFFLINE
+          - CCV_CARD_INVALID
+          - ENQUIRY_INVALID_MIN_COVERS
+          - CUSTOMER_FIRST_NAME_INVALID
+          - CUSTOMER_LAST_NAME_MISSING
+          - CUSTOMER_LAST_NAME_INVALID
+          - CUSTOMER_EMAIL_MISSING
+          - CUSTOMER_EMAIL_INVALID
+          - CUSTOMER_NEWSLETTER_REQUESTED_MISSING
+          - CUSTOMER_PHONE_NUMBER_MISSING
+          - CUSTOMER_COUNTRY_INVALID
+          - CUSTOMER_ID_EXISTS
+          - CUSTOMER_PHONE_NUMBER_INVALID
+          - UNEXPECTED_SERVER_ERROR
+          - PHONE_NUMBER_MISSING
+          - PHONE_NUMBER_INVALID
+          - UUID_CONFLICT
+          - RESERVATION_STATUS_CONFLICT
+          - INVALID_RESERVATION_GUESTS_QUANTITY
+          - MENU_MAPPING_FAILED
+          example: BAD_REQUEST_ERROR
+        errorMessage:
+          type: string
+          example: Window table preferred if available.
+  securitySchemes:
+    API_TOKEN:
+      type: apiKey
+      name: X-Quandoo-AuthToken
+      in: header

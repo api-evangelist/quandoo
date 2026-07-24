@@ -1,0 +1,283 @@
+openapi: 3.0.3
+info:
+  title: Quandoo Public Partner Availabilities Reservation Settings API
+  description: The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo restaurant reservations platform. It lets partners check merchant availability, search merchants, read merchant reservation and enquiry settings, create and manage reservations and reservation enquiries, manage customers and reviews, handle preorders and reservation tags, and validate phone numbers. Reservation and enquiry creation is idempotent via an agent-specific unique identifier. Derived from the official Quandoo Swagger specification at https://api.quandoo.com/swagger.json.
+  version: 1.0.0
+  contact:
+    name: Quandoo Developers
+    email: developers@quandoo.com
+    url: https://docs.quandoo.com/
+servers:
+- url: https://public-api.prod.quandoo.com
+  description: Production
+security:
+- API_TOKEN: []
+tags:
+- name: Reservation Settings
+paths:
+  /v1/merchants/{merchantId}/reservation-settings:
+    get:
+      tags:
+      - Reservation Settings
+      summary: Quandoo Get Merchant Reservation Settings
+      operationId: reservationSettings_1
+      description: "This endpoint provides all data that is required to initiate the reservation flow and is not part of the search endpoint.\n\nExample curl:\n```\ncurl https://{host}/v{X}/merchants/15/reservation-settings\n```\n\nExample response: \n```\n{\n  \"areaIds\": [\n    {\n      \"id\": 2,\n      \"name\": \"Garden\",\n      \"priority\": 10\n    }\n  ],\n  \"areaSelectionRequired\": true,\n  \"capacities\": [\n    1,\n    2,\n    3,\n    4,\n    5,\n    6\n  ],\n  \"links\": [\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15\",\n      \"method\": \"GET\",\n      \"rel\": \"parent\"\n    },\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15/availabilities\",\n      \"method\": \"GET\",\n      \"rel\": \"availability_days\"\n    },\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15/availabilities/2017-01-01/times\",\n      \"method\": \"GET\",\n      \"rel\": \"availability\"\n    }\n  ],\n  \"merchantNewsletterSelectionRequired\": true,\n  \"minimumCapacityForEnquiries\": 10,\n  \"onlineReservationInterval\": 60,\n  \"reservationEnquiryEnabled\": true,\n  \"specialTerms\": \"This is any custom string for special terms\",\n  \"automaticConfirmation\": true,\n  \"ccvEnabled\": true\n}\n```\n"
+      parameters:
+      - name: merchantId
+        in: path
+        required: true
+        description: Id of the merchant
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Reservation settings response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantReservationSettingsDto'
+              examples:
+                ReservationSettings1200Example:
+                  summary: Default reservationSettings_1 200 response
+                  x-microcks-default: true
+                  value:
+                    areaIds:
+                    - id: {}
+                      name: {}
+                      priority: {}
+                    capacities:
+                    - 1
+                    merchantNewsletterSelectionRequired: true
+                    areaSelectionRequired: true
+                    reservationEnquiryEnabled: true
+                    minimumCapacityForEnquiries: 4
+                    onlineReservationInterval: 1
+                    specialTerms: string
+                    links:
+                    - href: {}
+                      method: {}
+                      rel: {}
+                    automaticConfirmation: true
+                    ccvEnabled: true
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                ReservationSettings1400Example:
+                  summary: Default reservationSettings_1 400 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                ReservationSettings1500Example:
+                  summary: Default reservationSettings_1 500 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+        '404':
+          description: Merchant not found error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                ReservationSettings1404Example:
+                  summary: Default reservationSettings_1 404 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    LinkRelationDto:
+      type: object
+      properties:
+        href:
+          type: string
+          format: url
+          example: https://www.quandoo.com/place/sample-restaurant
+        method:
+          type: string
+          example: string
+        rel:
+          type: string
+          enum:
+          - DETAILS
+          - WIDGET
+          - WIDGET_DETAILS
+          - GET_MERCHANT
+          - PARENT
+          - SELF
+          - SETTINGS
+          - AVAILABILITY_DAYS
+          - AVAILABILITIES
+          - CREATE_RESERVATION
+          - GET_RESERVATION
+          - UPDATE_RESERVATION
+          - GET_CUSTOMER_RESERVATION
+          - GET_REVIEW
+          - PORTAL_PREORDER_FORM
+          - RESERVATION_CHECKOUT_PAGE
+          - CREDIT_CARD_DETAILS_PAGE
+          - CUSTOMER_EDIT_RESERVATION
+          example: DETAILS
+    ErrorResponse:
+      type: object
+      properties:
+        errorType:
+          type: string
+          enum:
+          - BAD_REQUEST_ERROR
+          - FORBIDDEN_ERROR
+          - NOT_FOUND_ERROR
+          - METHOD_NOT_ALLOWED_ERROR
+          - NOT_ACCEPTABLE_ERROR
+          - UNSUPPORTED_MEDIA_TYPE_ERROR
+          - START_TIME_NOT_FOUND_ERROR
+          - MERCHANT_ID_INVALID
+          - RESERVATION_CAPACITY_MISSING
+          - RESERVATION_CAPACITY_INVALID
+          - RESERVATION_DATE_TIME_MISSING
+          - RESERVATION_DATE_TIME_INVALID_FORMAT
+          - RESERVATION_EXTRA_INFO_INVALID
+          - RESERVATION_SHOW_POSTCODE
+          - RESERVATION_DATE_TIME_INVALID_IN_THE_PAST
+          - RESERVATION_NO_TABLES_AVAILABLE
+          - RESERVATION_NOT_FOUND
+          - RESERVATION_IN_NON_EDITABLE_STATUS
+          - RESERVATION_WITH_SMART_OFFER_EDIT
+          - RESERVATION_WITH_CCV_EDIT
+          - RESERVATION_IOVOX_OFFER_EDIT
+          - RESERVATION_WITH_PREPAID_MENU_EDIT
+          - RESERVATION_FOR_MERCHANT_WITH_FEEDBACK_TIME
+          - RESERVATION_WALKIN_NOT_EDITABLE
+          - RESERVATION_CUSTOMER_CANNOT_EDIT
+          - RESERVATION_PROMO_CODE_PARAM_INVALID
+          - RESERVATION_PROMO_CODE_NOT_FOUND
+          - RESERVATION_PROMO_CODE_INVALID_DESTINATION
+          - RESERVATION_PROMO_CODE_ALREADY_USED
+          - RESERVATION_PROMO_CODE_INVALID_CAMPAIGN
+          - RESERVATION_PROMO_CODE_DATE_TIME_IN_PAST_OR_FUTURE
+          - RESERVATION_PROMO_CODE_INVALID_DAY_OF_WEEK
+          - RESERVATION_PROMO_CODE_INVALID_AGENT
+          - RESERVATION_PROMO_CODE_INVALID_MERCHANT
+          - RESERVATION_PROMO_CODE_INVALID_PARTNER_VOUCHER
+          - RESERVATION_PROMO_CODE_ALREADY_OWNED_BY_CUSTOMER
+          - RESERVATION_INVITATION_PROMO_CODE_NOT_FIRST_RESERVATION
+          - CCV_SETTINGS_REQUIRED
+          - CCV_CARD_REQUIRED
+          - CCV_SETTINGS_INVALID
+          - CCV_SETTINGS_OFFLINE
+          - CCV_CARD_INVALID
+          - ENQUIRY_INVALID_MIN_COVERS
+          - CUSTOMER_FIRST_NAME_INVALID
+          - CUSTOMER_LAST_NAME_MISSING
+          - CUSTOMER_LAST_NAME_INVALID
+          - CUSTOMER_EMAIL_MISSING
+          - CUSTOMER_EMAIL_INVALID
+          - CUSTOMER_NEWSLETTER_REQUESTED_MISSING
+          - CUSTOMER_PHONE_NUMBER_MISSING
+          - CUSTOMER_COUNTRY_INVALID
+          - CUSTOMER_ID_EXISTS
+          - CUSTOMER_PHONE_NUMBER_INVALID
+          - UNEXPECTED_SERVER_ERROR
+          - PHONE_NUMBER_MISSING
+          - PHONE_NUMBER_INVALID
+          - UUID_CONFLICT
+          - RESERVATION_STATUS_CONFLICT
+          - INVALID_RESERVATION_GUESTS_QUANTITY
+          - MENU_MAPPING_FAILED
+          example: BAD_REQUEST_ERROR
+        errorMessage:
+          type: string
+          example: Window table preferred if available.
+    AreaDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: Id of the area
+          example: 1
+        name:
+          type: string
+          description: Name of the area
+          example: Sample Restaurant
+        priority:
+          type: integer
+          format: int32
+          description: Priority set for this area
+          example: 1
+    MerchantReservationSettingsDto:
+      type: object
+      properties:
+        areaIds:
+          type: array
+          description: 'List of all the areas defined for the merchant. Each area will contain:'
+          items:
+            $ref: '#/components/schemas/AreaDto'
+        capacities:
+          type: array
+          description: Number of guests allowed in a reservation
+          items:
+            type: integer
+            format: int32
+        merchantNewsletterSelectionRequired:
+          type: boolean
+          description: If true, a separate checkbox is displayed in the checkout for newsletter received from the restaurant
+          example: true
+        areaSelectionRequired:
+          type: boolean
+          description: If true, we display available areas in a dropdown when a guest is making an online reservation
+          example: true
+        reservationEnquiryEnabled:
+          type: boolean
+          description: If true, the restaurants allows enquiries
+          example: true
+        minimumCapacityForEnquiries:
+          type: integer
+          format: int32
+          description: Minimum number of guests for an enquiry
+          example: 4
+        onlineReservationInterval:
+          type: integer
+          format: int32
+          description: Time slots displayed for making a reservation
+          example: 1
+        specialTerms:
+          type: string
+          description: If true, special terms and conditions of the restaurant need to be confirmed upon making an online reservation
+          example: string
+        links:
+          type: array
+          description: Related links that can be followed based on this response
+          items:
+            $ref: '#/components/schemas/LinkRelationDto'
+        automaticConfirmation:
+          type: boolean
+          description: If true, the customer will receive an automatic email confirmation after he makes a reservation
+          example: true
+        ccvEnabled:
+          type: boolean
+          description: If true, credit card information is required when creating a reservation
+          example: true
+  securitySchemes:
+    API_TOKEN:
+      type: apiKey
+      name: X-Quandoo-AuthToken
+      in: header

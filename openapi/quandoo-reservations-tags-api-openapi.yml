@@ -1,0 +1,201 @@
+openapi: 3.0.3
+info:
+  title: Quandoo Public Partner Availabilities Reservations Tags API
+  description: The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo restaurant reservations platform. It lets partners check merchant availability, search merchants, read merchant reservation and enquiry settings, create and manage reservations and reservation enquiries, manage customers and reviews, handle preorders and reservation tags, and validate phone numbers. Reservation and enquiry creation is idempotent via an agent-specific unique identifier. Derived from the official Quandoo Swagger specification at https://api.quandoo.com/swagger.json.
+  version: 1.0.0
+  contact:
+    name: Quandoo Developers
+    email: developers@quandoo.com
+    url: https://docs.quandoo.com/
+servers:
+- url: https://public-api.prod.quandoo.com
+  description: Production
+security:
+- API_TOKEN: []
+tags:
+- name: Reservations Tags
+paths:
+  /v1/merchants/{merchantId}/reservation_tags:
+    get:
+      tags:
+      - Reservations Tags
+      summary: Quandoo Get Merchant Reservation Tags
+      operationId: getReservationTags_1
+      description: "This endpoint returns all active reservation tags for a merchant.\n####Request:\n* **merchantId**: merchant's ID. Taken as a path parameter.\n\n####Response:\n* **id**: reservation tag's ID.\n* **name**: tag's name. Default tag names are usually translated to merchant's locale.\n* **merchantId**: merchant's ID.\n\nIt will return `HTTP 403 - AUTHENTICATION_ERROR` if the user is not authenticated.\n\nExample response:\n```\n{\n    \"reservationTags\": [\n        {\n            \"id\": 5,\n            \"name\": \"Birthday\",\n            \"merchantId\": 3\n        },\n        {\n            \"id\": 51,\n            \"name\": \"With Children\",\n            \"merchantId\": 3\n        }\n    ]\n}\n```\n\n\nExample curl:\n```\ncurl -H \"Content-Type: application/json\" -X GET  https://{host}/v{X}/merchants/{merchantId}/reservation_tags\n```\n"
+      parameters:
+      - name: merchantId
+        in: path
+        required: true
+        description: Id of the merchant
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservationTagsDto'
+              examples:
+                GetReservationTags1200Example:
+                  summary: Default getReservationTags_1 200 response
+                  x-microcks-default: true
+                  value:
+                    reservationTags:
+                    - id: {}
+                      name: {}
+                      merchantId: {}
+        '403':
+          description: Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                GetReservationTags1403Example:
+                  summary: Default getReservationTags_1 403 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                GetReservationTags1400Example:
+                  summary: Default getReservationTags_1 400 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                GetReservationTags1500Example:
+                  summary: Default getReservationTags_1 500 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+        '404':
+          description: Agent not found error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                GetReservationTags1404Example:
+                  summary: Default getReservationTags_1 404 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    ReservationTagDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        name:
+          type: string
+          example: Sample Restaurant
+        merchantId:
+          type: integer
+          format: int32
+          example: 88086
+    ErrorResponse:
+      type: object
+      properties:
+        errorType:
+          type: string
+          enum:
+          - BAD_REQUEST_ERROR
+          - FORBIDDEN_ERROR
+          - NOT_FOUND_ERROR
+          - METHOD_NOT_ALLOWED_ERROR
+          - NOT_ACCEPTABLE_ERROR
+          - UNSUPPORTED_MEDIA_TYPE_ERROR
+          - START_TIME_NOT_FOUND_ERROR
+          - MERCHANT_ID_INVALID
+          - RESERVATION_CAPACITY_MISSING
+          - RESERVATION_CAPACITY_INVALID
+          - RESERVATION_DATE_TIME_MISSING
+          - RESERVATION_DATE_TIME_INVALID_FORMAT
+          - RESERVATION_EXTRA_INFO_INVALID
+          - RESERVATION_SHOW_POSTCODE
+          - RESERVATION_DATE_TIME_INVALID_IN_THE_PAST
+          - RESERVATION_NO_TABLES_AVAILABLE
+          - RESERVATION_NOT_FOUND
+          - RESERVATION_IN_NON_EDITABLE_STATUS
+          - RESERVATION_WITH_SMART_OFFER_EDIT
+          - RESERVATION_WITH_CCV_EDIT
+          - RESERVATION_IOVOX_OFFER_EDIT
+          - RESERVATION_WITH_PREPAID_MENU_EDIT
+          - RESERVATION_FOR_MERCHANT_WITH_FEEDBACK_TIME
+          - RESERVATION_WALKIN_NOT_EDITABLE
+          - RESERVATION_CUSTOMER_CANNOT_EDIT
+          - RESERVATION_PROMO_CODE_PARAM_INVALID
+          - RESERVATION_PROMO_CODE_NOT_FOUND
+          - RESERVATION_PROMO_CODE_INVALID_DESTINATION
+          - RESERVATION_PROMO_CODE_ALREADY_USED
+          - RESERVATION_PROMO_CODE_INVALID_CAMPAIGN
+          - RESERVATION_PROMO_CODE_DATE_TIME_IN_PAST_OR_FUTURE
+          - RESERVATION_PROMO_CODE_INVALID_DAY_OF_WEEK
+          - RESERVATION_PROMO_CODE_INVALID_AGENT
+          - RESERVATION_PROMO_CODE_INVALID_MERCHANT
+          - RESERVATION_PROMO_CODE_INVALID_PARTNER_VOUCHER
+          - RESERVATION_PROMO_CODE_ALREADY_OWNED_BY_CUSTOMER
+          - RESERVATION_INVITATION_PROMO_CODE_NOT_FIRST_RESERVATION
+          - CCV_SETTINGS_REQUIRED
+          - CCV_CARD_REQUIRED
+          - CCV_SETTINGS_INVALID
+          - CCV_SETTINGS_OFFLINE
+          - CCV_CARD_INVALID
+          - ENQUIRY_INVALID_MIN_COVERS
+          - CUSTOMER_FIRST_NAME_INVALID
+          - CUSTOMER_LAST_NAME_MISSING
+          - CUSTOMER_LAST_NAME_INVALID
+          - CUSTOMER_EMAIL_MISSING
+          - CUSTOMER_EMAIL_INVALID
+          - CUSTOMER_NEWSLETTER_REQUESTED_MISSING
+          - CUSTOMER_PHONE_NUMBER_MISSING
+          - CUSTOMER_COUNTRY_INVALID
+          - CUSTOMER_ID_EXISTS
+          - CUSTOMER_PHONE_NUMBER_INVALID
+          - UNEXPECTED_SERVER_ERROR
+          - PHONE_NUMBER_MISSING
+          - PHONE_NUMBER_INVALID
+          - UUID_CONFLICT
+          - RESERVATION_STATUS_CONFLICT
+          - INVALID_RESERVATION_GUESTS_QUANTITY
+          - MENU_MAPPING_FAILED
+          example: BAD_REQUEST_ERROR
+        errorMessage:
+          type: string
+          example: Window table preferred if available.
+    ReservationTagsDto:
+      type: object
+      properties:
+        reservationTags:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReservationTagDto'
+  securitySchemes:
+    API_TOKEN:
+      type: apiKey
+      name: X-Quandoo-AuthToken
+      in: header

@@ -1,0 +1,433 @@
+openapi: 3.0.3
+info:
+  title: Quandoo Public Partner Availabilities API
+  description: The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo restaurant reservations platform. It lets partners check merchant availability, search merchants, read merchant reservation and enquiry settings, create and manage reservations and reservation enquiries, manage customers and reviews, handle preorders and reservation tags, and validate phone numbers. Reservation and enquiry creation is idempotent via an agent-specific unique identifier. Derived from the official Quandoo Swagger specification at https://api.quandoo.com/swagger.json.
+  version: 1.0.0
+  contact:
+    name: Quandoo Developers
+    email: developers@quandoo.com
+    url: https://docs.quandoo.com/
+servers:
+- url: https://public-api.prod.quandoo.com
+  description: Production
+security:
+- API_TOKEN: []
+tags:
+- name: Availabilities
+paths:
+  /v1/merchants/{merchantId}/availabilities/{date}/times:
+    get:
+      tags:
+      - Availabilities
+      summary: Quandoo Get Merchant Availability Time Slots
+      operationId: availabilityOptions_1
+      description: "This endpoint returns availability time slots which can be reserved for a given capacity.\n\n####Request parameters:\n* **merchantId**: Id of the merchant. Path parameter.\n* **date**: Specifies date of the desired reservation. Format: `yyyy-MM-dd`. Path parameter.\n* **fromTime**: Beginning of the desired reservation time frame. Format: `HH:mm`. Optional.\n* **toTime**: End of the desired reservation time frame. Format: `HH:mm`. Optional.\n* **agentId**: Id of the agent making the request\n* **capacity**: Specifies the number of people in reservation. Availabilities will be returned based on this capacity. If not provided, the default value is 2.\n* **areaId**: Restricts availabilities to a certain area. Optional.\n    \n####Response:\nThe response returns availability time slots that could be reserved, along with the areas it is associated with and contains information on how much should be paid if the reservation is cancelled by a client. \n\n* **timeSlots**: List of available time slots.\n  * **areaIds**: List of areas for which this time slot can be reserved.\n  * **dateTime**: Date and time of the available slot. Format: `yyyy-MM-dd'T'HH:mm:ssZ`\n  * **occupancy**: Occupancy of the available time slot. This is an integer between `0` and `100`.\n  * **vaultSettingsId**: ID of the vault setting, if there is any. See: `vaultSettings`\n* **vaultSettings**: Credit card vault settings representing the fees to be paid in case of cancellation.\n  * **id**: ID of the setting as shown in `timeSlots`.\n  * **fee**: Fee to be paid in case of cancellation. Currency is defined by merchant. See reservation-settings.\n  * **feeType**: Type of fee to be paid. Can be `PER_PERSON` or `PER_RESERVATION`.\n  * **feePercentageForTime**: Fee percentage depending of the time of cancellation. Format: `\"{hoursStart}-{hoursEnd}\": {percentage}` , where hours are the number of hours before the visit.\n* **links**: Related links that can be followed based on this response.\n\n####Example curl:\n```\ncurl https://{host}/v{X}/merchants/15/availabilities/2017-11-09/times?capacity=2&areaId=24&agentId=3&fromTime=10:45&toTime=12:45\n```\n\n\n####Example response:\n```\n{ \n    \"timeSlots\": [ \n        { \n            \"areaIds\": [33532, 33533], \n            \"dateTime\": \"2017-09-27T10:45:00+01:00\", \n            \"occupancy\": 0, \n            \"vaultSettingId\": \"284d701f-f79a-4efa-9859-fd09851dfdce\"\n        }, \n        ... \n    ], \n    \"vaultSettings\": [ \n         { \n            \"id\": \"284d701f-f79a-4efa-9859-fd09851dfdce\", \n             \"fee\": \"10.00\", \n             \"feeType\": \"PER_PERSON\", \n             \"feePercentageForTime\": \n                { \n                  \"0-12\":100, \n                  \"12-24\":50, \n                  \"24-48\":20 \n                } \n         } \n     ], \n    \"links\": [\n      {\n        \"href\": \"https://{host}/v{X}/merchants/15\",\n        \"method\": \"GET\",\n        \"rel\": \"parent\"\n      },\n      {\n        \"href\": \"https://{host}/v{X}/merchants/15/reservation-settings\",\n        \"method\": \"GET\",\n        \"rel\": \"reservation-settings\"\n      },\n      {\n        \"href\": \"https://{host}/v{X}/merchants/reservations\",\n        \"method\": \"PUT\",\n        \"rel\": \"create-reservation\"\n      }\n    ]\n} \n```"
+      parameters:
+      - name: merchantId
+        in: path
+        required: true
+        description: Id of the merchant
+        schema:
+          type: integer
+          format: int32
+      - name: agentId
+        in: query
+        required: true
+        description: Id of the agent
+        schema:
+          type: integer
+          format: int32
+      - name: capacity
+        in: query
+        required: true
+        description: Number of people
+        schema:
+          type: integer
+          format: int32
+          default: 2
+      - name: date
+        in: path
+        required: true
+        description: 'Date of the desired reservation. Format: yyyy-MM-dd'
+        schema:
+          type: string
+          format: date
+      - name: fromTime
+        in: query
+        required: false
+        description: 'Beginning of the desired reservation time frame. Format: HH:mm'
+        schema:
+          type: string
+      - name: toTime
+        in: query
+        required: false
+        description: 'End of the desired reservation time frame. Format: HH:mm'
+        schema:
+          type: string
+      - name: areaId
+        in: query
+        required: false
+        description: Id of the area
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Merchant availabilities response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantAvailabilityDtoList'
+              examples:
+                AvailabilityOptions1200Example:
+                  summary: Default availabilityOptions_1 200 response
+                  x-microcks-default: true
+                  value:
+                    timeSlots:
+                    - dateTime: {}
+                      occupancy: {}
+                      areaIds: {}
+                      vaultSettingsId: {}
+                    vaultSettings:
+                    - id: {}
+                      fee: {}
+                      feeType: {}
+                      feePercentageForTime: {}
+                    links:
+                    - href: {}
+                      method: {}
+                      rel: {}
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                AvailabilityOptions1400Example:
+                  summary: Default availabilityOptions_1 400 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                AvailabilityOptions1500Example:
+                  summary: Default availabilityOptions_1 500 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+        '404':
+          description: Agent type not found error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                AvailabilityOptions1404Example:
+                  summary: Default availabilityOptions_1 404 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /v1/merchants/{merchantId}/availabilities:
+    get:
+      tags:
+      - Availabilities
+      summary: Quandoo Get Merchant Availability Days
+      operationId: availabilityDays_1
+      description: "This endpoint returns days which a customer can select for his reservation. The response is based on when the merchant is known to be open. It is not guaranteed that they have available times for reservation. The days are returned starting from the first available day up to the merchant-defined limit, but never more than 365 days.\n\n####Request parameters:\n* **merchantId**: Id of the merchant. Path parameter.\n* **agentId**: Id of the agent making the request\n* **capacity**: Specifies the number of people in reservation. Availability days will be returned based on this capacity.\n\n####Response:\nThe response returns availability days that could be selected for reservation. \n* **days**: List of availability days that could be reserved. Format: yyyy-MM-dd \n* **links**: Related links that can be followed based on this response.\n\n####Example curl:\n```\ncurl https://{host}/v{X}/merchants/15/availabilities?agentId=3&capacity=4\n```\n\n\n####Example response:\n```\n{\n  \"days\": [\n    \"2017-01-01\",\n    \"2017-01-02\",\n    \"2017-01-03\",\n     ...\n  ],\n  \"links\": [\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15\",\n      \"method\": \"GET\",\n      \"rel\": \"parent\"\n    },\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15/reservation-settings\",\n      \"method\": \"GET\",\n      \"rel\": \"settings\"\n    },\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15/availabilities/2017-01-01/times\",\n      \"method\": \"GET\",\n      \"rel\": \"availabilities\"\n    }\n  ]\n}\n```"
+      parameters:
+      - name: merchantId
+        in: path
+        required: true
+        description: Id of the merchant
+        schema:
+          type: integer
+          format: int32
+      - name: agentId
+        in: query
+        required: true
+        description: Id of the agent
+        schema:
+          type: integer
+          format: int32
+      - name: capacity
+        in: query
+        required: false
+        description: Number of people
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Merchant availabilities response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantAvailabilityDaysDto'
+              examples:
+                AvailabilityDays1200Example:
+                  summary: Default availabilityDays_1 200 response
+                  x-microcks-default: true
+                  value:
+                    days:
+                    - '2026-07-15'
+                    links:
+                    - href: {}
+                      method: {}
+                      rel: {}
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                AvailabilityDays1400Example:
+                  summary: Default availabilityDays_1 400 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                AvailabilityDays1500Example:
+                  summary: Default availabilityDays_1 500 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+        '404':
+          description: Agent not found error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                AvailabilityDays1404Example:
+                  summary: Default availabilityDays_1 404 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    MerchantVaultSettingsDto:
+      type: object
+      required:
+      - fee
+      - feeType
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The id of the vault settings.
+          readOnly: true
+          example: '88086'
+        fee:
+          type: number
+          description: The fee customer should pay in the case of cancellation.
+          readOnly: true
+          example: 1.0
+        feeType:
+          type: string
+          description: The type of the fee to pay.
+          readOnly: true
+          example: string
+        feePercentageForTime:
+          type: object
+          description: Fee percentage depending of the time of cancellation.
+          additionalProperties:
+            type: integer
+            format: int32
+    MerchantAvailabilityDto:
+      type: object
+      required:
+      - occupancy
+      properties:
+        dateTime:
+          type: string
+          format: date-time
+          description: 'The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ'
+          example: '2026-07-15T19:30:00'
+        occupancy:
+          type: integer
+          format: int32
+          description: The occupancy of this availability option across the restaurant. This is an integer number between 0 and 100.
+          readOnly: true
+          example: 1
+        areaIds:
+          type: array
+          description: The ids of the areas this availability option can be reserved for.
+          items:
+            type: integer
+            format: int32
+        vaultSettingsId:
+          type: string
+          format: uuid
+          description: The id of the Vault Settings applicable on this availability option.
+          example: '88086'
+    ErrorResponse:
+      type: object
+      properties:
+        errorType:
+          type: string
+          enum:
+          - BAD_REQUEST_ERROR
+          - FORBIDDEN_ERROR
+          - NOT_FOUND_ERROR
+          - METHOD_NOT_ALLOWED_ERROR
+          - NOT_ACCEPTABLE_ERROR
+          - UNSUPPORTED_MEDIA_TYPE_ERROR
+          - START_TIME_NOT_FOUND_ERROR
+          - MERCHANT_ID_INVALID
+          - RESERVATION_CAPACITY_MISSING
+          - RESERVATION_CAPACITY_INVALID
+          - RESERVATION_DATE_TIME_MISSING
+          - RESERVATION_DATE_TIME_INVALID_FORMAT
+          - RESERVATION_EXTRA_INFO_INVALID
+          - RESERVATION_SHOW_POSTCODE
+          - RESERVATION_DATE_TIME_INVALID_IN_THE_PAST
+          - RESERVATION_NO_TABLES_AVAILABLE
+          - RESERVATION_NOT_FOUND
+          - RESERVATION_IN_NON_EDITABLE_STATUS
+          - RESERVATION_WITH_SMART_OFFER_EDIT
+          - RESERVATION_WITH_CCV_EDIT
+          - RESERVATION_IOVOX_OFFER_EDIT
+          - RESERVATION_WITH_PREPAID_MENU_EDIT
+          - RESERVATION_FOR_MERCHANT_WITH_FEEDBACK_TIME
+          - RESERVATION_WALKIN_NOT_EDITABLE
+          - RESERVATION_CUSTOMER_CANNOT_EDIT
+          - RESERVATION_PROMO_CODE_PARAM_INVALID
+          - RESERVATION_PROMO_CODE_NOT_FOUND
+          - RESERVATION_PROMO_CODE_INVALID_DESTINATION
+          - RESERVATION_PROMO_CODE_ALREADY_USED
+          - RESERVATION_PROMO_CODE_INVALID_CAMPAIGN
+          - RESERVATION_PROMO_CODE_DATE_TIME_IN_PAST_OR_FUTURE
+          - RESERVATION_PROMO_CODE_INVALID_DAY_OF_WEEK
+          - RESERVATION_PROMO_CODE_INVALID_AGENT
+          - RESERVATION_PROMO_CODE_INVALID_MERCHANT
+          - RESERVATION_PROMO_CODE_INVALID_PARTNER_VOUCHER
+          - RESERVATION_PROMO_CODE_ALREADY_OWNED_BY_CUSTOMER
+          - RESERVATION_INVITATION_PROMO_CODE_NOT_FIRST_RESERVATION
+          - CCV_SETTINGS_REQUIRED
+          - CCV_CARD_REQUIRED
+          - CCV_SETTINGS_INVALID
+          - CCV_SETTINGS_OFFLINE
+          - CCV_CARD_INVALID
+          - ENQUIRY_INVALID_MIN_COVERS
+          - CUSTOMER_FIRST_NAME_INVALID
+          - CUSTOMER_LAST_NAME_MISSING
+          - CUSTOMER_LAST_NAME_INVALID
+          - CUSTOMER_EMAIL_MISSING
+          - CUSTOMER_EMAIL_INVALID
+          - CUSTOMER_NEWSLETTER_REQUESTED_MISSING
+          - CUSTOMER_PHONE_NUMBER_MISSING
+          - CUSTOMER_COUNTRY_INVALID
+          - CUSTOMER_ID_EXISTS
+          - CUSTOMER_PHONE_NUMBER_INVALID
+          - UNEXPECTED_SERVER_ERROR
+          - PHONE_NUMBER_MISSING
+          - PHONE_NUMBER_INVALID
+          - UUID_CONFLICT
+          - RESERVATION_STATUS_CONFLICT
+          - INVALID_RESERVATION_GUESTS_QUANTITY
+          - MENU_MAPPING_FAILED
+          example: BAD_REQUEST_ERROR
+        errorMessage:
+          type: string
+          example: Window table preferred if available.
+    MerchantAvailabilityDaysDto:
+      type: object
+      properties:
+        days:
+          type: array
+          description: The days that are available for a reservation
+          items:
+            type: string
+            format: date
+            description: The date when the review was written.
+        links:
+          type: array
+          description: The links for possible operations related to this entity
+          items:
+            $ref: '#/components/schemas/LinkRelationDto'
+    LinkRelationDto:
+      type: object
+      properties:
+        href:
+          type: string
+          format: url
+          example: https://www.quandoo.com/place/sample-restaurant
+        method:
+          type: string
+          example: string
+        rel:
+          type: string
+          enum:
+          - DETAILS
+          - WIDGET
+          - WIDGET_DETAILS
+          - GET_MERCHANT
+          - PARENT
+          - SELF
+          - SETTINGS
+          - AVAILABILITY_DAYS
+          - AVAILABILITIES
+          - CREATE_RESERVATION
+          - GET_RESERVATION
+          - UPDATE_RESERVATION
+          - GET_CUSTOMER_RESERVATION
+          - GET_REVIEW
+          - PORTAL_PREORDER_FORM
+          - RESERVATION_CHECKOUT_PAGE
+          - CREDIT_CARD_DETAILS_PAGE
+          - CUSTOMER_EDIT_RESERVATION
+          example: DETAILS
+    MerchantAvailabilityDtoList:
+      type: object
+      required:
+      - links
+      properties:
+        timeSlots:
+          type: array
+          description: The availability time slots to reserve.
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/MerchantAvailabilityDto'
+        vaultSettings:
+          type: array
+          description: The credit card vault settings.
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/MerchantVaultSettingsDto'
+        links:
+          type: array
+          description: The links related to this entity.
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/LinkRelationDto'
+  securitySchemes:
+    API_TOKEN:
+      type: apiKey
+      name: X-Quandoo-AuthToken
+      in: header

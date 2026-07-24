@@ -1,0 +1,586 @@
+openapi: 3.0.3
+info:
+  title: Quandoo Public Partner Availabilities Reviews API
+  description: The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo restaurant reservations platform. It lets partners check merchant availability, search merchants, read merchant reservation and enquiry settings, create and manage reservations and reservation enquiries, manage customers and reviews, handle preorders and reservation tags, and validate phone numbers. Reservation and enquiry creation is idempotent via an agent-specific unique identifier. Derived from the official Quandoo Swagger specification at https://api.quandoo.com/swagger.json.
+  version: 1.0.0
+  contact:
+    name: Quandoo Developers
+    email: developers@quandoo.com
+    url: https://docs.quandoo.com/
+servers:
+- url: https://public-api.prod.quandoo.com
+  description: Production
+security:
+- API_TOKEN: []
+tags:
+- name: Reviews
+paths:
+  /v1/reviews:
+    get:
+      tags:
+      - Reviews
+      summary: Quandoo Get Information from Reviews in a List
+      operationId: getReviews_2
+      description: "This resource return a list of reviews. The result obtained depends on the different query parameters provided. It is able to return three different results:\n* **Reviews associated to an agent:** if neither 'merchantId' nor 'reservationId' query parameters are provided, then the available reviews for the current agent are returned.\n* **Reviews associated to a merchant:** if the parameter 'merchantId' is provided, all the reviews for the given merchant and agent are provided. The agent is the one associated with the reservations.\n* **Reviews associated to a reservation:** Reservation could be identified in two ways: either by reservation public id or by agent reservation reference id.\n\n**NOTE:** For the second and third cases, the current agent must be the owner of the reservations used to get the reviews. In the specific case of the search by the merchants, the current agent id is the one realated to the reservations associated to the specified merchant's reviews.\n\n####Request:\nThe request needs 4 optional query parameters. Pagination is controlled by the usage of the 'limit' and 'offset' parameters.\n\n* **limit**: maximum number of results to be returned. Value must be between 1 and 10. Defaults to 10 when unset, malformed or outside bounds. Ignored when 'reservationId' is enabled.\n* **offset**: sets the starting element to be returned. Defaults to 0 when unset or malformed. Ignored when 'reservationId' is enabled.\n* **reservationId**: Either public ID of the reservation or agent reservation reference id from which to get the reviews. Cannot be used in combination with 'merchantId'. Can be null. Does not consider 'limit' and/or 'offset'.\n* **merchantId**: ID of the merchant from which to get the reviews. Cannot be used in combination with 'reservationId'. Can be null.\n\n####Response:\nThe response is a user review object containing a list of user reviews.\n\n* **size**: the number of reviews retrieved in this request. Can be any positive value between 0 and 10 (the maximum value for limit);\n* **offset**: echoes the offset value used in the request. Returns 0 in case 'reservationId' is used.\n* **limit**: echoes the limit value used in the request. Returns 0 in case 'reservationId' is used.\n* **reviews**: list of reviews retrieved, each review containing the following properties:\n\n* **reviewId**: review UUID. Same as the one used in the request.\n* **rating**: rating associated to this review.\n* **description**: description of the review.\n* **status**: current review status. Possible values are 'CREATED', 'DENIED', 'PUBLISHED'.\n* **merchantId**: merchant id associated to this review. **Only in the detailed view**.\n* **customerId**: customer id associated to this review. **DEPPRECATED, NOT USED**.\n* **publicCustomerId**: public customer id associated to this review. **Only in the detailed view**.\n* **customerFirstName**: review associated customer first name. **Only in the detailed view**.\n* **customerLastName**: first character of the customer last name. **Only in the detailed view**.\n* **customerProfileImage**: customer profile image URL. **Only in the detailed view**.\n* **locale**: locale associated to the review. **Only in the detailed view**.\n* **reservationId**: the reservation identifier this review is created for. Either reservation public id or agent specific reservation reference id(if set on creation) is used\n* **createdAt**: the date and time the review created at.\n\nExample curl:\n```\ncurl https://{host}/v{X}/reviews?merchantId=5124\n```\n\nExample response:\n```\n{\n\t\"reviews\": [{\n\t\t\t\"reviewId\": \"e94c5f9b-e61f-486a-bfa7-48abb1e42f93\",\n\t\t\t\"merchantId\": 5124,\n\t\t\t\"publicCustomerId\": \"a10fbb9a-df04-407c-9568-2e79bd620b41\",\n\t\t\t\"customerFirstName\": \"Perico\",\n\t\t\t\"customerLastName\": \"d\",\n\t\t\t\"customerProfileImage\": \"http://test.bla\",\n\t\t\t\"rating\": 6,\n\t\t\t\"description\": \"Description 8\",\n\t\t\t\"status\": \"PUBLISHED\",\n\t\t\t\"locale\": \"de_DE\",\n            \"reservationId\":\"1111112\",\n            \"createdAt\":\"2020-07-28T09:45:33Z\"\n\t\t}, {\n\t\t\t\"reviewId\": \"65472403-7968-4ccf-b389-fe7e6e70ee27\",\n\t\t\t\"merchantId\": 5124,\n\t\t\t\"publicCustomerId\": \"a10fbb9a-df04-407c-9568-2e79bd620b41\",\n\t\t\t\"customerFirstName\": \"Perico\",\n\t\t\t\"customerLastName\": \"d\",\n\t\t\t\"customerProfileImage\": \"http://test.bla\",\n\t\t\t\"rating\": 6,\n\t\t\t\"description\": \"Description 9\",\n\t\t\t\"status\": \"PUBLISHED\",\n\t\t\t\"locale\": \"de_DE\",\n            \"reservationId\":\"7dbe05dc-f566-48be-9872-c77b71aff072\",\n            \"createdAt\":\"2020-07-28T09:45:54Z\"\n\t\t}\n\t],\n\t\"size\": 2,\n\t\"offset\": 0,\n\t\"limit\": 10\n}\n```\n"
+      parameters:
+      - name: merchantId
+        in: query
+        required: false
+        description: MerchantId to get the reviews from. Cannot be used in combination with 'reservationId'
+        schema:
+          type: integer
+          format: int32
+      - name: reservationId
+        in: query
+        required: false
+        description: Reservation id to get the reviews from. Either public id or agent reference id. Cannot be used in combination with 'merchantId'. When set, 'offset' and 'limit' are ignored. All reviews for a reservation are returned.
+        schema:
+          type: string
+      - name: offset
+        in: query
+        required: false
+        description: Skip first n reviews
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: limit
+        in: query
+        required: false
+        description: Max number to retrieve
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      responses:
+        '200':
+          description: Review response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetReviewsDto'
+              examples:
+                GetReviews2200Example:
+                  summary: Default getReviews_2 200 response
+                  x-microcks-default: true
+                  value:
+                    reviews:
+                    - reviewId: {}
+                      merchantId: {}
+                      customer: {}
+                      status: {}
+                      locale: {}
+                      rating: {}
+                      description: {}
+                      reservationId: {}
+                      createdAt: {}
+                    size: 1
+                    offset: 1
+                    limit: 1
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                GetReviews2400Example:
+                  summary: Default getReviews_2 400 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                GetReviews2500Example:
+                  summary: Default getReviews_2 500 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+        '404':
+          description: Review not found error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                GetReviews2404Example:
+                  summary: Default getReviews_2 404 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+        '403':
+          description: Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                GetReviews2403Example:
+                  summary: Default getReviews_2 403 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    put:
+      tags:
+      - Reviews
+      summary: Quandoo Create a Review for a Reservation
+      operationId: createReview_1
+      description: "This resource manages the creation of reviews for a particular agent and a reservation. Reviews must have a description, rating and a reservation public identifier or agent specific reference identifier with reservation agent identifier. The agent must be the one that created the reservation, otherwise it is forbidden.\n\n####Request:\nThe request needs to have 3 parameters for review reviewId, description and rating.\n\n* **reservationId**: Public ID or agent specific reference id of the reservation where to add a review. **Required**.\n* **description**: Text content of the review to be set. Optional. A review requires a minimum of a rating.\n* **rating**: Integer value from 1 to 6 with the new rating given. **Required**.\n\n\n####Response:\nThe response is a review object containing information about the review.\n\n* **reviewId**: The Id of the created review.\n* **status**: Status of the created review. Can be 'CREATED', 'PUBLISHED' or 'DENIED'. After a successful creation, 'CREATED' is returned.\n* **links**: A series of links where to get details of the created review;\n\nExample curl:\n```\ncurl -H \"Content-Type: application/json\" -X PUT https://{host}/v{X}/reviews/ -d '\n{\n    \"reservationId\": \"07f53b36-3f48-11e5-a151-feff819cdc9f\",\n    \"description\": \"Some description of the review\",\n    \"rating\": 1\n}\n```\n\n```\ncurl -H \"Content-Type: application/json\" -X PUT https://{host}/v{X}/reviews/ -d '\n{\n    \"reservationId\": \"1111112\",\n    \"description\": \"Some description of the review\",\n    \"rating\": 1,\n}\n```\n\nExample response:\n```\n{\n    \"reviewId\": \"01a53b36-3f48-11e5-a151-feff819cdc9f\",\n    \"status\": \"CREATED\",\n    \"links\": [{\n        \"href\": \"http://localhost:39250/v1/reviews/01a53b36-3f48-11e5-a151-feff819cdc9f\",\n        \"method\": \"GET\",\n        \"rel\": \"get-review\"\n    }]\n}\n```"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReviewDto'
+            examples:
+              CreateReview1RequestExample:
+                summary: Default createReview_1 request
+                x-microcks-default: true
+                value:
+                  reservationId: '88086'
+                  rating: 1
+                  description: Window table preferred if available.
+        description: Review for this reservation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangedReviewDto'
+              examples:
+                CreateReview1200Example:
+                  summary: Default createReview_1 200 response
+                  x-microcks-default: true
+                  value:
+                    reviewId: '88086'
+                    status: AVAILABLE_TO_REVIEW
+                    links:
+                    - href: {}
+                      method: {}
+                      rel: {}
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                CreateReview1400Example:
+                  summary: Default createReview_1 400 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+        '403':
+          description: Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                CreateReview1403Example:
+                  summary: Default createReview_1 403 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                CreateReview1500Example:
+                  summary: Default createReview_1 500 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+        '404':
+          description: Reservation not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                CreateReview1404Example:
+                  summary: Default createReview_1 404 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    patch:
+      tags:
+      - Reviews
+      summary: Quandoo Updated a Review
+      operationId: updateReview_1
+      description: "This resource manages the update of reviews for a given review ID. Description and rating can be updated on a review. The agent must be the one that owns the reservation associated to the review to modify, otherwise a forbidden response is returned.\n\n**NOTE**: Reviews in state 'PUBLISHED' or 'DENIED' cannot be updated. Only those in status 'CREATED' are allowed to be updated.\n\n####Request:\nThe request needs to have 3 parameters for reservation reviewId (public reviewId), description and rating.\n\n* **reviewId**: Id of the review. **Required**.\n* **description**: Text content of the review. If not set (null value) it won't be considered for update.\n* **rating**: Integer value from 1 to 6 with the rating given. If not set (null value) it won't be considered for update.\n\nIn case both description and rating are set to null, nothing happens to the review: it is not updated and its state remains.\n\n####Response:\nThe response is a review object containing information about the review.\n\n* **reviewId**: The Id of the updated review.\n* **status**: Status of the updated review. Can be 'CREATED', 'PUBLISHED' or 'DENIED'. Upon a successful update, the status 'CREATED' is returned.\n* **links**: A series of links where to get details of the updated review.\n\nExample curl:\n```\ncurl -H \"Content-Type: application/json\" -X PATCH https://{host}/v{X}/reviews/ -d '\n{\n    \"reviewId\": \"01a53b36-3f48-11e5-a151-feff819cdc9f\",\n    \"description\": \"Some updated description for the review\",\n    \"rating\": 2\n}\n```\n\nExample response:\n```\n{\n    \"reviewId\": \"01a53b36-3f48-11e5-a151-feff819cdc9f\",\n    \"status\": \"CREATED\",\n    \"links\": [{\n        \"href\": \"http://localhost:39250/v1/reviews/01a53b36-3f48-11e5-a151-feff819cdc9f\",\n        \"method\": \"GET\",\n        \"rel\": \"get-review\"\n    }]\n}\n```"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateReviewDto'
+            examples:
+              UpdateReview1RequestExample:
+                summary: Default updateReview_1 request
+                x-microcks-default: true
+                value:
+                  reviewId: '88086'
+                  rating: 1
+                  description: Window table preferred if available.
+        description: Review for this reservation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangedReviewDto'
+              examples:
+                UpdateReview1200Example:
+                  summary: Default updateReview_1 200 response
+                  x-microcks-default: true
+                  value:
+                    reviewId: '88086'
+                    status: AVAILABLE_TO_REVIEW
+                    links:
+                    - href: {}
+                      method: {}
+                      rel: {}
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                UpdateReview1400Example:
+                  summary: Default updateReview_1 400 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+        '403':
+          description: Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                UpdateReview1403Example:
+                  summary: Default updateReview_1 403 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                UpdateReview1500Example:
+                  summary: Default updateReview_1 500 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+        '404':
+          description: Reservation not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                UpdateReview1404Example:
+                  summary: Default updateReview_1 404 response
+                  x-microcks-default: true
+                  value:
+                    errorType: BAD_REQUEST_ERROR
+                    errorMessage: Window table preferred if available.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errorType:
+          type: string
+          enum:
+          - BAD_REQUEST_ERROR
+          - FORBIDDEN_ERROR
+          - NOT_FOUND_ERROR
+          - METHOD_NOT_ALLOWED_ERROR
+          - NOT_ACCEPTABLE_ERROR
+          - UNSUPPORTED_MEDIA_TYPE_ERROR
+          - START_TIME_NOT_FOUND_ERROR
+          - MERCHANT_ID_INVALID
+          - RESERVATION_CAPACITY_MISSING
+          - RESERVATION_CAPACITY_INVALID
+          - RESERVATION_DATE_TIME_MISSING
+          - RESERVATION_DATE_TIME_INVALID_FORMAT
+          - RESERVATION_EXTRA_INFO_INVALID
+          - RESERVATION_SHOW_POSTCODE
+          - RESERVATION_DATE_TIME_INVALID_IN_THE_PAST
+          - RESERVATION_NO_TABLES_AVAILABLE
+          - RESERVATION_NOT_FOUND
+          - RESERVATION_IN_NON_EDITABLE_STATUS
+          - RESERVATION_WITH_SMART_OFFER_EDIT
+          - RESERVATION_WITH_CCV_EDIT
+          - RESERVATION_IOVOX_OFFER_EDIT
+          - RESERVATION_WITH_PREPAID_MENU_EDIT
+          - RESERVATION_FOR_MERCHANT_WITH_FEEDBACK_TIME
+          - RESERVATION_WALKIN_NOT_EDITABLE
+          - RESERVATION_CUSTOMER_CANNOT_EDIT
+          - RESERVATION_PROMO_CODE_PARAM_INVALID
+          - RESERVATION_PROMO_CODE_NOT_FOUND
+          - RESERVATION_PROMO_CODE_INVALID_DESTINATION
+          - RESERVATION_PROMO_CODE_ALREADY_USED
+          - RESERVATION_PROMO_CODE_INVALID_CAMPAIGN
+          - RESERVATION_PROMO_CODE_DATE_TIME_IN_PAST_OR_FUTURE
+          - RESERVATION_PROMO_CODE_INVALID_DAY_OF_WEEK
+          - RESERVATION_PROMO_CODE_INVALID_AGENT
+          - RESERVATION_PROMO_CODE_INVALID_MERCHANT
+          - RESERVATION_PROMO_CODE_INVALID_PARTNER_VOUCHER
+          - RESERVATION_PROMO_CODE_ALREADY_OWNED_BY_CUSTOMER
+          - RESERVATION_INVITATION_PROMO_CODE_NOT_FIRST_RESERVATION
+          - CCV_SETTINGS_REQUIRED
+          - CCV_CARD_REQUIRED
+          - CCV_SETTINGS_INVALID
+          - CCV_SETTINGS_OFFLINE
+          - CCV_CARD_INVALID
+          - ENQUIRY_INVALID_MIN_COVERS
+          - CUSTOMER_FIRST_NAME_INVALID
+          - CUSTOMER_LAST_NAME_MISSING
+          - CUSTOMER_LAST_NAME_INVALID
+          - CUSTOMER_EMAIL_MISSING
+          - CUSTOMER_EMAIL_INVALID
+          - CUSTOMER_NEWSLETTER_REQUESTED_MISSING
+          - CUSTOMER_PHONE_NUMBER_MISSING
+          - CUSTOMER_COUNTRY_INVALID
+          - CUSTOMER_ID_EXISTS
+          - CUSTOMER_PHONE_NUMBER_INVALID
+          - UNEXPECTED_SERVER_ERROR
+          - PHONE_NUMBER_MISSING
+          - PHONE_NUMBER_INVALID
+          - UUID_CONFLICT
+          - RESERVATION_STATUS_CONFLICT
+          - INVALID_RESERVATION_GUESTS_QUANTITY
+          - MENU_MAPPING_FAILED
+          example: BAD_REQUEST_ERROR
+        errorMessage:
+          type: string
+          example: Window table preferred if available.
+    CreateReviewDto:
+      type: object
+      required:
+      - rating
+      - reservationId
+      properties:
+        reservationId:
+          type: string
+          description: The reservation identifier this review is being created for.Either public reservation identifier or agent specific identifier could be passed.
+          example: '88086'
+        rating:
+          type: integer
+          format: int32
+          description: 'Possible values: 1 to 6.'
+          example: 1
+        description:
+          type: string
+          description: The description of the review.
+          example: Window table preferred if available.
+    UpdateReviewDto:
+      type: object
+      required:
+      - reviewId
+      properties:
+        reviewId:
+          type: string
+          format: uuid
+          description: UUID identifying the review.
+          example: '88086'
+        rating:
+          type: integer
+          format: int32
+          description: 'Rating associated to this review. Possible values: 1 to 6.'
+          example: 1
+        description:
+          type: string
+          description: Description associated to this review.
+          example: Window table preferred if available.
+    ChangedReviewDto:
+      type: object
+      required:
+      - links
+      - reviewId
+      properties:
+        reviewId:
+          type: string
+          format: uuid
+          description: Id of to the review.
+          example: '88086'
+        status:
+          type: string
+          description: The status of the change.
+          enum:
+          - AVAILABLE_TO_REVIEW
+          - CREATED
+          - DENIED
+          - PUBLISHED
+          example: AVAILABLE_TO_REVIEW
+        links:
+          type: array
+          description: The links related to this entity.
+          items:
+            $ref: '#/components/schemas/LinkRelationDto'
+    GetReviewDto:
+      type: object
+      required:
+      - rating
+      - reviewId
+      properties:
+        reviewId:
+          type: string
+          format: uuid
+          description: UUID identifying the review.
+          example: '88086'
+        merchantId:
+          type: integer
+          format: int32
+          description: Merchant Id associated to this review. Only in detailed view.
+          example: 88086
+        customer:
+          description: Data about the customer that made this review. Only in detailed view.
+          $ref: '#/components/schemas/CustomerReviewData'
+        status:
+          type: string
+          description: Current review status. Possible values are 'AVAILABLE_TO_REVIEW','CREATED', 'DENIED', 'PUBLISHED'.
+          enum:
+          - AVAILABLE_TO_REVIEW
+          - CREATED
+          - DENIED
+          - PUBLISHED
+          example: AVAILABLE_TO_REVIEW
+        locale:
+          type: string
+          description: Locale of the created review. Only in detailed view.
+          example: de_DE
+        rating:
+          type: integer
+          format: int32
+          description: 'Rating associated to this review. Possible values: 1 to 6.'
+          example: 1
+        description:
+          type: string
+          description: Description associated to this review.
+          example: Window table preferred if available.
+        reservationId:
+          type: string
+          description: The reservation identifier this review is created for.
+          example: '88086'
+        createdAt:
+          type: string
+          format: date-time
+          description: 'The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ'
+          example: '2026-07-15T19:30:00'
+    GetReviewsDto:
+      type: object
+      properties:
+        reviews:
+          type: array
+          description: List of returned reviews.
+          items:
+            $ref: '#/components/schemas/GetReviewDto'
+        size:
+          type: integer
+          format: int32
+          description: Number of reviews returned in this object.
+          example: 1
+        offset:
+          type: integer
+          format: int32
+          description: Offset to apply on the next pagination request. Can be higher than the number of available reviews.
+          example: 1
+        limit:
+          type: integer
+          format: int32
+          description: Expected number of reviews that could be retrieved in the next pagination request. Can actually be less than the number returned. Its value is 0 when it is sure there are no more reviews available for pagination using the 'offset' as starting point.
+          example: 1
+    CustomerReviewData:
+      type: object
+      properties:
+        identifier:
+          type: string
+          description: Identifier of the customer associated to this review. Only in detailed view.
+          example: string
+        firstName:
+          type: string
+          description: Customer first name associated to this review. Only in detailed view.
+          example: Jane
+        lastName:
+          type: string
+          description: First letter of customer last name associated to this review. Only in detailed view.
+          example: Smith
+        profileImage:
+          type: string
+          description: Customer profile image URL associated to this review. Only in detailed view.
+          example: string
+    LinkRelationDto:
+      type: object
+      properties:
+        href:
+          type: string
+          format: url
+          example: https://www.quandoo.com/place/sample-restaurant
+        method:
+          type: string
+          example: string
+        rel:
+          type: string
+          enum:
+          - DETAILS
+          - WIDGET
+          - WIDGET_DETAILS
+          - GET_MERCHANT
+          - PARENT
+          - SELF
+          - SETTINGS
+          - AVAILABILITY_DAYS
+          - AVAILABILITIES
+          - CREATE_RESERVATION
+          - GET_RESERVATION
+          - UPDATE_RESERVATION
+          - GET_CUSTOMER_RESERVATION
+          - GET_REVIEW
+          - PORTAL_PREORDER_FORM
+          - RESERVATION_CHECKOUT_PAGE
+          - CREDIT_CARD_DETAILS_PAGE
+          - CUSTOMER_EDIT_RESERVATION
+          example: DETAILS
+  securitySchemes:
+    API_TOKEN:
+      type: apiKey
+      name: X-Quandoo-AuthToken
+      in: header
