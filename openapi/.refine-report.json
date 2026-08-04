@@ -1,0 +1,32 @@
+{
+  "provider": "quandoo",
+  "sources": [
+    "quandoo-availabilities-api-openapi.yml",
+    "quandoo-customers-api-openapi.yml",
+    "quandoo-merchants-api-openapi.yml",
+    "quandoo-reservation-enquiries-api-openapi.yml",
+    "quandoo-reservation-settings-api-openapi.yml",
+    "quandoo-reservations-api-openapi.yml",
+    "quandoo-reservations-tags-api-openapi.yml",
+    "quandoo-reviews-api-openapi.yml",
+    "quandoo-status-api-openapi.yml",
+    "quandoo-validations-api-openapi.yml"
+  ],
+  "outputs": [
+    "quandoo-availabilities-api-openapi.yml",
+    "quandoo-customers-api-openapi.yml",
+    "quandoo-merchants-api-openapi.yml",
+    "quandoo-reservation-enquiries-api-openapi.yml",
+    "quandoo-reservation-settings-api-openapi.yml",
+    "quandoo-reservations-api-openapi.yml",
+    "quandoo-reservations-tags-api-openapi.yml",
+    "quandoo-reviews-api-openapi.yml",
+    "quandoo-status-api-openapi.yml",
+    "quandoo-validations-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

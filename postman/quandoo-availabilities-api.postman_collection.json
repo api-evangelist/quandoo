@@ -1,0 +1,801 @@
+{
+  "info": {
+    "_postman_id": "fe29edac-bb9a-4031-b714-64fe7ac27e58",
+    "name": "Quandoo Public Partner Availabilities API",
+    "description": "The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo restaurant reservations platform. It lets partners check merchant availability, search merchants, read merchant reservation and enquiry settings, create and manage reservations and reservation enquiries, manage customers and reviews, handle preorders and reservation tags, and validate phone numbers. Reservation and enquiry creation is idempotent via an agent-specific unique identifier. Derived from the official Quandoo Swagger specification at https://api.quandoo.com/swagger.json.\n\nContact Support:\n Name: Quandoo Developers\n Email: developers@quandoo.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:42:30.000Z",
+    "updatedAt": "2026-07-28T02:42:30.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-fe29edac-bb9a-4031-b714-64fe7ac27e58"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "merchants",
+          "item": [
+            {
+              "name": "{merchantId}",
+              "item": [
+                {
+                  "name": "availabilities",
+                  "item": [
+                    {
+                      "name": "{date}",
+                      "item": [
+                        {
+                          "name": "times",
+                          "item": [
+                            {
+                              "name": "Quandoo Get Merchant Availability Time Slots",
+                              "id": "92dcd5ed-4199-47cd-be23-30fd3ee6564e",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/merchants/:merchantId/availabilities/:date/times?agentId=<integer>&capacity=2&fromTime=<string>&toTime=<string>&areaId=<integer>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "merchants",
+                                    ":merchantId",
+                                    "availabilities",
+                                    ":date",
+                                    "times"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "(Required) Id of the agent",
+                                      "key": "agentId",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "(Required) Number of people",
+                                      "key": "capacity",
+                                      "value": "2"
+                                    },
+                                    {
+                                      "description": "Beginning of the desired reservation time frame. Format: HH:mm",
+                                      "key": "fromTime",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "End of the desired reservation time frame. Format: HH:mm",
+                                      "key": "toTime",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Id of the area",
+                                      "key": "areaId",
+                                      "value": "<integer>"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "98a51333-a4a2-41d2-ab8b-39a1f8f56962",
+                                      "key": "merchantId",
+                                      "value": "<integer>",
+                                      "description": "(Required) Id of the merchant"
+                                    },
+                                    {
+                                      "id": "685537fc-1d86-4d70-bcb0-772d520dec36",
+                                      "key": "date",
+                                      "value": "<date>",
+                                      "description": "(Required) Date of the desired reservation. Format: yyyy-MM-dd"
+                                    }
+                                  ]
+                                },
+                                "description": "This endpoint returns availability time slots which can be reserved for a given capacity.\n\n####Request parameters:\n* **merchantId**: Id of the merchant. Path parameter.\n* **date**: Specifies date of the desired reservation. Format: `yyyy-MM-dd`. Path parameter.\n* **fromTime**: Beginning of the desired reservation time frame. Format: `HH:mm`. Optional.\n* **toTime**: End of the desired reservation time frame. Format: `HH:mm`. Optional.\n* **agentId**: Id of the agent making the request\n* **capacity**: Specifies the number of people in reservation. Availabilities will be returned based on this capacity. If not provided, the default value is 2.\n* **areaId**: Restricts availabilities to a certain area. Optional.\n    \n####Response:\nThe response returns availability time slots that could be reserved, along with the areas it is associated with and contains information on how much should be paid if the reservation is cancelled by a client. \n\n* **timeSlots**: List of available time slots.\n  * **areaIds**: List of areas for which this time slot can be reserved.\n  * **dateTime**: Date and time of the available slot. Format: `yyyy-MM-dd'T'HH:mm:ssZ`\n  * **occupancy**: Occupancy of the available time slot. This is an integer between `0` and `100`.\n  * **vaultSettingsId**: ID of the vault setting, if there is any. See: `vaultSettings`\n* **vaultSettings**: Credit card vault settings representing the fees to be paid in case of cancellation.\n  * **id**: ID of the setting as shown in `timeSlots`.\n  * **fee**: Fee to be paid in case of cancellation. Currency is defined by merchant. See reservation-settings.\n  * **feeType**: Type of fee to be paid. Can be `PER_PERSON` or `PER_RESERVATION`.\n  * **feePercentageForTime**: Fee percentage depending of the time of cancellation. Format: `\"{hoursStart}-{hoursEnd}\": {percentage}` , where hours are the number of hours before the visit.\n* **links**: Related links that can be followed based on this response.\n\n####Example curl:\n```\ncurl https://{host}/v{X}/merchants/15/availabilities/2017-11-09/times?capacity=2&areaId=24&agentId=3&fromTime=10:45&toTime=12:45\n```\n\n\n####Example response:\n```\n{ \n    \"timeSlots\": [ \n        { \n            \"areaIds\": [33532, 33533], \n            \"dateTime\": \"2017-09-27T10:45:00+01:00\", \n            \"occupancy\": 0, \n            \"vaultSettingId\": \"284d701f-f79a-4efa-9859-fd09851dfdce\"\n        }, \n        ... \n    ], \n    \"vaultSettings\": [ \n         { \n            \"id\": \"284d701f-f79a-4efa-9859-fd09851dfdce\", \n             \"fee\": \"10.00\", \n             \"feeType\": \"PER_PERSON\", \n             \"feePercentageForTime\": \n                { \n                  \"0-12\":100, \n                  \"12-24\":50, \n                  \"24-48\":20 \n                } \n         } \n     ], \n    \"links\": [\n      {\n        \"href\": \"https://{host}/v{X}/merchants/15\",\n        \"method\": \"GET\",\n        \"rel\": \"parent\"\n      },\n      {\n        \"href\": \"https://{host}/v{X}/merchants/15/reservation-settings\",\n        \"method\": \"GET\",\n        \"rel\": \"reservation-settings\"\n      },\n      {\n        \"href\": \"https://{host}/v{X}/merchants/reservations\",\n        \"method\": \"PUT\",\n        \"rel\": \"create-reservation\"\n      }\n    ]\n} \n```"
+                              },
+                              "response": [
+                                {
+                                  "id": "6990a9e7-11c1-4a2a-90be-91d987489060",
+                                  "name": "Merchant availabilities response",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "X-Quandoo-AuthToken",
+                                        "value": "<API Key>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/v1/merchants/:merchantId/availabilities/:date/times?agentId=<integer>&capacity=2&fromTime=<string>&toTime=<string>&areaId=<integer>",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "v1",
+                                        "merchants",
+                                        ":merchantId",
+                                        "availabilities",
+                                        ":date",
+                                        "times"
+                                      ],
+                                      "query": [
+                                        {
+                                          "description": "(Required) Id of the agent",
+                                          "key": "agentId",
+                                          "value": "<integer>"
+                                        },
+                                        {
+                                          "description": "(Required) Number of people",
+                                          "key": "capacity",
+                                          "value": "2"
+                                        },
+                                        {
+                                          "description": "Beginning of the desired reservation time frame. Format: HH:mm",
+                                          "key": "fromTime",
+                                          "value": "<string>"
+                                        },
+                                        {
+                                          "description": "End of the desired reservation time frame. Format: HH:mm",
+                                          "key": "toTime",
+                                          "value": "<string>"
+                                        },
+                                        {
+                                          "description": "Id of the area",
+                                          "key": "areaId",
+                                          "value": "<integer>"
+                                        }
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "merchantId"
+                                        },
+                                        {
+                                          "key": "date"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"links\": [\n    {\n      \"href\": \"<string>\",\n      \"method\": \"<string>\",\n      \"rel\": \"CREDIT_CARD_DETAILS_PAGE\"\n    },\n    {\n      \"href\": \"<string>\",\n      \"method\": \"<string>\",\n      \"rel\": \"RESERVATION_CHECKOUT_PAGE\"\n    }\n  ],\n  \"timeSlots\": [\n    {\n      \"occupancy\": \"<integer>\",\n      \"dateTime\": \"<dateTime>\",\n      \"areaIds\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"vaultSettingsId\": \"<uuid>\"\n    },\n    {\n      \"occupancy\": \"<integer>\",\n      \"dateTime\": \"<dateTime>\",\n      \"areaIds\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"vaultSettingsId\": \"<uuid>\"\n    }\n  ],\n  \"vaultSettings\": [\n    {\n      \"fee\": \"<number>\",\n      \"feeType\": \"<string>\",\n      \"id\": \"<uuid>\",\n      \"feePercentageForTime\": {\n        \"consectetur_0e\": \"<integer>\"\n      }\n    },\n    {\n      \"fee\": \"<number>\",\n      \"feeType\": \"<string>\",\n      \"id\": \"<uuid>\",\n      \"feePercentageForTime\": {\n        \"labore63\": \"<integer>\",\n        \"sedb\": \"<integer>\",\n        \"incididuntc1\": \"<integer>\"\n      }\n    }\n  ]\n}",
+                                  "createdAt": "2026-07-28T02:42:30.000Z",
+                                  "updatedAt": "2026-07-28T02:42:30.000Z",
+                                  "uid": "35240-6990a9e7-11c1-4a2a-90be-91d987489060"
+                                },
+                                {
+                                  "id": "b877f28d-5892-4ec8-851c-660a48cb346a",
+                                  "name": "Bad request",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "X-Quandoo-AuthToken",
+                                        "value": "<API Key>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/v1/merchants/:merchantId/availabilities/:date/times?agentId=<integer>&capacity=2&fromTime=<string>&toTime=<string>&areaId=<integer>",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "v1",
+                                        "merchants",
+                                        ":merchantId",
+                                        "availabilities",
+                                        ":date",
+                                        "times"
+                                      ],
+                                      "query": [
+                                        {
+                                          "description": "(Required) Id of the agent",
+                                          "key": "agentId",
+                                          "value": "<integer>"
+                                        },
+                                        {
+                                          "description": "(Required) Number of people",
+                                          "key": "capacity",
+                                          "value": "2"
+                                        },
+                                        {
+                                          "description": "Beginning of the desired reservation time frame. Format: HH:mm",
+                                          "key": "fromTime",
+                                          "value": "<string>"
+                                        },
+                                        {
+                                          "description": "End of the desired reservation time frame. Format: HH:mm",
+                                          "key": "toTime",
+                                          "value": "<string>"
+                                        },
+                                        {
+                                          "description": "Id of the area",
+                                          "key": "areaId",
+                                          "value": "<integer>"
+                                        }
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "merchantId"
+                                        },
+                                        {
+                                          "key": "date"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Bad Request",
+                                  "code": 400,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"errorType\": \"PHONE_NUMBER_INVALID\",\n  \"errorMessage\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T02:42:30.000Z",
+                                  "updatedAt": "2026-07-28T02:42:30.000Z",
+                                  "uid": "35240-b877f28d-5892-4ec8-851c-660a48cb346a"
+                                },
+                                {
+                                  "id": "c14ff25a-1bde-4bc9-8b6e-b8224aa0dc9a",
+                                  "name": "Agent type not found error",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "X-Quandoo-AuthToken",
+                                        "value": "<API Key>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/v1/merchants/:merchantId/availabilities/:date/times?agentId=<integer>&capacity=2&fromTime=<string>&toTime=<string>&areaId=<integer>",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "v1",
+                                        "merchants",
+                                        ":merchantId",
+                                        "availabilities",
+                                        ":date",
+                                        "times"
+                                      ],
+                                      "query": [
+                                        {
+                                          "description": "(Required) Id of the agent",
+                                          "key": "agentId",
+                                          "value": "<integer>"
+                                        },
+                                        {
+                                          "description": "(Required) Number of people",
+                                          "key": "capacity",
+                                          "value": "2"
+                                        },
+                                        {
+                                          "description": "Beginning of the desired reservation time frame. Format: HH:mm",
+                                          "key": "fromTime",
+                                          "value": "<string>"
+                                        },
+                                        {
+                                          "description": "End of the desired reservation time frame. Format: HH:mm",
+                                          "key": "toTime",
+                                          "value": "<string>"
+                                        },
+                                        {
+                                          "description": "Id of the area",
+                                          "key": "areaId",
+                                          "value": "<integer>"
+                                        }
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "merchantId"
+                                        },
+                                        {
+                                          "key": "date"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Not Found",
+                                  "code": 404,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"errorType\": \"PHONE_NUMBER_INVALID\",\n  \"errorMessage\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T02:42:30.000Z",
+                                  "updatedAt": "2026-07-28T02:42:30.000Z",
+                                  "uid": "35240-c14ff25a-1bde-4bc9-8b6e-b8224aa0dc9a"
+                                },
+                                {
+                                  "id": "7ff82b62-ee7f-4bac-ab5e-5ee393613256",
+                                  "name": "Internal server error",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "X-Quandoo-AuthToken",
+                                        "value": "<API Key>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/v1/merchants/:merchantId/availabilities/:date/times?agentId=<integer>&capacity=2&fromTime=<string>&toTime=<string>&areaId=<integer>",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "v1",
+                                        "merchants",
+                                        ":merchantId",
+                                        "availabilities",
+                                        ":date",
+                                        "times"
+                                      ],
+                                      "query": [
+                                        {
+                                          "description": "(Required) Id of the agent",
+                                          "key": "agentId",
+                                          "value": "<integer>"
+                                        },
+                                        {
+                                          "description": "(Required) Number of people",
+                                          "key": "capacity",
+                                          "value": "2"
+                                        },
+                                        {
+                                          "description": "Beginning of the desired reservation time frame. Format: HH:mm",
+                                          "key": "fromTime",
+                                          "value": "<string>"
+                                        },
+                                        {
+                                          "description": "End of the desired reservation time frame. Format: HH:mm",
+                                          "key": "toTime",
+                                          "value": "<string>"
+                                        },
+                                        {
+                                          "description": "Id of the area",
+                                          "key": "areaId",
+                                          "value": "<integer>"
+                                        }
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "merchantId"
+                                        },
+                                        {
+                                          "key": "date"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Internal Server Error",
+                                  "code": 500,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"errorType\": \"PHONE_NUMBER_INVALID\",\n  \"errorMessage\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T02:42:30.000Z",
+                                  "updatedAt": "2026-07-28T02:42:30.000Z",
+                                  "uid": "35240-7ff82b62-ee7f-4bac-ab5e-5ee393613256"
+                                }
+                              ],
+                              "createdAt": "2026-07-28T02:42:30.000Z",
+                              "updatedAt": "2026-07-28T02:42:30.000Z",
+                              "uid": "35240-92dcd5ed-4199-47cd-be23-30fd3ee6564e"
+                            }
+                          ],
+                          "id": "90eaaa74-3333-467f-b636-f109dc1b6ea4",
+                          "createdAt": "2026-07-28T02:42:30.000Z",
+                          "updatedAt": "2026-07-28T02:42:30.000Z",
+                          "uid": "35240-90eaaa74-3333-467f-b636-f109dc1b6ea4"
+                        }
+                      ],
+                      "id": "5af1b5ac-3745-4f5d-87b6-c4636923de5b",
+                      "createdAt": "2026-07-28T02:42:30.000Z",
+                      "updatedAt": "2026-07-28T02:42:30.000Z",
+                      "uid": "35240-5af1b5ac-3745-4f5d-87b6-c4636923de5b"
+                    },
+                    {
+                      "name": "Quandoo Get Merchant Availability Days",
+                      "id": "6de679a3-79c7-42a9-b5a5-1c76c94e1327",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/merchants/:merchantId/availabilities?agentId=<integer>&capacity=<integer>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "merchants",
+                            ":merchantId",
+                            "availabilities"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Id of the agent",
+                              "key": "agentId",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "Number of people",
+                              "key": "capacity",
+                              "value": "<integer>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "id": "8fa0de28-78d3-4ca7-8073-4633a5c4f665",
+                              "key": "merchantId",
+                              "value": "<integer>",
+                              "description": "(Required) Id of the merchant"
+                            }
+                          ]
+                        },
+                        "description": "This endpoint returns days which a customer can select for his reservation. The response is based on when the merchant is known to be open. It is not guaranteed that they have available times for reservation. The days are returned starting from the first available day up to the merchant-defined limit, but never more than 365 days.\n\n####Request parameters:\n* **merchantId**: Id of the merchant. Path parameter.\n* **agentId**: Id of the agent making the request\n* **capacity**: Specifies the number of people in reservation. Availability days will be returned based on this capacity.\n\n####Response:\nThe response returns availability days that could be selected for reservation. \n* **days**: List of availability days that could be reserved. Format: yyyy-MM-dd \n* **links**: Related links that can be followed based on this response.\n\n####Example curl:\n```\ncurl https://{host}/v{X}/merchants/15/availabilities?agentId=3&capacity=4\n```\n\n\n####Example response:\n```\n{\n  \"days\": [\n    \"2017-01-01\",\n    \"2017-01-02\",\n    \"2017-01-03\",\n     ...\n  ],\n  \"links\": [\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15\",\n      \"method\": \"GET\",\n      \"rel\": \"parent\"\n    },\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15/reservation-settings\",\n      \"method\": \"GET\",\n      \"rel\": \"settings\"\n    },\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15/availabilities/2017-01-01/times\",\n      \"method\": \"GET\",\n      \"rel\": \"availabilities\"\n    }\n  ]\n}\n```"
+                      },
+                      "response": [
+                        {
+                          "id": "1606c401-6830-42ef-8f82-343183db52fd",
+                          "name": "Merchant availabilities response",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-Quandoo-AuthToken",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/merchants/:merchantId/availabilities?agentId=<integer>&capacity=<integer>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "merchants",
+                                ":merchantId",
+                                "availabilities"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Id of the agent",
+                                  "key": "agentId",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Number of people",
+                                  "key": "capacity",
+                                  "value": "<integer>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "merchantId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"days\": [\n    \"<date>\",\n    \"<date>\"\n  ],\n  \"links\": [\n    {\n      \"href\": \"<string>\",\n      \"method\": \"<string>\",\n      \"rel\": \"CREATE_RESERVATION\"\n    },\n    {\n      \"href\": \"<string>\",\n      \"method\": \"<string>\",\n      \"rel\": \"RESERVATION_CHECKOUT_PAGE\"\n    }\n  ]\n}",
+                          "createdAt": "2026-07-28T02:42:30.000Z",
+                          "updatedAt": "2026-07-28T02:42:30.000Z",
+                          "uid": "35240-1606c401-6830-42ef-8f82-343183db52fd"
+                        },
+                        {
+                          "id": "d7ccdae4-90c2-4f67-ae3b-7cd13fba55b3",
+                          "name": "Bad request",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-Quandoo-AuthToken",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/merchants/:merchantId/availabilities?agentId=<integer>&capacity=<integer>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "merchants",
+                                ":merchantId",
+                                "availabilities"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Id of the agent",
+                                  "key": "agentId",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Number of people",
+                                  "key": "capacity",
+                                  "value": "<integer>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "merchantId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errorType\": \"PHONE_NUMBER_INVALID\",\n  \"errorMessage\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T02:42:30.000Z",
+                          "updatedAt": "2026-07-28T02:42:30.000Z",
+                          "uid": "35240-d7ccdae4-90c2-4f67-ae3b-7cd13fba55b3"
+                        },
+                        {
+                          "id": "3d2b6f7e-2f66-4955-9df9-6505a4953206",
+                          "name": "Agent not found error",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-Quandoo-AuthToken",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/merchants/:merchantId/availabilities?agentId=<integer>&capacity=<integer>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "merchants",
+                                ":merchantId",
+                                "availabilities"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Id of the agent",
+                                  "key": "agentId",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Number of people",
+                                  "key": "capacity",
+                                  "value": "<integer>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "merchantId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errorType\": \"PHONE_NUMBER_INVALID\",\n  \"errorMessage\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T02:42:30.000Z",
+                          "updatedAt": "2026-07-28T02:42:30.000Z",
+                          "uid": "35240-3d2b6f7e-2f66-4955-9df9-6505a4953206"
+                        },
+                        {
+                          "id": "c5c30de6-7f55-4434-acba-0ed58ae9c31d",
+                          "name": "Internal server error",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-Quandoo-AuthToken",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/merchants/:merchantId/availabilities?agentId=<integer>&capacity=<integer>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "merchants",
+                                ":merchantId",
+                                "availabilities"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Id of the agent",
+                                  "key": "agentId",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Number of people",
+                                  "key": "capacity",
+                                  "value": "<integer>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "merchantId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errorType\": \"PHONE_NUMBER_INVALID\",\n  \"errorMessage\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T02:42:30.000Z",
+                          "updatedAt": "2026-07-28T02:42:30.000Z",
+                          "uid": "35240-c5c30de6-7f55-4434-acba-0ed58ae9c31d"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T02:42:30.000Z",
+                      "updatedAt": "2026-07-28T02:42:30.000Z",
+                      "uid": "35240-6de679a3-79c7-42a9-b5a5-1c76c94e1327"
+                    }
+                  ],
+                  "id": "85d9a26b-e819-4cb3-a2ab-285d88f7ccd9",
+                  "createdAt": "2026-07-28T02:42:30.000Z",
+                  "updatedAt": "2026-07-28T02:42:30.000Z",
+                  "uid": "35240-85d9a26b-e819-4cb3-a2ab-285d88f7ccd9"
+                }
+              ],
+              "id": "486f5b9f-f7a8-4470-b350-bc240826f249",
+              "createdAt": "2026-07-28T02:42:30.000Z",
+              "updatedAt": "2026-07-28T02:42:30.000Z",
+              "uid": "35240-486f5b9f-f7a8-4470-b350-bc240826f249"
+            }
+          ],
+          "id": "8ff89f14-8f2d-4bdf-a8a0-0b783c4c8030",
+          "createdAt": "2026-07-28T02:42:30.000Z",
+          "updatedAt": "2026-07-28T02:42:30.000Z",
+          "uid": "35240-8ff89f14-8f2d-4bdf-a8a0-0b783c4c8030"
+        }
+      ],
+      "id": "f8ea5a61-f558-4ed5-80f9-fe309d4168ce",
+      "createdAt": "2026-07-28T02:42:30.000Z",
+      "updatedAt": "2026-07-28T02:42:30.000Z",
+      "uid": "35240-f8ea5a61-f558-4ed5-80f9-fe309d4168ce"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Quandoo-AuthToken",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://public-api.prod.quandoo.com"
+    }
+  ]
+}

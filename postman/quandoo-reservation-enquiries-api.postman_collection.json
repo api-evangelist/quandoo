@@ -1,0 +1,1232 @@
+{
+  "info": {
+    "_postman_id": "9b3267c3-fb8a-4b4f-9959-b5dea8935b0c",
+    "name": "Quandoo Public Partner Availabilities Reservation Enquiries API",
+    "description": "The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo restaurant reservations platform. It lets partners check merchant availability, search merchants, read merchant reservation and enquiry settings, create and manage reservations and reservation enquiries, manage customers and reviews, handle preorders and reservation tags, and validate phone numbers. Reservation and enquiry creation is idempotent via an agent-specific unique identifier. Derived from the official Quandoo Swagger specification at https://api.quandoo.com/swagger.json.\n\nContact Support:\n Name: Quandoo Developers\n Email: developers@quandoo.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:42:33.000Z",
+    "updatedAt": "2026-07-28T02:42:33.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-9b3267c3-fb8a-4b4f-9959-b5dea8935b0c"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "reservation-enquiries",
+          "item": [
+            {
+              "name": "{reservationEnquiryId}",
+              "item": [
+                {
+                  "name": "messages",
+                  "item": [
+                    {
+                      "name": "Quandoo Get All Messages of a Reservation Enquiry",
+                      "id": "a08bb30d-0e68-4feb-85ca-efd93cd318f7",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/reservation-enquiries/:reservationEnquiryId/messages",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "reservation-enquiries",
+                            ":reservationEnquiryId",
+                            "messages"
+                          ],
+                          "variable": [
+                            {
+                              "id": "062482ce-fba9-4068-8a64-b1cdc7a0e3c6",
+                              "key": "reservationEnquiryId",
+                              "value": "<string>",
+                              "description": "(Required) Id of the reservation enquiry"
+                            }
+                          ]
+                        },
+                        "description": "This endpoint allows an agent to get all messages of a reservation enquiry. The id of the reservation enquiry is agent-specific. The agent needs to be authenticated.\n\nThe endpoint will return `HTTP 404 - Not Found` if the reservation enquiry with the specified id could not be found.\n\nIt will return `HTTP 403 - Forbidden` if the agent is not authenticated, if the agent doesn't have permissions or the reservation enquiry doesn't belong to the authenticated agent.\n\n####Request:\n* **reservationEnquiryId**: Agent-specific ID of the requested reservation enquiry\n\n####Response:\nThe response will contain a _list_ of messages. Each one containing the following fields:\n* **senderType**: If this message was sent by the customer or by the merchant \n* **creationDate**: The date time that this message was created. Format: yyyy-MM-ddTHH:mm:ssZ\n* **message**: The text of the message itself.\n\nExample curl:\n```\ncurl https://{host}/v{X}/reservation-enquiries/07f53b36-3f48-11e5-a151-feff819cdc9f/messages\n```\n\nExample response:\n```\n{\n  \"messages\": [\n    {\n      \"senderType\": \"CUSTOMER\",\n      \"message\": \"Customer specific message\",\n      \"creationDate\": \"2018-05-04T09:26:53Z\"\n    }\n  ]\n}\n```"
+                      },
+                      "response": [
+                        {
+                          "id": "2831d558-95a2-4930-a4db-d53da26cc146",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-Quandoo-AuthToken",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/reservation-enquiries/:reservationEnquiryId/messages",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "reservation-enquiries",
+                                ":reservationEnquiryId",
+                                "messages"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "reservationEnquiryId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"messages\": [\n    {\n      \"senderType\": \"MERCHANT\",\n      \"message\": \"<string>\",\n      \"creationDate\": \"<dateTime>\"\n    },\n    {\n      \"senderType\": \"CUSTOMER\",\n      \"message\": \"<string>\",\n      \"creationDate\": \"<dateTime>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-07-28T02:42:34.000Z",
+                          "updatedAt": "2026-07-28T02:42:34.000Z",
+                          "uid": "35240-2831d558-95a2-4930-a4db-d53da26cc146"
+                        },
+                        {
+                          "id": "7ed0d565-a9cf-4f70-8008-0be0f47e41ec",
+                          "name": "Bad request",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-Quandoo-AuthToken",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/reservation-enquiries/:reservationEnquiryId/messages",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "reservation-enquiries",
+                                ":reservationEnquiryId",
+                                "messages"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "reservationEnquiryId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errorType\": \"PHONE_NUMBER_INVALID\",\n  \"errorMessage\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T02:42:34.000Z",
+                          "updatedAt": "2026-07-28T02:42:34.000Z",
+                          "uid": "35240-7ed0d565-a9cf-4f70-8008-0be0f47e41ec"
+                        },
+                        {
+                          "id": "c5c7eabf-0047-4bbb-a1fe-032a0723126d",
+                          "name": "Access denied",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-Quandoo-AuthToken",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/reservation-enquiries/:reservationEnquiryId/messages",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "reservation-enquiries",
+                                ":reservationEnquiryId",
+                                "messages"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "reservationEnquiryId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Forbidden",
+                          "code": 403,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errorType\": \"PHONE_NUMBER_INVALID\",\n  \"errorMessage\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T02:42:34.000Z",
+                          "updatedAt": "2026-07-28T02:42:34.000Z",
+                          "uid": "35240-c5c7eabf-0047-4bbb-a1fe-032a0723126d"
+                        },
+                        {
+                          "id": "f825698e-5975-4670-81f4-8620c6c41fb0",
+                          "name": "Reservation enquiry not found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-Quandoo-AuthToken",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/reservation-enquiries/:reservationEnquiryId/messages",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "reservation-enquiries",
+                                ":reservationEnquiryId",
+                                "messages"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "reservationEnquiryId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errorType\": \"PHONE_NUMBER_INVALID\",\n  \"errorMessage\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T02:42:34.000Z",
+                          "updatedAt": "2026-07-28T02:42:34.000Z",
+                          "uid": "35240-f825698e-5975-4670-81f4-8620c6c41fb0"
+                        },
+                        {
+                          "id": "b0d1b774-ed7e-44d8-8158-46dcfcd4a97e",
+                          "name": "Internal server error",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-Quandoo-AuthToken",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/reservation-enquiries/:reservationEnquiryId/messages",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "reservation-enquiries",
+                                ":reservationEnquiryId",
+                                "messages"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "reservationEnquiryId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errorType\": \"PHONE_NUMBER_INVALID\",\n  \"errorMessage\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T02:42:34.000Z",
+                          "updatedAt": "2026-07-28T02:42:34.000Z",
+                          "uid": "35240-b0d1b774-ed7e-44d8-8158-46dcfcd4a97e"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T02:42:34.000Z",
+                      "updatedAt": "2026-07-28T02:42:34.000Z",
+                      "uid": "35240-a08bb30d-0e68-4feb-85ca-efd93cd318f7"
+                    }
+                  ],
+                  "id": "e87a605a-f53a-43d0-bd75-f62b1dfb9a15",
+                  "createdAt": "2026-07-28T02:42:34.000Z",
+                  "updatedAt": "2026-07-28T02:42:34.000Z",
+                  "uid": "35240-e87a605a-f53a-43d0-bd75-f62b1dfb9a15"
+                },
+                {
+                  "name": "Quandoo Get Reservation Enquiry by Id",
+                  "id": "cd6e695b-ad0c-4e17-82b8-ef22f952b4ca",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reservation-enquiries/:reservationEnquiryId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reservation-enquiries",
+                        ":reservationEnquiryId"
+                      ],
+                      "variable": [
+                        {
+                          "id": "db54f19f-424d-4267-a165-819fb567623a",
+                          "key": "reservationEnquiryId",
+                          "value": "<string>",
+                          "description": "(Required) Id of the reservation enquiry"
+                        }
+                      ]
+                    },
+                    "description": "This endpoint allows an agent to get an reservation enquiry by id. The id is agent-specific. The agent needs to be authenticated.\n\nThe endpoint will return `HTTP 404 - Not Found` if the reservation enquiry with the specified id could not be found.\n\nIt will return `HTTP 403 - Forbidden` if the agent is not authenticated, if the agent doesn't have permissions or the reservation enquiry doesn't belong to the authenticated agent.\n\n####Request:\n* **reservationEnquiryId**: Agent-specific ID of the requested reservation enquiry\n\n####Response:\n* **id**: The agent-dependent unique id of the reservation enquiry\n* **merchantId**: The ID of the merchant at which this reservation enquiry was made\n* **customerId**: The ID of the customer to which this reservation enquiry belongs\n* **capacity**: The capacity (people count) of the reservation enquiry\n* **startDateTime**: The start date time of the reservation enquiry. Format: yyyy-MM-ddTHH:mm:ssZ\n* **endDateTime**: The end date time of the reservation enquiry. Format: yyyy-MM-ddTHH:mm:ssZ\n* **status**: The status of the reservation enquiry which can be one of:  NEW, IN_PROGRESS, ACCEPTED or REJECTED\n\nExample curl:\n```\ncurl https://{host}/v{X}/reservation-enquiries/07f53b36-3f48-11e5-a151-feff819cdc9f\n```\n\nExample response:\n```\n{\n  \"id\": \"07f53b36-3f48-11e5-a151-feff819cdc9f\",\n  \"merchantId\": 1384,\n  \"customerId\": \"35fff464-142c-48ac-a0c6-ed72a1615664\",\n  \"capacity\": 4,\n  \"startTime\": \"2015-06-22T12:00:00+00:00\",\n  \"endTime\": \"2015-06-22T13:00:00+00:00\",\n  \"status\": \"NEW\"\n}\n```"
+                  },
+                  "response": [
+                    {
+                      "id": "eb1cd4e1-e8dc-4a24-a103-411cf4b613f1",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/reservation-enquiries/:reservationEnquiryId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "reservation-enquiries",
+                            ":reservationEnquiryId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reservationEnquiryId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"customerId\": \"<string>\",\n  \"id\": \"<string>\",\n  \"merchantId\": \"<integer>\",\n  \"capacity\": \"<integer>\",\n  \"startDateTime\": \"<string>\",\n  \"endDateTime\": \"<string>\",\n  \"status\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:42:34.000Z",
+                      "updatedAt": "2026-07-28T02:42:34.000Z",
+                      "uid": "35240-eb1cd4e1-e8dc-4a24-a103-411cf4b613f1"
+                    },
+                    {
+                      "id": "9f50448e-72d8-46e0-b85e-ba94cc0fb331",
+                      "name": "Bad request",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/reservation-enquiries/:reservationEnquiryId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "reservation-enquiries",
+                            ":reservationEnquiryId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reservationEnquiryId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errorType\": \"PHONE_NUMBER_INVALID\",\n  \"errorMessage\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:42:34.000Z",
+                      "updatedAt": "2026-07-28T02:42:34.000Z",
+                      "uid": "35240-9f50448e-72d8-46e0-b85e-ba94cc0fb331"
+                    },
+                    {
+                      "id": "51cede2c-7b8c-4fb8-8026-5f6d68dec5a0",
+                      "name": "Access denied",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/reservation-enquiries/:reservationEnquiryId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "reservation-enquiries",
+                            ":reservationEnquiryId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reservationEnquiryId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errorType\": \"PHONE_NUMBER_INVALID\",\n  \"errorMessage\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:42:34.000Z",
+                      "updatedAt": "2026-07-28T02:42:34.000Z",
+                      "uid": "35240-51cede2c-7b8c-4fb8-8026-5f6d68dec5a0"
+                    },
+                    {
+                      "id": "6a135ce4-340f-416e-ac78-0f25321dc08c",
+                      "name": "Reservation enquiry not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/reservation-enquiries/:reservationEnquiryId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "reservation-enquiries",
+                            ":reservationEnquiryId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reservationEnquiryId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errorType\": \"PHONE_NUMBER_INVALID\",\n  \"errorMessage\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:42:34.000Z",
+                      "updatedAt": "2026-07-28T02:42:34.000Z",
+                      "uid": "35240-6a135ce4-340f-416e-ac78-0f25321dc08c"
+                    },
+                    {
+                      "id": "2ea69f30-8b2e-4d70-82c5-a8e34ed249d3",
+                      "name": "Internal server error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/reservation-enquiries/:reservationEnquiryId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "reservation-enquiries",
+                            ":reservationEnquiryId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reservationEnquiryId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errorType\": \"PHONE_NUMBER_INVALID\",\n  \"errorMessage\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:42:34.000Z",
+                      "updatedAt": "2026-07-28T02:42:34.000Z",
+                      "uid": "35240-2ea69f30-8b2e-4d70-82c5-a8e34ed249d3"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T02:42:34.000Z",
+                  "updatedAt": "2026-07-28T02:42:34.000Z",
+                  "uid": "35240-cd6e695b-ad0c-4e17-82b8-ef22f952b4ca"
+                },
+                {
+                  "name": "Quandoo Update Status of Reservation Enquiry by Id",
+                  "id": "29582345-ae1f-48a2-83f9-6bdbe31497b2",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"status\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reservation-enquiries/:reservationEnquiryId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reservation-enquiries",
+                        ":reservationEnquiryId"
+                      ],
+                      "variable": [
+                        {
+                          "id": "1ca7e73a-26a6-453a-84c8-86b9cee57295",
+                          "key": "reservationEnquiryId",
+                          "value": "<string>",
+                          "description": "(Required) Id of the reservation enquiry"
+                        }
+                      ]
+                    },
+                    "description": "This endpoint allows to update the status of a reservation enquiry with the given ID. The allowed status transitions are as following:\n\n* NEW --> IN_PROGRESS --> {ACCEPTED/REJECTED}\n* ACCEPTED <--> REJECTED\n\nThe endpoint will return `HTTP 404 - Not Found` if the reservation enquiry with the specified id could not be found.\n\nThe endpoint will return `HTTP 400 - Bad Request` if the specified status is wrong.\n\nThe endpoint will return `HTTP 409 - Conflict` if the status change is invalid.\n\nThe endpoint will return `HTTP 403 - Forbidden` if the agent is not authenticated, if the agent doesn't have permissions or the reservation enquiry \ndoesn't belong to the authenticated agent.\n\n####Request:\n* **reservationEnquiryId**: Agent-specific ID of the requested reservation enquiry\n* **reservationEnquiryData**: The new enquiry status\n"
+                  },
+                  "response": [
+                    {
+                      "id": "ab201f58-2e37-4ec6-a9b4-bb834cdf0d32",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"status\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/reservation-enquiries/:reservationEnquiryId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "reservation-enquiries",
+                            ":reservationEnquiryId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reservationEnquiryId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T02:42:34.000Z",
+                      "updatedAt": "2026-07-28T02:42:34.000Z",
+                      "uid": "35240-ab201f58-2e37-4ec6-a9b4-bb834cdf0d32"
+                    },
+                    {
+                      "id": "5fa10597-dc8c-4f12-a3c6-dffbfa4f3467",
+                      "name": "Bad request",
+                      "originalRequest": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"status\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/reservation-enquiries/:reservationEnquiryId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "reservation-enquiries",
+                            ":reservationEnquiryId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reservationEnquiryId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errorType\": \"PHONE_NUMBER_INVALID\",\n  \"errorMessage\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:42:34.000Z",
+                      "updatedAt": "2026-07-28T02:42:34.000Z",
+                      "uid": "35240-5fa10597-dc8c-4f12-a3c6-dffbfa4f3467"
+                    },
+                    {
+                      "id": "d7b7ec3f-3b99-4db1-88fd-686e4a1ea0e1",
+                      "name": "Access denied",
+                      "originalRequest": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"status\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/reservation-enquiries/:reservationEnquiryId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "reservation-enquiries",
+                            ":reservationEnquiryId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reservationEnquiryId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errorType\": \"PHONE_NUMBER_INVALID\",\n  \"errorMessage\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:42:34.000Z",
+                      "updatedAt": "2026-07-28T02:42:34.000Z",
+                      "uid": "35240-d7b7ec3f-3b99-4db1-88fd-686e4a1ea0e1"
+                    },
+                    {
+                      "id": "0ca31623-ff72-4f92-b461-48294b4f459c",
+                      "name": "Invalid reservation enquiry status transition",
+                      "originalRequest": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"status\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/reservation-enquiries/:reservationEnquiryId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "reservation-enquiries",
+                            ":reservationEnquiryId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reservationEnquiryId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errorType\": \"PHONE_NUMBER_INVALID\",\n  \"errorMessage\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:42:34.000Z",
+                      "updatedAt": "2026-07-28T02:42:34.000Z",
+                      "uid": "35240-0ca31623-ff72-4f92-b461-48294b4f459c"
+                    },
+                    {
+                      "id": "9b8dd73f-69e5-421d-8b9a-fbac094a3534",
+                      "name": "Internal server error",
+                      "originalRequest": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"status\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/reservation-enquiries/:reservationEnquiryId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "reservation-enquiries",
+                            ":reservationEnquiryId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reservationEnquiryId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errorType\": \"PHONE_NUMBER_INVALID\",\n  \"errorMessage\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:42:34.000Z",
+                      "updatedAt": "2026-07-28T02:42:34.000Z",
+                      "uid": "35240-9b8dd73f-69e5-421d-8b9a-fbac094a3534"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T02:42:34.000Z",
+                  "updatedAt": "2026-07-28T02:42:34.000Z",
+                  "uid": "35240-29582345-ae1f-48a2-83f9-6bdbe31497b2"
+                }
+              ],
+              "id": "bf91aa0f-bf9d-4e60-84dc-01ab9b62ee50",
+              "createdAt": "2026-07-28T02:42:34.000Z",
+              "updatedAt": "2026-07-28T02:42:34.000Z",
+              "uid": "35240-bf91aa0f-bf9d-4e60-84dc-01ab9b62ee50"
+            },
+            {
+              "name": "Quandoo Create Reservation Enquiries",
+              "id": "015fdf1b-39d2-4f0b-bfdc-e99ccfc83928",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customer\": {\n    \"country\": \"<string>\",\n    \"locale\": \"<string>\",\n    \"phoneNumber\": \"<string>\",\n    \"id\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"emailAddress\": \"<string>\",\n    \"subscriptions\": [\n      {\n        \"id\": \"QUANDOO\"\n      },\n      {\n        \"id\": \"MERCHANT\"\n      }\n    ]\n  },\n  \"reservationEnquiry\": {\n    \"capacity\": \"<integer>\",\n    \"endDateTime\": \"<string>\",\n    \"id\": \"<string>\",\n    \"merchantId\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"startDateTime\": \"<string>\"\n  },\n  \"tracking\": {\n    \"agent\": {\n      \"id\": \"<integer>\"\n    },\n    \"cookie\": {\n      \"tracking\": \"<string>\",\n      \"referenceId\": \"<string>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/v1/reservation-enquiries",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "reservation-enquiries"
+                  ]
+                },
+                "description": "This endpoint allows to create a reservation enquiry for a certain capacity, start and end time. It also requires certain customer information. All optional fields can be either omitted or set to null. The endpoint is idempotent, which means sending the same request twice will not create another reservation enquiry. For that purpose the client is required to generate an agent-specific unique ID for each request.\n\nThe endpoint will return status `HTTP 400` should any of the required parameters be missing or formatted incorrectly. See schema for details. \n\n####Request:\nThe request needs to have 3 objects: reservation enquiry, customer and tracking information.\n\n* **reservationEnquiry**: Information about the merchant and the enquiry.\n  * **id**: The unique identifier of the reservation enquiry for the calling agent (Agent dependent field) or NULL if the agent identifier should be created. Optional.\n  * **merchantId**: The ID of the merchant at which this enquiry will be made. **Required**.\n  * **capacity**: The capacity (people count) of the reservation enquiry. **Required**.\n  * **startDateTime**: The start date and time when the customer wants to make a reservation. Format: yyyy-MM-ddTHH:mm:ssZ. **Required**.\n  * **endDateTime**: The expected date and time for the reservation to end accordingly to the customer. Format: yyyy-MM-ddTHH:mm:ssZ. **Required**.\n  * **message**: A free-text message to the merchant. Max of 5000 characters. **Required**.\n\n* **customer**: Information on the customer making the reservation.\n  * **id**: Identifier of the customer for the calling agent. Agent dependent field. Optional.\n  * **firstName**: The first name of the customer. Optional.\n  * **lastName**: The last name of the customer. Optional.\n  * **emailAddress**: The email address of the customer. **Required**.\n  * **phoneNumber**: The phone number of the customer. Without country code, since it will be assumed from the country field. Example: 030120765890. **Required**.\n  * **locale**: The locale of the customer. E.g. de_DE. **Required**.\n  * **country**: The 2 letter ISO country of the customer. E.g DE. **Required**\n  * **subscriptions**: List of requested subscriptions e.g. QUANDOO, MERCHANT. Optional.\n\n* **tracking**: Third party information used to track customer and reservation enquiry.\n  * **agent**: The id of the agent creating this reservation enquiry. **Required**.\n  * **cookie**: Cookie information to be stored with this reservation. Optional.\n\n####Response:\nThe response returns information on the created reservation enquiry and the customer along with relevant links to follow.\n\n* **reservationEnquiry**: Information on the created reservation enquiry.\n  * **id**: Agent-specific id set for the reservation enquiry.\n\n* **customer**: Information on the customer.\n  * **id**: Agent-specific id set for the customer.\n\n* **links**: Related links that can be followed based on this response.\n\nExample curl:\n```\ncurl -H \"Content-Type: application/json\" -X POST -d '\n{\n  \"reservationEnquiry\": {\n    \"id\": \"07f53b36-3f48-11e5-a151-feff819cdc9f\",\n    \"merchantId\": 15,\n    \"capacity\": 10,\n    \"startDateTime\": \"2015-06-22T12:00:00+00:00\",\n    \"endDateTime\": \"2015-06-22T17:00:00+00:00\",\n    \"message\": \"Customer specific message\"\n  },\n  \"customer\": {\n        \"id\": \"659b9f4b-cd1a-4dc9-a5c3-8ef6bacbade5\",\n        \"firstName\": \"Hans\",\n        \"lastName\": \"Wurst\",\n        \"emailAddress\": \"hans.wurst@foo.bar\",\n        \"phoneNumber\": \"017312345678\",\n        \"locale\": \"de_DE\",\n        \"country\": \"DE\",\n        \"subscriptions\": [\n          {\n              \"id\": \"QUANDOO\"\n          },\n          {\n              \"id\": \"MERCHANT\"\n          }\n      ]\n    },\n    \"tracking\": {\n        \"agent\": {\n          \"id\": 3\n        },\n        \"cookie\": {\n            \"tracking\": \"ff819cdc9\",\n            \"referenceId\": \"07f53b36\"\n        }\n    }\n}' https://{host}/v{X}/reservation-enquiries\n```\n\nExample response:\n```\n{\n  \"reservationEnquiry\": {\n    \"id\": \"07f53b36-3f48-11e5-a151-feff819cdc9f\"\n  },\n  \"customer\": {\n    \"id\": \"2cc29cba-1e1f-4af6-8184-386e19c891ec\"\n  },\n  \"links\": [\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15\",\n      \"method\": \"GET\",\n      \"rel\": \"get-merchant\"\n    },\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15/reservation-settings\",\n      \"method\": \"GET\",\n      \"rel\": \"reservation-settings\"\n    },\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15/availabilities\",\n      \"method\": \"GET\",\n      \"rel\": \"availability_days\"\n    },\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15/availabilities/2015-06-22/times\",\n      \"method\": \"GET\",\n      \"rel\": \"availability\"\n    }\n  ]\n}\n```"
+              },
+              "response": [
+                {
+                  "id": "afd957a2-9b0e-4b31-af28-3d720c2fc875",
+                  "name": "Reservation enquiry successfully created",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"customer\": {\n    \"country\": \"<string>\",\n    \"locale\": \"<string>\",\n    \"phoneNumber\": \"<string>\",\n    \"id\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"emailAddress\": \"<string>\",\n    \"subscriptions\": [\n      {\n        \"id\": \"QUANDOO\"\n      },\n      {\n        \"id\": \"MERCHANT\"\n      }\n    ]\n  },\n  \"reservationEnquiry\": {\n    \"capacity\": \"<integer>\",\n    \"endDateTime\": \"<string>\",\n    \"id\": \"<string>\",\n    \"merchantId\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"startDateTime\": \"<string>\"\n  },\n  \"tracking\": {\n    \"agent\": {\n      \"id\": \"<integer>\"\n    },\n    \"cookie\": {\n      \"tracking\": \"<string>\",\n      \"referenceId\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reservation-enquiries",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reservation-enquiries"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"customer\": {\n    \"id\": \"<string>\"\n  },\n  \"links\": [\n    {\n      \"href\": \"<string>\",\n      \"method\": \"<string>\",\n      \"rel\": \"UPDATE_RESERVATION\"\n    },\n    {\n      \"href\": \"<string>\",\n      \"method\": \"<string>\",\n      \"rel\": \"GET_CUSTOMER_RESERVATION\"\n    }\n  ],\n  \"reservationEnquiry\": {\n    \"id\": \"<string>\"\n  }\n}",
+                  "createdAt": "2026-07-28T02:42:34.000Z",
+                  "updatedAt": "2026-07-28T02:42:34.000Z",
+                  "uid": "35240-afd957a2-9b0e-4b31-af28-3d720c2fc875"
+                },
+                {
+                  "id": "5b894a54-e62e-47b3-b516-b3e92c875e9c",
+                  "name": "Bad request",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"customer\": {\n    \"country\": \"<string>\",\n    \"locale\": \"<string>\",\n    \"phoneNumber\": \"<string>\",\n    \"id\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"emailAddress\": \"<string>\",\n    \"subscriptions\": [\n      {\n        \"id\": \"QUANDOO\"\n      },\n      {\n        \"id\": \"MERCHANT\"\n      }\n    ]\n  },\n  \"reservationEnquiry\": {\n    \"capacity\": \"<integer>\",\n    \"endDateTime\": \"<string>\",\n    \"id\": \"<string>\",\n    \"merchantId\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"startDateTime\": \"<string>\"\n  },\n  \"tracking\": {\n    \"agent\": {\n      \"id\": \"<integer>\"\n    },\n    \"cookie\": {\n      \"tracking\": \"<string>\",\n      \"referenceId\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reservation-enquiries",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reservation-enquiries"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorType\": \"PHONE_NUMBER_INVALID\",\n  \"errorMessage\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T02:42:34.000Z",
+                  "updatedAt": "2026-07-28T02:42:34.000Z",
+                  "uid": "35240-5b894a54-e62e-47b3-b516-b3e92c875e9c"
+                },
+                {
+                  "id": "0b01e62e-ba2a-42c8-8e7f-801f49155108",
+                  "name": "Internal Server Error",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"customer\": {\n    \"country\": \"<string>\",\n    \"locale\": \"<string>\",\n    \"phoneNumber\": \"<string>\",\n    \"id\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"emailAddress\": \"<string>\",\n    \"subscriptions\": [\n      {\n        \"id\": \"QUANDOO\"\n      },\n      {\n        \"id\": \"MERCHANT\"\n      }\n    ]\n  },\n  \"reservationEnquiry\": {\n    \"capacity\": \"<integer>\",\n    \"endDateTime\": \"<string>\",\n    \"id\": \"<string>\",\n    \"merchantId\": \"<integer>\",\n    \"message\": \"<string>\",\n    \"startDateTime\": \"<string>\"\n  },\n  \"tracking\": {\n    \"agent\": {\n      \"id\": \"<integer>\"\n    },\n    \"cookie\": {\n      \"tracking\": \"<string>\",\n      \"referenceId\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reservation-enquiries",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reservation-enquiries"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorType\": \"PHONE_NUMBER_INVALID\",\n  \"errorMessage\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T02:42:34.000Z",
+                  "updatedAt": "2026-07-28T02:42:34.000Z",
+                  "uid": "35240-0b01e62e-ba2a-42c8-8e7f-801f49155108"
+                }
+              ],
+              "createdAt": "2026-07-28T02:42:34.000Z",
+              "updatedAt": "2026-07-28T02:42:34.000Z",
+              "uid": "35240-015fdf1b-39d2-4f0b-bfdc-e99ccfc83928"
+            }
+          ],
+          "id": "48d8802a-2e40-46dd-9cf9-ab5d426e6b84",
+          "createdAt": "2026-07-28T02:42:34.000Z",
+          "updatedAt": "2026-07-28T02:42:34.000Z",
+          "uid": "35240-48d8802a-2e40-46dd-9cf9-ab5d426e6b84"
+        }
+      ],
+      "id": "b9595c88-fb63-4828-95ce-2fc2917d9836",
+      "createdAt": "2026-07-28T02:42:34.000Z",
+      "updatedAt": "2026-07-28T02:42:34.000Z",
+      "uid": "35240-b9595c88-fb63-4828-95ce-2fc2917d9836"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Quandoo-AuthToken",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://public-api.prod.quandoo.com"
+    }
+  ]
+}

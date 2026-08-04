@@ -1,0 +1,1105 @@
+{
+  "info": {
+    "_postman_id": "df76b7ec-4f99-43e4-be5e-cbf38e881dbd",
+    "name": "Quandoo Public Partner Availabilities Customers API",
+    "description": "The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo restaurant reservations platform. It lets partners check merchant availability, search merchants, read merchant reservation and enquiry settings, create and manage reservations and reservation enquiries, manage customers and reviews, handle preorders and reservation tags, and validate phone numbers. Reservation and enquiry creation is idempotent via an agent-specific unique identifier. Derived from the official Quandoo Swagger specification at https://api.quandoo.com/swagger.json.\n\nContact Support:\n Name: Quandoo Developers\n Email: developers@quandoo.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:42:31.000Z",
+    "updatedAt": "2026-07-28T02:42:31.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-df76b7ec-4f99-43e4-be5e-cbf38e881dbd"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "customers",
+          "item": [
+            {
+              "name": "{customerId}",
+              "item": [
+                {
+                  "name": "reservations",
+                  "item": [
+                    {
+                      "name": "Quandoo Get Customer Reservations",
+                      "id": "edb14b11-3363-488a-8dc4-666a770c7b67",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/customers/:customerId/reservations",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "customers",
+                            ":customerId",
+                            "reservations"
+                          ],
+                          "variable": [
+                            {
+                              "id": "1d52f496-d1f0-4222-b80f-b1e6a8c50dc4",
+                              "key": "customerId",
+                              "value": "<string>",
+                              "description": "(Required) Id of the customer"
+                            }
+                          ]
+                        },
+                        "description": "This endpoint allows an agent to get reservations of a customer. The results will be filtered by agent id. \nCustomer id in the request and reservation IDs in response are agent-specific. The agent needs to be authenticated.\n\nThe endpoint will return `HTTP 404 - Not Found` if the customer with the specified id could not be found.\nIt will return `HTTP 403 - Forbidden` if the agent is not authenticated or the agent doesn't have permissions.\n\n####Request:\n* **customerId**: Agent-specific ID of the customer\n\n####Response:\nThe response will be a _list_ of reservations. Each reservation has the fields explained below:\n* **id**: The agent-dependent unique id of the reservation\n* **number**: Quandoo internal identifier of the reservation.\n* **quandooId**: The public id of this reservation on quandoo system.\n* **status**: The status of the reservation eg. CREATED, CONFIRMED, CUSTOMER CANCELED etc.\n* **startTime**: The start time of the reservation. Format: `yyyy-MM-ddTHH:mm:ssZ`\n* **endTime**: The end time of the reservation. Format: `yyyy-MM-ddTHH:mm:ssZ`\n* **capacity**: The capacity (people count) of the reservation\n* **merchantId**: The ID of the merchant at which this reservation was made.\n* **customerId**: The public ID of the customer to which this reservation belongs\n* **promoCode**: The promotion code associated with this reservation. Optional.\n* **extraInfo**: extra information that the customer provided for the reservation. Optional.\n* **links**: Related links that can be followed based on this response.\n* **createdAt**: The date the reservation was created. Format: `yyyy-MM-ddTHH:mm:ssZ`\n* **updatedAt**: The date the reservation was last updated. Format: `yyyy-MM-ddTHH:mm:ssZ`\n\nExample curl:\n```\ncurl https://{host}/v{X}/customers/ce0706ff-a95d-4229-a220-d21dcd175342/reservations\n```\n\nExample response: \n```\n{\n  \"reservations\": [\n    {\n      \"id\": \"07f53b36-3f48-11e5-a151-feff819cdc9f\",\n      \"number\": 8734957,\n      \"quandooId\": \"07f53b36-3f48-11e5-a151-feff819cdc9f\",\n      \"status\": \"CREATED\",\n      \"startTime\": \"2015-06-22T12:00:00+00:00\",\n      \"endTime\": \"2015-06-22T13:00:00+00:00\",\n      \"capacity\": 4,\n      \"merchantId\": 1384,\n      \"customerId\": \"ce0706ff-a95d-4229-a220-d21dcd175342\",\n      \"promocode\": \"SOME_CAMPAIGN_CODE\",\n      \"extraInfo\": \"request for baby chair\",\n      \"links\": [\n        {\n          \"href\": \"https://{host}/v{X}/reservations/07f53b36-3f48-11e5-a151-feff819cdc9f\",\n          \"method\": \"GET\",\n          \"rel\": \"self\"\n        },\n        {\n          \"href\": \"https://{host}/v{X}/reservations/07f53b36-3f48-11e5-a151-feff819cdc9f\",\n          \"method\": \"PATCH\",\n          \"rel\": \"update\"\n        }\n      ],\n      \"createdAt\": \"2015-06-01T15:21:54Z\",\n      \"updatedAt\": \"2015-06-01T18:45:30Z\"\n    },\n    {\n      \"id\": \"d8f53b36-3f48-11e5-a151-feff819cdc7a\",\n      \"number\": 8734958,\n      \"quandooId\": \"d8f53b36-3f48-11e5-a151-feff819cdc7a\",\n      \"status\": \"CONFIRMED\",\n      \"startTime\": \"2015-06-22T12:00:00+00:00\",\n      \"endTime\": \"2015-06-22T13:00:00+00:00\",\n      \"capacity\": 3,\n      \"merchantId\": 1384,\n      \"customerId\": \"ce0706ff-a95d-4229-a220-d21dcd175342\",\n      \"promocode\": \"SOME_CAMPAIGN_CODE\",\n      \"links\": [\n        {\n          \"href\": \"https://{host}/v{X}/reservations/d8f53b36-3f48-11e5-a151-feff819cdc7a\",\n          \"method\": \"GET\",\n          \"rel\": \"self\"\n        },\n        {\n          \"href\": \"https://{host}/v{X}/reservations/d8f53b36-3f48-11e5-a151-feff819cdc7a\",\n          \"method\": \"PATCH\",\n          \"rel\": \"update\"\n        }\n      ],\n      \"createdAt\": \"2015-06-01T15:21:54Z\",\n      \"updatedAt\": \"2015-06-01T18:45:30Z\"\n    }\n  ]\n}\n```\n"
+                      },
+                      "response": [
+                        {
+                          "id": "51bda1a7-95e5-4123-906c-b619fce35546",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-Quandoo-AuthToken",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/customers/:customerId/reservations",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "customers",
+                                ":customerId",
+                                "reservations"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "customerId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"reservations\": [\n    {\n      \"capacity\": \"<integer>\",\n      \"customerId\": \"<string>\",\n      \"id\": \"<string>\",\n      \"links\": [\n        {\n          \"href\": \"<string>\",\n          \"method\": \"<string>\",\n          \"rel\": \"SETTINGS\"\n        },\n        {\n          \"href\": \"<string>\",\n          \"method\": \"<string>\",\n          \"rel\": \"CREDIT_CARD_DETAILS_PAGE\"\n        }\n      ],\n      \"merchantId\": \"<integer>\",\n      \"quandooId\": \"<uuid>\",\n      \"status\": \"<string>\",\n      \"number\": \"<integer>\",\n      \"reservationNumber\": \"<string>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"promocode\": \"<string>\",\n      \"extraInfo\": \"<string>\",\n      \"reservationTags\": [\n        \"<integer>\",\n        \"<integer>\"\n      ]\n    },\n    {\n      \"capacity\": \"<integer>\",\n      \"customerId\": \"<string>\",\n      \"id\": \"<string>\",\n      \"links\": [\n        {\n          \"href\": \"<string>\",\n          \"method\": \"<string>\",\n          \"rel\": \"SETTINGS\"\n        },\n        {\n          \"href\": \"<string>\",\n          \"method\": \"<string>\",\n          \"rel\": \"WIDGET\"\n        }\n      ],\n      \"merchantId\": \"<integer>\",\n      \"quandooId\": \"<uuid>\",\n      \"status\": \"<string>\",\n      \"number\": \"<integer>\",\n      \"reservationNumber\": \"<string>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"promocode\": \"<string>\",\n      \"extraInfo\": \"<string>\",\n      \"reservationTags\": [\n        \"<integer>\",\n        \"<integer>\"\n      ]\n    }\n  ]\n}",
+                          "createdAt": "2026-07-28T02:42:31.000Z",
+                          "updatedAt": "2026-07-28T02:42:31.000Z",
+                          "uid": "35240-51bda1a7-95e5-4123-906c-b619fce35546"
+                        },
+                        {
+                          "id": "cf3c5ced-8083-4d2c-8304-b4dc2c5912d2",
+                          "name": "Bad request",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-Quandoo-AuthToken",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/customers/:customerId/reservations",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "customers",
+                                ":customerId",
+                                "reservations"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "customerId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errorType\": \"PHONE_NUMBER_MISSING\",\n  \"errorMessage\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T02:42:31.000Z",
+                          "updatedAt": "2026-07-28T02:42:31.000Z",
+                          "uid": "35240-cf3c5ced-8083-4d2c-8304-b4dc2c5912d2"
+                        },
+                        {
+                          "id": "500171e2-0470-4ec5-8289-696ca88eb420",
+                          "name": "Access denied",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-Quandoo-AuthToken",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/customers/:customerId/reservations",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "customers",
+                                ":customerId",
+                                "reservations"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "customerId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Forbidden",
+                          "code": 403,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errorType\": \"PHONE_NUMBER_MISSING\",\n  \"errorMessage\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T02:42:31.000Z",
+                          "updatedAt": "2026-07-28T02:42:31.000Z",
+                          "uid": "35240-500171e2-0470-4ec5-8289-696ca88eb420"
+                        },
+                        {
+                          "id": "d8b89285-eea4-4328-8f5f-2023100c99a8",
+                          "name": "Customer not found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-Quandoo-AuthToken",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/customers/:customerId/reservations",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "customers",
+                                ":customerId",
+                                "reservations"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "customerId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errorType\": \"PHONE_NUMBER_MISSING\",\n  \"errorMessage\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T02:42:31.000Z",
+                          "updatedAt": "2026-07-28T02:42:31.000Z",
+                          "uid": "35240-d8b89285-eea4-4328-8f5f-2023100c99a8"
+                        },
+                        {
+                          "id": "d5a112ed-b569-457b-8146-5d3eb444ca74",
+                          "name": "Internal server error",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-Quandoo-AuthToken",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/customers/:customerId/reservations",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "customers",
+                                ":customerId",
+                                "reservations"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "customerId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errorType\": \"PHONE_NUMBER_MISSING\",\n  \"errorMessage\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T02:42:31.000Z",
+                          "updatedAt": "2026-07-28T02:42:31.000Z",
+                          "uid": "35240-d5a112ed-b569-457b-8146-5d3eb444ca74"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T02:42:31.000Z",
+                      "updatedAt": "2026-07-28T02:42:31.000Z",
+                      "uid": "35240-edb14b11-3363-488a-8dc4-666a770c7b67"
+                    }
+                  ],
+                  "id": "2c968e0e-5406-4f98-84eb-277ccc075b27",
+                  "createdAt": "2026-07-28T02:42:31.000Z",
+                  "updatedAt": "2026-07-28T02:42:31.000Z",
+                  "uid": "35240-2c968e0e-5406-4f98-84eb-277ccc075b27"
+                },
+                {
+                  "name": "Quandoo Get Customer Data",
+                  "id": "5449cacc-3e89-4745-8161-505101f47e0a",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/customers/:customerId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "customers",
+                        ":customerId"
+                      ],
+                      "variable": [
+                        {
+                          "id": "c77ad0a5-e6bc-4446-9dbf-63f91dedba0d",
+                          "key": "customerId",
+                          "value": "<string>",
+                          "description": "(Required) Id of the customer"
+                        }
+                      ]
+                    },
+                    "description": "This endpoint allows an agent to get customer information by id.  \nCustomer id both in the request and response are agent-specific. The agent needs to be authenticated.\n\nThe endpoint will return `HTTP 404 - Not Found` if the customer with the specified id could not be found.\nIt will return `HTTP 403 - Forbidden` if the agent is not authenticated or the agent doesn't have permissions.\n\n####Request:\n* **customerId**: Agent-specific ID of the customer\n\n####Response:\nThe response contains the following data of the customer as explained below:\n* **id**: The agent-dependent identifier of the customer \n* **email**: The given email of this customer. _Optional_\n* **firstName**: First name of the customer. _Optional_\n* **lastName**: Last name of the customer. _Optional_\n* **gender**: The given gender of the customer (one of MALE, FEMALE, OTHER or UNDEFINED). _Optional_\n* **phoneNumber**: The ID of the merchant at which this reservation was made\n* **mobileNumber**: The ID of the customer to which this reservation belongs\n* **country**: 2-letter ISO country code of the customer, e.g. DE\n* **links**: Related links that can be followed based on this response\n* **subscriptions**: The newsletter subscriptions, e.g. QUANDOO, MERCHANT\n\nExample curl:\n```\ncurl https://{host}/v{X}/customers/9ffb3466-3562-42cc-add1-92a46a2f0902\n```\n\nExample response: \n```\n{\n  \"id\": \"9ffb3466-3562-42cc-add1-92a46a2f0902\",\n  \"firstName\": \"Gaius\",\n  \"lastName\": \"Octavius\",\n  \"gender\": \"male\",\n  \"email\": \"c2f22117-6148-45b8-ae79-41eda25eae67augustus@spqr.com\",\n  \"phoneNumber\": \"+4917312345678\",\n  \"country\": \"DE\",  \n  \"links\": [\n    {\n      \"href\": \"http://localhost:39250/v1/customers/9ffb3466-3562-42cc-add1-92a46a2f0902/reservations\",\n      \"method\": \"GET\",\n      \"rel\": \"get-customer-reservations\"\n    }\n  ],\n  \"subscriptions\": [\n    {\n      \"id\": \"QUANDOO\"\n    }\n  ]\n}\n```\n"
+                  },
+                  "response": [
+                    {
+                      "id": "b25c4d3f-2a00-466e-9321-faffbfae2a3b",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/customers/:customerId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "customers",
+                            ":customerId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "customerId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"country\": \"<string>\",\n  \"email\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"gender\": \"female\",\n  \"id\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"links\": [\n    {\n      \"href\": \"<string>\",\n      \"method\": \"<string>\",\n      \"rel\": \"WIDGET_DETAILS\"\n    },\n    {\n      \"href\": \"<string>\",\n      \"method\": \"<string>\",\n      \"rel\": \"CREATE_RESERVATION\"\n    }\n  ],\n  \"mobileNumber\": \"<string>\",\n  \"phoneNumber\": \"<string>\",\n  \"subscriptions\": [\n    {\n      \"id\": \"MERCHANT\"\n    },\n    {\n      \"id\": \"QUANDOO\"\n    }\n  ]\n}",
+                      "createdAt": "2026-07-28T02:42:31.000Z",
+                      "updatedAt": "2026-07-28T02:42:31.000Z",
+                      "uid": "35240-b25c4d3f-2a00-466e-9321-faffbfae2a3b"
+                    },
+                    {
+                      "id": "92a22649-7c59-42f2-a09b-c93b0965d823",
+                      "name": "Bad request",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/customers/:customerId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "customers",
+                            ":customerId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "customerId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errorType\": \"PHONE_NUMBER_MISSING\",\n  \"errorMessage\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:42:31.000Z",
+                      "updatedAt": "2026-07-28T02:42:31.000Z",
+                      "uid": "35240-92a22649-7c59-42f2-a09b-c93b0965d823"
+                    },
+                    {
+                      "id": "64986297-072d-4d3d-bfdd-ebd7c6d494db",
+                      "name": "Access denied",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/customers/:customerId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "customers",
+                            ":customerId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "customerId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errorType\": \"PHONE_NUMBER_MISSING\",\n  \"errorMessage\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:42:31.000Z",
+                      "updatedAt": "2026-07-28T02:42:31.000Z",
+                      "uid": "35240-64986297-072d-4d3d-bfdd-ebd7c6d494db"
+                    },
+                    {
+                      "id": "7b656bf1-114b-4b56-bd91-6bc67f1ac3b4",
+                      "name": "Customer not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/customers/:customerId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "customers",
+                            ":customerId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "customerId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errorType\": \"PHONE_NUMBER_MISSING\",\n  \"errorMessage\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:42:31.000Z",
+                      "updatedAt": "2026-07-28T02:42:31.000Z",
+                      "uid": "35240-7b656bf1-114b-4b56-bd91-6bc67f1ac3b4"
+                    },
+                    {
+                      "id": "91374c60-b021-40a8-88cd-276423365a79",
+                      "name": "Internal server error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/customers/:customerId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "customers",
+                            ":customerId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "customerId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errorType\": \"PHONE_NUMBER_MISSING\",\n  \"errorMessage\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:42:31.000Z",
+                      "updatedAt": "2026-07-28T02:42:31.000Z",
+                      "uid": "35240-91374c60-b021-40a8-88cd-276423365a79"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T02:42:31.000Z",
+                  "updatedAt": "2026-07-28T02:42:31.000Z",
+                  "uid": "35240-5449cacc-3e89-4745-8161-505101f47e0a"
+                }
+              ],
+              "id": "d195de82-8ef1-4fe6-9676-b3da7797a9ee",
+              "createdAt": "2026-07-28T02:42:31.000Z",
+              "updatedAt": "2026-07-28T02:42:31.000Z",
+              "uid": "35240-d195de82-8ef1-4fe6-9676-b3da7797a9ee"
+            }
+          ],
+          "id": "e94cccd1-9cde-4a50-a6ad-68fe04f5497e",
+          "createdAt": "2026-07-28T02:42:31.000Z",
+          "updatedAt": "2026-07-28T02:42:31.000Z",
+          "uid": "35240-e94cccd1-9cde-4a50-a6ad-68fe04f5497e"
+        },
+        {
+          "name": "merchants",
+          "item": [
+            {
+              "name": "{merchantId}",
+              "item": [
+                {
+                  "name": "customers",
+                  "item": [
+                    {
+                      "name": "Quandoo Get a List of Customers of a Merchant",
+                      "id": "f1e74a16-1d98-4d79-95a5-ea7a3fc7f6a0",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/merchants/:merchantId/customers?offset=0&limit=100&modifiedSince=<dateTime>&modifiedUntil=<dateTime>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "merchants",
+                            ":merchantId",
+                            "customers"
+                          ],
+                          "query": [
+                            {
+                              "description": "offset",
+                              "key": "offset",
+                              "value": "0"
+                            },
+                            {
+                              "description": "limit",
+                              "key": "limit",
+                              "value": "100"
+                            },
+                            {
+                              "description": "modifiedSince. Format: yyyy-MM-dd HH:mm:ss",
+                              "key": "modifiedSince",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "modifiedUntil. Format: yyyy-MM-dd HH:mm:ss",
+                              "key": "modifiedUntil",
+                              "value": "<dateTime>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "id": "db24b99e-9aaa-4389-9dd1-c69ed7eeee97",
+                              "key": "merchantId",
+                              "value": "<integer>",
+                              "description": "(Required) Id of the merchant"
+                            }
+                          ]
+                        },
+                        "description": "This endpoint allows a third party to get a list of customers of a merchant.\nThe list is filtered, showing only the customers that the third party system has access.\nCustomer id is agent-specific if the customer was created by the agent. The agent needs to be authenticated.\n\nThe endpoint will return `HTTP 404 - Not Found` if the merchant with the specified id could not be found.\nIt will return `HTTP 403 - Forbidden` if the agent is not authenticated or the agent doesn't have permissions.\n\n####Request:\n* **merchantId**: Identifier of the merchant\n* **offset**: sets the starting element to be returned. Defaults to 0 when unset or malformed.\n* **limit**: maximum number of results to be returned. Value must be between 1 and 100. Defaults to 100 when unset, malformed or outside bounds.\n* **modifiedSince**: earliest date time of time window in UTC. Format: yyyy-MM-dd HH:mm:ss\n* **modifiedUntil**: latest date time of time window in UTC. Format: yyyy-MM-dd HH:mm:ss\n\n####Response:\nThe response contains the following data of the customer as explained below:\n* **id**: The agent-dependent identifier of the customer \n* **title**: The title of the customer. _Optional_\n* **firstName**: First name of the customer. _Optional_\n* **lastName**: Last name of the customer. _Optional_\n* **email**: The given email of this customer. _Optional_\n* **gender**: The given gender of the customer (one of MALE, FEMALE, OTHER or UNDEFINED). _Optional_\n* **phoneNumber**: The phone number of the customer. _Optional_\n* **mobileNumber**: The mobile phone number of the customer. _Optional_\n* **locale**: The locale of the customer.\n* **links**: Related links that can be followed based on this response\n* **subscriptions**: The newsletter subscriptions, e.g. QUANDOO, MERCHANT\n* **statistics**: The customer statistics: number of successful, cancelled and no-show reservations\n* **createdAt**: The date the customer was created. Format: yyyy-MM-ddTHH:mm:ssZ\n* **updatedAt**: The date the customer was last updated. Format: yyyy-MM-ddTHH:mm:ssZ\n\nExample curl:\n```\ncurl https://{host}/v{X}/merchants/1234/customers\n```\n\nExample response: \n```\n{\n  \"result\": [\n    {\n      \"id\": \"9ffb3466-3562-42cc-add1-92a46a2f0902\",\n      \"customerRef\": \"9ffb3466-3562-42cc-add1-92a46a2f0902\",\n      \"marketingFlags\": [\n        {\n          \"marketingSettingType\": \"NEWSLETTERS\",\n          \"marketingSettingStatus\": \"INACTIVE\"\n        },\n        {\n          \"marketingSettingType\": \"PROMO_CODES\",\n          \"marketingSettingStatus\": \"ACTIVE\"\n        }\n      ],\n      \"title\": \"Mr.\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"email\": \"test@quandoo.de\",\n      \"phoneNumber\": \"+493012345678\",\n      \"mobileNumber\": \"+17712345678\",\n      \"locale\": \"de_DE\",\n      \"links\": [\n        {\n          \"href\": \"http://localhost:39250/v1/customers/9ffb3466-3562-42cc-add1-92a46a2f0902/reservations\",\n          \"method\": \"GET\",\n          \"rel\": \"get-customer-reservations\"\n        }\n      ],\n      \"subscriptions\": [\n        {\n          \"id\": \"QUANDOO\"\n        }\n      ],\n      \"statistics\": {\n        \"reservationSuccessfulCount\": 8,\n        \"reservationCancelledCount\": 5,\n        \"reservationNoShowCount\": 2\n      },\n      \"createdAt\": \"2018-11-22T18:42:16Z\",\n      \"updatedAt\": \"2018-11-30T18:16:02Z\"\n    }\n  ],\n  \"offset\": 0,\n  \"limit\": 100\n}\n```\n"
+                      },
+                      "response": [
+                        {
+                          "id": "eb4a8bd8-a0af-4d37-8c9c-c11ac24d0841",
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-Quandoo-AuthToken",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/merchants/:merchantId/customers?offset=0&limit=100&modifiedSince=<dateTime>&modifiedUntil=<dateTime>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "merchants",
+                                ":merchantId",
+                                "customers"
+                              ],
+                              "query": [
+                                {
+                                  "description": "offset",
+                                  "key": "offset",
+                                  "value": "0"
+                                },
+                                {
+                                  "description": "limit",
+                                  "key": "limit",
+                                  "value": "100"
+                                },
+                                {
+                                  "description": "modifiedSince. Format: yyyy-MM-dd HH:mm:ss",
+                                  "key": "modifiedSince",
+                                  "value": "<dateTime>"
+                                },
+                                {
+                                  "description": "modifiedUntil. Format: yyyy-MM-dd HH:mm:ss",
+                                  "key": "modifiedUntil",
+                                  "value": "<dateTime>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "merchantId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"result\": [\n    {\n      \"customerRef\": \"<string>\",\n      \"email\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"id\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"links\": [\n        {\n          \"href\": \"<string>\",\n          \"method\": \"<string>\",\n          \"rel\": \"RESERVATION_CHECKOUT_PAGE\"\n        },\n        {\n          \"href\": \"<string>\",\n          \"method\": \"<string>\",\n          \"rel\": \"GET_CUSTOMER_RESERVATION\"\n        }\n      ],\n      \"locale\": \"<string>\",\n      \"marketingFlags\": [\n        {\n          \"marketingSettingType\": \"RESTAURANT_RECOMMENDATIONS\",\n          \"marketingSettingStatus\": \"INACTIVE\"\n        },\n        {\n          \"marketingSettingType\": \"RESTAURANT_RECOMMENDATIONS\",\n          \"marketingSettingStatus\": \"ACTIVE\"\n        }\n      ],\n      \"mobileNumber\": \"<string>\",\n      \"phoneNumber\": \"<string>\",\n      \"statistics\": {\n        \"reservationCancelledCount\": \"<integer>\",\n        \"reservationNoShowCount\": \"<integer>\",\n        \"reservationSuccessfulCount\": \"<integer>\"\n      },\n      \"subscriptions\": [\n        {\n          \"id\": \"MERCHANT\"\n        },\n        {\n          \"id\": \"QUANDOO\"\n        }\n      ],\n      \"title\": \"<string>\",\n      \"updatedAt\": \"<dateTime>\"\n    },\n    {\n      \"customerRef\": \"<string>\",\n      \"email\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"id\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"links\": [\n        {\n          \"href\": \"<string>\",\n          \"method\": \"<string>\",\n          \"rel\": \"RESERVATION_CHECKOUT_PAGE\"\n        },\n        {\n          \"href\": \"<string>\",\n          \"method\": \"<string>\",\n          \"rel\": \"GET_MERCHANT\"\n        }\n      ],\n      \"locale\": \"<string>\",\n      \"marketingFlags\": [\n        {\n          \"marketingSettingType\": \"PROMO_CODES\",\n          \"marketingSettingStatus\": \"ACTIVE\"\n        },\n        {\n          \"marketingSettingType\": \"RESTAURANT_RECOMMENDATIONS\",\n          \"marketingSettingStatus\": \"INACTIVE\"\n        }\n      ],\n      \"mobileNumber\": \"<string>\",\n      \"phoneNumber\": \"<string>\",\n      \"statistics\": {\n        \"reservationCancelledCount\": \"<integer>\",\n        \"reservationNoShowCount\": \"<integer>\",\n        \"reservationSuccessfulCount\": \"<integer>\"\n      },\n      \"subscriptions\": [\n        {\n          \"id\": \"QUANDOO\"\n        },\n        {\n          \"id\": \"MERCHANT\"\n        }\n      ],\n      \"title\": \"<string>\",\n      \"updatedAt\": \"<dateTime>\"\n    }\n  ],\n  \"offset\": \"<integer>\",\n  \"limit\": \"<integer>\"\n}",
+                          "createdAt": "2026-07-28T02:42:31.000Z",
+                          "updatedAt": "2026-07-28T02:42:31.000Z",
+                          "uid": "35240-eb4a8bd8-a0af-4d37-8c9c-c11ac24d0841"
+                        },
+                        {
+                          "id": "f100fcdf-6cfd-4735-a074-f7f4a333f761",
+                          "name": "Bad request",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-Quandoo-AuthToken",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/merchants/:merchantId/customers?offset=0&limit=100&modifiedSince=<dateTime>&modifiedUntil=<dateTime>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "merchants",
+                                ":merchantId",
+                                "customers"
+                              ],
+                              "query": [
+                                {
+                                  "description": "offset",
+                                  "key": "offset",
+                                  "value": "0"
+                                },
+                                {
+                                  "description": "limit",
+                                  "key": "limit",
+                                  "value": "100"
+                                },
+                                {
+                                  "description": "modifiedSince. Format: yyyy-MM-dd HH:mm:ss",
+                                  "key": "modifiedSince",
+                                  "value": "<dateTime>"
+                                },
+                                {
+                                  "description": "modifiedUntil. Format: yyyy-MM-dd HH:mm:ss",
+                                  "key": "modifiedUntil",
+                                  "value": "<dateTime>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "merchantId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errorType\": \"PHONE_NUMBER_MISSING\",\n  \"errorMessage\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T02:42:31.000Z",
+                          "updatedAt": "2026-07-28T02:42:31.000Z",
+                          "uid": "35240-f100fcdf-6cfd-4735-a074-f7f4a333f761"
+                        },
+                        {
+                          "id": "44c3504a-035a-446f-9fb5-abd1956c8c5c",
+                          "name": "Access denied",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-Quandoo-AuthToken",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/merchants/:merchantId/customers?offset=0&limit=100&modifiedSince=<dateTime>&modifiedUntil=<dateTime>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "merchants",
+                                ":merchantId",
+                                "customers"
+                              ],
+                              "query": [
+                                {
+                                  "description": "offset",
+                                  "key": "offset",
+                                  "value": "0"
+                                },
+                                {
+                                  "description": "limit",
+                                  "key": "limit",
+                                  "value": "100"
+                                },
+                                {
+                                  "description": "modifiedSince. Format: yyyy-MM-dd HH:mm:ss",
+                                  "key": "modifiedSince",
+                                  "value": "<dateTime>"
+                                },
+                                {
+                                  "description": "modifiedUntil. Format: yyyy-MM-dd HH:mm:ss",
+                                  "key": "modifiedUntil",
+                                  "value": "<dateTime>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "merchantId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Forbidden",
+                          "code": 403,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errorType\": \"PHONE_NUMBER_MISSING\",\n  \"errorMessage\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T02:42:31.000Z",
+                          "updatedAt": "2026-07-28T02:42:31.000Z",
+                          "uid": "35240-44c3504a-035a-446f-9fb5-abd1956c8c5c"
+                        },
+                        {
+                          "id": "af44c418-9138-4dca-bfff-43d99a5b7624",
+                          "name": "Customer not found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-Quandoo-AuthToken",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/merchants/:merchantId/customers?offset=0&limit=100&modifiedSince=<dateTime>&modifiedUntil=<dateTime>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "merchants",
+                                ":merchantId",
+                                "customers"
+                              ],
+                              "query": [
+                                {
+                                  "description": "offset",
+                                  "key": "offset",
+                                  "value": "0"
+                                },
+                                {
+                                  "description": "limit",
+                                  "key": "limit",
+                                  "value": "100"
+                                },
+                                {
+                                  "description": "modifiedSince. Format: yyyy-MM-dd HH:mm:ss",
+                                  "key": "modifiedSince",
+                                  "value": "<dateTime>"
+                                },
+                                {
+                                  "description": "modifiedUntil. Format: yyyy-MM-dd HH:mm:ss",
+                                  "key": "modifiedUntil",
+                                  "value": "<dateTime>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "merchantId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errorType\": \"PHONE_NUMBER_MISSING\",\n  \"errorMessage\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T02:42:31.000Z",
+                          "updatedAt": "2026-07-28T02:42:31.000Z",
+                          "uid": "35240-af44c418-9138-4dca-bfff-43d99a5b7624"
+                        },
+                        {
+                          "id": "6a883c8c-73fe-42c9-80e9-41580ae31eef",
+                          "name": "Internal server error",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "X-Quandoo-AuthToken",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/merchants/:merchantId/customers?offset=0&limit=100&modifiedSince=<dateTime>&modifiedUntil=<dateTime>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "merchants",
+                                ":merchantId",
+                                "customers"
+                              ],
+                              "query": [
+                                {
+                                  "description": "offset",
+                                  "key": "offset",
+                                  "value": "0"
+                                },
+                                {
+                                  "description": "limit",
+                                  "key": "limit",
+                                  "value": "100"
+                                },
+                                {
+                                  "description": "modifiedSince. Format: yyyy-MM-dd HH:mm:ss",
+                                  "key": "modifiedSince",
+                                  "value": "<dateTime>"
+                                },
+                                {
+                                  "description": "modifiedUntil. Format: yyyy-MM-dd HH:mm:ss",
+                                  "key": "modifiedUntil",
+                                  "value": "<dateTime>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "merchantId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"errorType\": \"PHONE_NUMBER_MISSING\",\n  \"errorMessage\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T02:42:31.000Z",
+                          "updatedAt": "2026-07-28T02:42:31.000Z",
+                          "uid": "35240-6a883c8c-73fe-42c9-80e9-41580ae31eef"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T02:42:31.000Z",
+                      "updatedAt": "2026-07-28T02:42:31.000Z",
+                      "uid": "35240-f1e74a16-1d98-4d79-95a5-ea7a3fc7f6a0"
+                    }
+                  ],
+                  "id": "22779600-f0a8-4adf-a86d-63a872c5f80e",
+                  "createdAt": "2026-07-28T02:42:31.000Z",
+                  "updatedAt": "2026-07-28T02:42:31.000Z",
+                  "uid": "35240-22779600-f0a8-4adf-a86d-63a872c5f80e"
+                }
+              ],
+              "id": "faa12929-8169-4221-922c-846e95799367",
+              "createdAt": "2026-07-28T02:42:31.000Z",
+              "updatedAt": "2026-07-28T02:42:31.000Z",
+              "uid": "35240-faa12929-8169-4221-922c-846e95799367"
+            }
+          ],
+          "id": "36aba333-ae5f-49f4-b39b-1ee5d525b3d5",
+          "createdAt": "2026-07-28T02:42:31.000Z",
+          "updatedAt": "2026-07-28T02:42:31.000Z",
+          "uid": "35240-36aba333-ae5f-49f4-b39b-1ee5d525b3d5"
+        }
+      ],
+      "id": "598d4669-be69-4ad9-8a71-026dde0eddaa",
+      "createdAt": "2026-07-28T02:42:31.000Z",
+      "updatedAt": "2026-07-28T02:42:31.000Z",
+      "uid": "35240-598d4669-be69-4ad9-8a71-026dde0eddaa"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Quandoo-AuthToken",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://public-api.prod.quandoo.com"
+    }
+  ]
+}

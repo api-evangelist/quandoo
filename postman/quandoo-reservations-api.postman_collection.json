@@ -1,0 +1,1051 @@
+{
+  "info": {
+    "_postman_id": "f3c9176f-15df-4a64-af52-3aff686558da",
+    "name": "Quandoo Public Partner Availabilities Reservations API",
+    "description": "The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo restaurant reservations platform. It lets partners check merchant availability, search merchants, read merchant reservation and enquiry settings, create and manage reservations and reservation enquiries, manage customers and reviews, handle preorders and reservation tags, and validate phone numbers. Reservation and enquiry creation is idempotent via an agent-specific unique identifier. Derived from the official Quandoo Swagger specification at https://api.quandoo.com/swagger.json.\n\nContact Support:\n Name: Quandoo Developers\n Email: developers@quandoo.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:42:40.000Z",
+    "updatedAt": "2026-07-28T02:42:40.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-f3c9176f-15df-4a64-af52-3aff686558da"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "reservations",
+          "item": [
+            {
+              "name": "{reservationId}",
+              "item": [
+                {
+                  "name": "Quandoo Get Reservation by Id",
+                  "id": "281a152a-49d3-4516-ad95-4529fabecfb7",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reservations/:reservationId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reservations",
+                        ":reservationId"
+                      ],
+                      "variable": [
+                        {
+                          "id": "41fd3f4a-2eac-4d97-83be-bcdd3746fe36",
+                          "key": "reservationId",
+                          "value": "<string>",
+                          "description": "(Required) Id of the reservation"
+                        }
+                      ]
+                    },
+                    "description": "This endpoint allows an agent or a user to get a reservation by id. The id is either agent-specific or a public id. The agent/user needs to be authenticated.\n\nThe endpoint will return `HTTP 404 - Not Found` if the reservation with the specified id could not be found.\n\nIt will return `HTTP 403 - Forbidden` if the agent/user is not authenticated, if the agent/user doesn't have permissions, if the reservation doesn't belong to the authenticated agent or if the user doesn't have permissions to see objects from the merchant owner of the reservation\n\n####Request:\n* **reservationId**: Agent-specific or public ID of the requested reservation\n\n####Response:\n* **id**: Agent-specific or public ID of the requested reservation\n* **number**: Quandoo internal identifier of the reservation\n* **quandooId**: The public id of this reservation on quandoo system.\n* **status**: The status of the reservation eg. CREATED, CONFIRMED, CUSTOMER CANCELED etc.\n* **startTime**: The start time of the reservation. Format: `yyyy-MM-ddTHH:mm:ssZ`\n* **endTime**: The end time of the reservation. Format: `yyyy-MM-ddTHH:mm:ssZ`\n* **capacity**: The capacity (people count) of the reservation\n* **merchantId**: The ID of the merchant at which this reservation was made.\n* **customerId**: The public ID of the customer to which this reservation belongs\n* **promoCode**: The promotion code associated with this reservation. Optional.\n* **extraInfo**: extra information that the customer provided for the reservation. Optional.\n* **links**: Related links that can be followed based on this response.\n* **reservationTags**: A list of reservation tag IDs.\n* **createdAt**: The date the reservation was created. Format: `yyyy-MM-ddTHH:mm:ssZ`\n* **updatedAt**: The date the reservation was last updated. Format: `yyyy-MM-ddTHH:mm:ssZ`\n\nExample curl:\n```\ncurl https://{host}/v{X}/reservations/07f53b36-3f48-11e5-a151-feff819cdc9f\n```\n\nExample response:\n```\n{\n  \"id\": \"07f53b36-3f48-11e5-a151-feff819cdc9f\",\n  \"number\": 1092454812,\n  \"quandooId\": \"07f53b36-3f48-11e5-a151-feff819cdc9f\",\n  \"status\": \"CREATED\",\n  \"startTime\": \"2015-06-22T12:00:00+00:00\",\n  \"endTime\": \"2015-06-22T13:00:00+00:00\",\n  \"capacity\": 4,\n  \"merchantId\": 1384,\n  \"customerId\": \"35fff464-142c-48ac-a0c6-ed72a1615664\",\n  \"promocode\": \"SOME_CAMPAIGN_CODE\",\n  \"extraInfo\": \"request for baby chair\",\n  \"links\": [\n    {\n      \"href\": \"https://{host}/v{X}/reservations/07f53b36-3f48-11e5-a151-feff819cdc9f\",\n      \"method\": \"PATCH\",\n      \"rel\": \"update\"\n    }\n  ],\n  \"createdAt\": \"2015-06-01T15:21:54Z\",\n  \"updatedAt\": \"2015-06-01T18:45:30Z\"\n}\n```"
+                  },
+                  "response": [
+                    {
+                      "id": "0bcd55ab-f64c-47ed-8937-477e1af7af21",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/reservations/:reservationId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "reservations",
+                            ":reservationId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reservationId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"capacity\": \"<integer>\",\n  \"customerId\": \"<string>\",\n  \"id\": \"<string>\",\n  \"links\": [\n    {\n      \"href\": \"<string>\",\n      \"method\": \"<string>\",\n      \"rel\": \"GET_MERCHANT\"\n    },\n    {\n      \"href\": \"<string>\",\n      \"method\": \"<string>\",\n      \"rel\": \"SETTINGS\"\n    }\n  ],\n  \"merchantId\": \"<integer>\",\n  \"quandooId\": \"<uuid>\",\n  \"status\": \"<string>\",\n  \"number\": \"<integer>\",\n  \"reservationNumber\": \"<string>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"promocode\": \"<string>\",\n  \"extraInfo\": \"<string>\",\n  \"reservationTags\": [\n    \"<integer>\",\n    \"<integer>\"\n  ]\n}",
+                      "createdAt": "2026-07-28T02:42:40.000Z",
+                      "updatedAt": "2026-07-28T02:42:40.000Z",
+                      "uid": "35240-0bcd55ab-f64c-47ed-8937-477e1af7af21"
+                    },
+                    {
+                      "id": "c5c6e3c5-e2e1-42bc-ba5f-d86102f9b921",
+                      "name": "Bad request",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/reservations/:reservationId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "reservations",
+                            ":reservationId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reservationId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errorType\": \"UNSUPPORTED_MEDIA_TYPE_ERROR\",\n  \"errorMessage\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:42:40.000Z",
+                      "updatedAt": "2026-07-28T02:42:40.000Z",
+                      "uid": "35240-c5c6e3c5-e2e1-42bc-ba5f-d86102f9b921"
+                    },
+                    {
+                      "id": "8623a867-f736-43a6-9d1d-4f767c96d716",
+                      "name": "Access denied",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/reservations/:reservationId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "reservations",
+                            ":reservationId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reservationId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errorType\": \"UNSUPPORTED_MEDIA_TYPE_ERROR\",\n  \"errorMessage\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:42:40.000Z",
+                      "updatedAt": "2026-07-28T02:42:40.000Z",
+                      "uid": "35240-8623a867-f736-43a6-9d1d-4f767c96d716"
+                    },
+                    {
+                      "id": "70547510-452d-4d4d-b14b-07fadae41642",
+                      "name": "Reservation not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/reservations/:reservationId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "reservations",
+                            ":reservationId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reservationId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errorType\": \"UNSUPPORTED_MEDIA_TYPE_ERROR\",\n  \"errorMessage\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:42:40.000Z",
+                      "updatedAt": "2026-07-28T02:42:40.000Z",
+                      "uid": "35240-70547510-452d-4d4d-b14b-07fadae41642"
+                    },
+                    {
+                      "id": "b1588abf-e0a3-44f1-b963-472c3ba8b4c8",
+                      "name": "Internal server error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/reservations/:reservationId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "reservations",
+                            ":reservationId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reservationId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errorType\": \"UNSUPPORTED_MEDIA_TYPE_ERROR\",\n  \"errorMessage\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:42:40.000Z",
+                      "updatedAt": "2026-07-28T02:42:40.000Z",
+                      "uid": "35240-b1588abf-e0a3-44f1-b963-472c3ba8b4c8"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T02:42:40.000Z",
+                  "updatedAt": "2026-07-28T02:42:40.000Z",
+                  "uid": "35240-281a152a-49d3-4516-ad95-4529fabecfb7"
+                },
+                {
+                  "name": "Quandoo Update Reservation by Id",
+                  "id": "168531ef-bae0-4b8b-af2e-e3d8c917e814",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"reservation\": {\n    \"capacity\": \"<integer>\",\n    \"status\": \"<string>\",\n    \"areaId\": \"<integer>\",\n    \"dateTime\": \"<dateTime>\",\n    \"reservationTags\": [\n      \"<integer>\",\n      \"<integer>\"\n    ],\n    \"extraInfo\": \"<string>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reservations/:reservationId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reservations",
+                        ":reservationId"
+                      ],
+                      "variable": [
+                        {
+                          "id": "af1b224e-1497-4bf9-8fa5-e49184e6d2f0",
+                          "key": "reservationId",
+                          "value": "<string>",
+                          "description": "(Required) Id of the reservation"
+                        }
+                      ]
+                    },
+                    "description": "This endpoint allows an agent to update a reservation by id. The id is agent-specific. The agent needs to be authenticated.\n####Request:\n* **reservationId**: Agent-specific ID of the requested reservation. Taken as a path parameter.\n* **reservation.status**: New status for the reservation. When is present then all parameters below should be omitted!\n* **reservation.capacity**: The capacity (people count) of the reservation.\n* **reservation.areaId**: The ID of the area this reservation should be in.\n* **reservation.dateTime**: The date and time when the reservation will take place. Format: yyyy-MM-ddTHH:mm:ssZ.\n* **reservation.reservationTags** list of reservation tag IDs. Null value is treated as no value.\n* **reservation.extraInfo** additional text information about the reservation.\n\n  The next JSON will be treated as follows:\n  - { } - **extraInfo** will not be updated\n  - { \u201cextraInfo\u201d:null } - **extraInfo** will not be updated\n  - { \u201cextraInfo\u201d:\u201csome text\u201d} - **extraInfo** will be updated with provided text\n  - { \u201cextraInfo\u201d:\u201c\u201d} - **extraInfo** will be assigned an empty string\n\nFor updating status request body should contain  only reservation.status.\nValid status values depend on the current status of reservation and can be `CUSTOMER_CANCELED` or `RECONFIRMED`.\n* `CUSTOMER_CANCELED` is valid if current status is one of the below:\n    * CREATED\n    * CONFIRMED\n    * AUTOMATIC_CONFIRMED\n    * NOTIFICATION_REQUESTED\n    * NOTIFIED\n    * RECONFIRMED\n* `MERCHANT_CANCELED` is valid if current status is one of the below:\n    * CONFIRMED\n    * AUTOMATIC_CONFIRMED\n    * NOTIFICATION_REQUESTED\n    * NOTIFIED\n    * RECONFIRMED\n* `RECONFIRMED` is valid if current status is one of the below:\n    * CONFIRMED\n    * AUTOMATIC_CONFIRMED\n    * NOTIFICATION_REQUESTED\n    * NOTIFIED\n\nIf reservation.status field is not present then reservation data will be updated and reservation's status will be reset.\nDepending on `Automatic confirmation for online reservations` setting, reservation's status will be set to CREATED or AUTOMATIC_CONFIRMED.\n\n####Response:\nThe endpoint will return `HTTP 200 - OK` if update was successful.\nIt will return `HTTP 404 - Not Found` error if the reservation with the specified id could not be found.\nIt will return `HTTP 403 - Forbidden` error if the agent is not authenticated, if the agent doesn't have permissions or the reservation doesn't belong to the \nauthenticated agent.\nIt will return `HTTP 409 - Conflict` error if reservation has menu, made by IOVOX, has conflict in status, time or other conflicts.\n\nExample curl:\n```\ncurl -H \"Content-Type: application/json\" -X PATCH -d '\n{\n  \"reservation\": {\n    \"status\": \"CUSTOMER_CANCELED\"\n  }\n}\n' https://{host}/v{X}/reservations/07f53b36-3f48-11e5-a151-feff819cdc9f\n```\n"
+                  },
+                  "response": [
+                    {
+                      "id": "41c3f83d-aca6-4d84-83ba-c097beff50fa",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"reservation\": {\n    \"capacity\": \"<integer>\",\n    \"status\": \"<string>\",\n    \"areaId\": \"<integer>\",\n    \"dateTime\": \"<dateTime>\",\n    \"reservationTags\": [\n      \"<integer>\",\n      \"<integer>\"\n    ],\n    \"extraInfo\": \"<string>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/reservations/:reservationId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "reservations",
+                            ":reservationId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reservationId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T02:42:40.000Z",
+                      "updatedAt": "2026-07-28T02:42:40.000Z",
+                      "uid": "35240-41c3f83d-aca6-4d84-83ba-c097beff50fa"
+                    },
+                    {
+                      "id": "aa413840-01f8-4c07-bb3d-9c2c1e33c1bd",
+                      "name": "Bad request",
+                      "originalRequest": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"reservation\": {\n    \"capacity\": \"<integer>\",\n    \"status\": \"<string>\",\n    \"areaId\": \"<integer>\",\n    \"dateTime\": \"<dateTime>\",\n    \"reservationTags\": [\n      \"<integer>\",\n      \"<integer>\"\n    ],\n    \"extraInfo\": \"<string>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/reservations/:reservationId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "reservations",
+                            ":reservationId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reservationId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errorType\": \"UNSUPPORTED_MEDIA_TYPE_ERROR\",\n  \"errorMessage\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:42:40.000Z",
+                      "updatedAt": "2026-07-28T02:42:40.000Z",
+                      "uid": "35240-aa413840-01f8-4c07-bb3d-9c2c1e33c1bd"
+                    },
+                    {
+                      "id": "482e74b2-f994-4ef8-8a4d-2974ca02fe1b",
+                      "name": "Access denied",
+                      "originalRequest": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"reservation\": {\n    \"capacity\": \"<integer>\",\n    \"status\": \"<string>\",\n    \"areaId\": \"<integer>\",\n    \"dateTime\": \"<dateTime>\",\n    \"reservationTags\": [\n      \"<integer>\",\n      \"<integer>\"\n    ],\n    \"extraInfo\": \"<string>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/reservations/:reservationId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "reservations",
+                            ":reservationId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reservationId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errorType\": \"UNSUPPORTED_MEDIA_TYPE_ERROR\",\n  \"errorMessage\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:42:40.000Z",
+                      "updatedAt": "2026-07-28T02:42:40.000Z",
+                      "uid": "35240-482e74b2-f994-4ef8-8a4d-2974ca02fe1b"
+                    },
+                    {
+                      "id": "b9f0d305-2de2-430b-9b38-91b4f36c44d5",
+                      "name": "Reservation not found",
+                      "originalRequest": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"reservation\": {\n    \"capacity\": \"<integer>\",\n    \"status\": \"<string>\",\n    \"areaId\": \"<integer>\",\n    \"dateTime\": \"<dateTime>\",\n    \"reservationTags\": [\n      \"<integer>\",\n      \"<integer>\"\n    ],\n    \"extraInfo\": \"<string>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/reservations/:reservationId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "reservations",
+                            ":reservationId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reservationId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errorType\": \"UNSUPPORTED_MEDIA_TYPE_ERROR\",\n  \"errorMessage\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:42:40.000Z",
+                      "updatedAt": "2026-07-28T02:42:40.000Z",
+                      "uid": "35240-b9f0d305-2de2-430b-9b38-91b4f36c44d5"
+                    },
+                    {
+                      "id": "ff4e5c8e-4117-467e-aca6-cfabfda2271c",
+                      "name": "No matching table(s) found",
+                      "originalRequest": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"reservation\": {\n    \"capacity\": \"<integer>\",\n    \"status\": \"<string>\",\n    \"areaId\": \"<integer>\",\n    \"dateTime\": \"<dateTime>\",\n    \"reservationTags\": [\n      \"<integer>\",\n      \"<integer>\"\n    ],\n    \"extraInfo\": \"<string>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/reservations/:reservationId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "reservations",
+                            ":reservationId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reservationId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Conflict",
+                      "code": 409,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errorType\": \"UNSUPPORTED_MEDIA_TYPE_ERROR\",\n  \"errorMessage\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:42:40.000Z",
+                      "updatedAt": "2026-07-28T02:42:40.000Z",
+                      "uid": "35240-ff4e5c8e-4117-467e-aca6-cfabfda2271c"
+                    },
+                    {
+                      "id": "a19565b0-9eb8-417e-8c57-1d20548ace6e",
+                      "name": "Internal server error",
+                      "originalRequest": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-Quandoo-AuthToken",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"reservation\": {\n    \"capacity\": \"<integer>\",\n    \"status\": \"<string>\",\n    \"areaId\": \"<integer>\",\n    \"dateTime\": \"<dateTime>\",\n    \"reservationTags\": [\n      \"<integer>\",\n      \"<integer>\"\n    ],\n    \"extraInfo\": \"<string>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/reservations/:reservationId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "reservations",
+                            ":reservationId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "reservationId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"errorType\": \"UNSUPPORTED_MEDIA_TYPE_ERROR\",\n  \"errorMessage\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T02:42:40.000Z",
+                      "updatedAt": "2026-07-28T02:42:40.000Z",
+                      "uid": "35240-a19565b0-9eb8-417e-8c57-1d20548ace6e"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T02:42:40.000Z",
+                  "updatedAt": "2026-07-28T02:42:40.000Z",
+                  "uid": "35240-168531ef-bae0-4b8b-af2e-e3d8c917e814"
+                }
+              ],
+              "id": "3f409a93-5406-4e36-9e32-cc856ba1abec",
+              "createdAt": "2026-07-28T02:42:40.000Z",
+              "updatedAt": "2026-07-28T02:42:40.000Z",
+              "uid": "35240-3f409a93-5406-4e36-9e32-cc856ba1abec"
+            },
+            {
+              "name": "Quandoo Create Reservations",
+              "id": "cb762f12-90d7-4536-b830-16e9496015dd",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customer\": {\n    \"country\": \"<string>\",\n    \"locale\": \"<string>\",\n    \"phoneNumber\": \"<string>\",\n    \"id\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"emailAddress\": \"<string>\",\n    \"subscriptions\": [\n      {\n        \"id\": \"MERCHANT\"\n      },\n      {\n        \"id\": \"QUANDOO\"\n      }\n    ]\n  },\n  \"reservation\": {\n    \"capacity\": \"<integer>\",\n    \"merchantId\": \"<integer>\",\n    \"id\": \"<string>\",\n    \"areaId\": \"<integer>\",\n    \"dateTime\": \"<dateTime>\",\n    \"extraInfo\": \"<string>\",\n    \"promoCode\": \"<string>\",\n    \"creditCardVaultSettingsId\": \"<uuid>\",\n    \"recurringCardDetailId\": \"<uuid>\",\n    \"reservationTags\": [\n      \"<integer>\",\n      \"<integer>\"\n    ]\n  },\n  \"tracking\": {\n    \"agent\": {\n      \"id\": \"<integer>\"\n    },\n    \"cookie\": {\n      \"tracking\": \"<string>\",\n      \"referenceId\": \"<string>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/v1/reservations",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "reservations"
+                  ]
+                },
+                "description": "This endpoint allows to create a reservation for a certain capacity, date and time. It also requires certain customer information. All optional fields can be either omitted or set to null. The endpoint is idempotent, which means sending the same request twice will not create another reservation. For that purpose the client is required to generate an agent-specific unique ID for the reservation.\n\nThe endpoint will return status `HTTP 409` should the reservation option specified by the given parameters not be bookable anymore.\nThe endpoint will return status `HTTP 400` should any of the required parameters be missing or formatted incorrectly. See schema for details. \n\n####Request:\nThe request needs to have 3 objects for reservation, customer and tracking information.\n\n* **reservation**: Information about the reservation.\n  * **id**: The identifier of the reservation for the calling agent (Agent-dependent field). Optional.\n  * **merchantId**: The ID of the merchant at which this reservation will be made. **Required**.\n  * **capacity**: The capacity (people count) of the reservation. **Required**.\n  * **areaId**: The ID of the area this reservation should be in. Optional.\n  * **dateTime**: The date and time when the reservation will take place (local time). Format: yyyy-MM-ddTHH:mm:ss. **Required**\n  * **extraInfo**: Any extra information that the customer likes to provide. Optional.\n  * **promoCode**: A promotion code which should be used with this reservation. Optional.\n  * **creditCardVaultSettingsId**: A credit card vault settings to be used by this reservation. Optional.\n  * **recurringCardDetailId**:A customer credit card reference to be used if credit card vault should be applied. Optional.\n  * **reservationTags**: A list of reservation tag IDs. Optional.\n\n* **customer**: Information on the customer making the reservation.\n  * **id**: Identifier of the customer for the calling agent. Agent dependent field. Optional.\n  * **firstName**: The first name of the customer. Optional.\n  * **lastName**: The last name of the customer. **Required**\n  * **emailAddress**: The email address of the customer. **Required**.\n  * **phoneNumber**: The phone number of the customer. Without country code, since it will be assumed from the country field. Example: 030120765890. **Required**.\n  * **locale**: The locale of the customer. E.g. de_DE. **Required**.\n  * **country**: The 2 letter ISO country of the customer. E.g DE. **Required**\n  * **subscriptions**: List of requested subscriptions e.g. QUANDOO, MERCHANT. Optional.\n\n* **tracking**: Third party information used to track customer and reservations.\n  * **agent**: The id of the agent creating this request and partner references if any. **Required**.\n  * **cookie**: Cookie information to be stored with this reservation. Optional.\n\n####Response:\nThe response returns information on the created reservation and the customer along with relevant links to follow.\n\n* **reservation**: Information on the created reservation.\n  * **id**: Agent-specific id set for the reservation.\n  * **number**: Quandoo internal identifier of the reservation.\n  * **reservationNumber**: Quandoo long internal identifier of the reservation. Provided when **number** is not provided. \n  * **status**: Status for the created reservation. eg. \"CREATED\"\n  * **quandooId**: Quandoo public identifier for the reservation.  \n\n* **customer**: Information on the customer making the reservation.\n  * **id**: Agent-specific id set for the customer.\n\n* **links**: Related links that can be followed based on this response.\n\nExample curl:\n```\ncurl -H \"Content-Type: application/json\" -X POST -d '\n{\n    \"reservation\": {\n        \"id\": \"07f53b36-3f48-11e5-a151-feff819cdc9f\",\n        \"merchantId\": 15,\n        \"capacity\": 2,\n        \"areaId\": 1,\n        \"dateTime\": \"2015-06-22T12:00:00+00:00\",\n        \"extraInfo\": \"Some text\",\n        \"promoCode\": \"PROMO123\",\n    },\n    \"customer\": {\n        \"id\": \"659b9f4b-cd1a-4dc9-a5c3-8ef6bacbade5\",\n        \"firstName\": \"Hans\",\n        \"lastName\": \"Wurst\",\n        \"emailAddress\": \"hans.wurst@foo.bar\",\n        \"phoneNumber\": \"017312345678\",\n        \"locale\": \"de_DE\",\n        \"country\": \"DE\",\n        \"subscriptions\": [\n          {\n              \"id\": \"QUANDOO\"\n          },\n          {\n              \"id\": \"MERCHANT\"\n          }\n      ]\n    },\n    \"tracking\": {\n        \"agent\": {\n          \"id\": 3\n        },\n        \"cookie\": {\n            \"tracking\": \"ff819cdc9\",\n            \"referenceId\": \"07f53b36\"\n        }\n    }\n}' https://{host}/v{X}/reservations\n```\n\nExample response:\n```\n{\n    \"reservation\": {\n        \"id\": \"07f53b36-3f48-11e5-a151-feff819cdc9f\",\n        \"number\": 708457891,\n        \"status\": \"CREATED\",\n        \"quandooId\": \"07f53b36-3f48-11e5-a151-feff819cdc9f\"\n    },\n    \"customer\": {\n        \"id\": \"01a53b36-3f48-11e5-a151-feff819cdc9f\"\n    },\n    \"links\": [\n        {\n           \"href\": \"https://{host}/v{X}/merchants/15/reservation-settings\",\n           \"method\": \"GET\",\n           \"rel\": \"parent\"\n        },\n        {\n           \"href\": \"https://{portal}/edit-reservation/overview/b8d3213a-307b-4fa9-86f7-0202ea3311aa\",\n           \"method\": \"GET\",\n           \"rel\": \"customer-edit-reservation\"\n        },\n        {\n           \"href\": \"https://{portal}/de/checkout/offline-reservation?reservationId=9e1b295b-554e-4c35-bf84-e529fa971919&merchantId=test-merchant-33719&cardId=889c0613-3b42-4fc5-a1cf-bd24c1d26908\",\n           \"method\": \"GET\",\n           \"rel\": \"credit-card-details-page\"\n        }\n    ]\n}\n```"
+              },
+              "response": [
+                {
+                  "id": "0526889c-7bb8-4401-8129-9c6a191f5117",
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"customer\": {\n    \"country\": \"<string>\",\n    \"locale\": \"<string>\",\n    \"phoneNumber\": \"<string>\",\n    \"id\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"emailAddress\": \"<string>\",\n    \"subscriptions\": [\n      {\n        \"id\": \"MERCHANT\"\n      },\n      {\n        \"id\": \"QUANDOO\"\n      }\n    ]\n  },\n  \"reservation\": {\n    \"capacity\": \"<integer>\",\n    \"merchantId\": \"<integer>\",\n    \"id\": \"<string>\",\n    \"areaId\": \"<integer>\",\n    \"dateTime\": \"<dateTime>\",\n    \"extraInfo\": \"<string>\",\n    \"promoCode\": \"<string>\",\n    \"creditCardVaultSettingsId\": \"<uuid>\",\n    \"recurringCardDetailId\": \"<uuid>\",\n    \"reservationTags\": [\n      \"<integer>\",\n      \"<integer>\"\n    ]\n  },\n  \"tracking\": {\n    \"agent\": {\n      \"id\": \"<integer>\"\n    },\n    \"cookie\": {\n      \"tracking\": \"<string>\",\n      \"referenceId\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reservations",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reservations"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"customer\": {\n    \"id\": \"<string>\"\n  },\n  \"links\": [\n    {\n      \"href\": \"<string>\",\n      \"method\": \"<string>\",\n      \"rel\": \"CREATE_RESERVATION\"\n    },\n    {\n      \"href\": \"<string>\",\n      \"method\": \"<string>\",\n      \"rel\": \"PORTAL_PREORDER_FORM\"\n    }\n  ],\n  \"reservation\": {\n    \"id\": \"<string>\",\n    \"quandooId\": \"<uuid>\",\n    \"number\": \"<integer>\",\n    \"reservationNumber\": \"<string>\",\n    \"status\": \"<string>\"\n  }\n}",
+                  "createdAt": "2026-07-28T02:42:40.000Z",
+                  "updatedAt": "2026-07-28T02:42:40.000Z",
+                  "uid": "35240-0526889c-7bb8-4401-8129-9c6a191f5117"
+                },
+                {
+                  "id": "48b980a5-62c7-457c-8dc3-26afeca3cad2",
+                  "name": "Bad request",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"customer\": {\n    \"country\": \"<string>\",\n    \"locale\": \"<string>\",\n    \"phoneNumber\": \"<string>\",\n    \"id\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"emailAddress\": \"<string>\",\n    \"subscriptions\": [\n      {\n        \"id\": \"MERCHANT\"\n      },\n      {\n        \"id\": \"QUANDOO\"\n      }\n    ]\n  },\n  \"reservation\": {\n    \"capacity\": \"<integer>\",\n    \"merchantId\": \"<integer>\",\n    \"id\": \"<string>\",\n    \"areaId\": \"<integer>\",\n    \"dateTime\": \"<dateTime>\",\n    \"extraInfo\": \"<string>\",\n    \"promoCode\": \"<string>\",\n    \"creditCardVaultSettingsId\": \"<uuid>\",\n    \"recurringCardDetailId\": \"<uuid>\",\n    \"reservationTags\": [\n      \"<integer>\",\n      \"<integer>\"\n    ]\n  },\n  \"tracking\": {\n    \"agent\": {\n      \"id\": \"<integer>\"\n    },\n    \"cookie\": {\n      \"tracking\": \"<string>\",\n      \"referenceId\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reservations",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reservations"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorType\": \"UNSUPPORTED_MEDIA_TYPE_ERROR\",\n  \"errorMessage\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T02:42:40.000Z",
+                  "updatedAt": "2026-07-28T02:42:40.000Z",
+                  "uid": "35240-48b980a5-62c7-457c-8dc3-26afeca3cad2"
+                },
+                {
+                  "id": "c499676a-7dc3-43df-a5a1-3f29032d9918",
+                  "name": "No matching table(s) found",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"customer\": {\n    \"country\": \"<string>\",\n    \"locale\": \"<string>\",\n    \"phoneNumber\": \"<string>\",\n    \"id\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"emailAddress\": \"<string>\",\n    \"subscriptions\": [\n      {\n        \"id\": \"MERCHANT\"\n      },\n      {\n        \"id\": \"QUANDOO\"\n      }\n    ]\n  },\n  \"reservation\": {\n    \"capacity\": \"<integer>\",\n    \"merchantId\": \"<integer>\",\n    \"id\": \"<string>\",\n    \"areaId\": \"<integer>\",\n    \"dateTime\": \"<dateTime>\",\n    \"extraInfo\": \"<string>\",\n    \"promoCode\": \"<string>\",\n    \"creditCardVaultSettingsId\": \"<uuid>\",\n    \"recurringCardDetailId\": \"<uuid>\",\n    \"reservationTags\": [\n      \"<integer>\",\n      \"<integer>\"\n    ]\n  },\n  \"tracking\": {\n    \"agent\": {\n      \"id\": \"<integer>\"\n    },\n    \"cookie\": {\n      \"tracking\": \"<string>\",\n      \"referenceId\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reservations",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reservations"
+                      ]
+                    }
+                  },
+                  "status": "Conflict",
+                  "code": 409,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorType\": \"UNSUPPORTED_MEDIA_TYPE_ERROR\",\n  \"errorMessage\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T02:42:40.000Z",
+                  "updatedAt": "2026-07-28T02:42:40.000Z",
+                  "uid": "35240-c499676a-7dc3-43df-a5a1-3f29032d9918"
+                },
+                {
+                  "id": "9debaf2e-a88c-4283-9e69-95b6ad3975c1",
+                  "name": "Internal server error",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"customer\": {\n    \"country\": \"<string>\",\n    \"locale\": \"<string>\",\n    \"phoneNumber\": \"<string>\",\n    \"id\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"emailAddress\": \"<string>\",\n    \"subscriptions\": [\n      {\n        \"id\": \"MERCHANT\"\n      },\n      {\n        \"id\": \"QUANDOO\"\n      }\n    ]\n  },\n  \"reservation\": {\n    \"capacity\": \"<integer>\",\n    \"merchantId\": \"<integer>\",\n    \"id\": \"<string>\",\n    \"areaId\": \"<integer>\",\n    \"dateTime\": \"<dateTime>\",\n    \"extraInfo\": \"<string>\",\n    \"promoCode\": \"<string>\",\n    \"creditCardVaultSettingsId\": \"<uuid>\",\n    \"recurringCardDetailId\": \"<uuid>\",\n    \"reservationTags\": [\n      \"<integer>\",\n      \"<integer>\"\n    ]\n  },\n  \"tracking\": {\n    \"agent\": {\n      \"id\": \"<integer>\"\n    },\n    \"cookie\": {\n      \"tracking\": \"<string>\",\n      \"referenceId\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reservations",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reservations"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorType\": \"UNSUPPORTED_MEDIA_TYPE_ERROR\",\n  \"errorMessage\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T02:42:40.000Z",
+                  "updatedAt": "2026-07-28T02:42:40.000Z",
+                  "uid": "35240-9debaf2e-a88c-4283-9e69-95b6ad3975c1"
+                }
+              ],
+              "createdAt": "2026-07-28T02:42:40.000Z",
+              "updatedAt": "2026-07-28T02:42:40.000Z",
+              "uid": "35240-cb762f12-90d7-4536-b830-16e9496015dd"
+            }
+          ],
+          "id": "b996cf4f-d27d-4731-802d-3da10dab61bf",
+          "createdAt": "2026-07-28T02:42:40.000Z",
+          "updatedAt": "2026-07-28T02:42:40.000Z",
+          "uid": "35240-b996cf4f-d27d-4731-802d-3da10dab61bf"
+        }
+      ],
+      "id": "fdd7fd25-f50a-4ffd-b318-7c1de0c84499",
+      "createdAt": "2026-07-28T02:42:40.000Z",
+      "updatedAt": "2026-07-28T02:42:40.000Z",
+      "uid": "35240-fdd7fd25-f50a-4ffd-b318-7c1de0c84499"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Quandoo-AuthToken",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://public-api.prod.quandoo.com"
+    }
+  ]
+}

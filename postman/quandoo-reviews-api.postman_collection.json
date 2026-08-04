@@ -1,0 +1,1099 @@
+{
+  "info": {
+    "_postman_id": "20cdb30d-e941-48a2-bf15-20af17370261",
+    "name": "Quandoo Public Partner Availabilities Reviews API",
+    "description": "The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo restaurant reservations platform. It lets partners check merchant availability, search merchants, read merchant reservation and enquiry settings, create and manage reservations and reservation enquiries, manage customers and reviews, handle preorders and reservation tags, and validate phone numbers. Reservation and enquiry creation is idempotent via an agent-specific unique identifier. Derived from the official Quandoo Swagger specification at https://api.quandoo.com/swagger.json.\n\nContact Support:\n Name: Quandoo Developers\n Email: developers@quandoo.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:42:42.000Z",
+    "updatedAt": "2026-07-28T02:42:42.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-20cdb30d-e941-48a2-bf15-20af17370261"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "reviews",
+          "item": [
+            {
+              "name": "Quandoo Get Information from Reviews in a List",
+              "id": "3264f119-0ca1-46b0-a482-4e0991dfcfa2",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/reviews?merchantId=<integer>&reservationId=<string>&offset=0&limit=10",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "reviews"
+                  ],
+                  "query": [
+                    {
+                      "description": "MerchantId to get the reviews from. Cannot be used in combination with 'reservationId'",
+                      "key": "merchantId",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "Reservation id to get the reviews from. Either public id or agent reference id. Cannot be used in combination with 'merchantId'. When set, 'offset' and 'limit' are ignored. All reviews for a reservation are returned.",
+                      "key": "reservationId",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Skip first n reviews",
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "description": "Max number to retrieve",
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ]
+                },
+                "description": "This resource return a list of reviews. The result obtained depends on the different query parameters provided. It is able to return three different results:\n* **Reviews associated to an agent:** if neither 'merchantId' nor 'reservationId' query parameters are provided, then the available reviews for the current agent are returned.\n* **Reviews associated to a merchant:** if the parameter 'merchantId' is provided, all the reviews for the given merchant and agent are provided. The agent is the one associated with the reservations.\n* **Reviews associated to a reservation:** Reservation could be identified in two ways: either by reservation public id or by agent reservation reference id.\n\n**NOTE:** For the second and third cases, the current agent must be the owner of the reservations used to get the reviews. In the specific case of the search by the merchants, the current agent id is the one realated to the reservations associated to the specified merchant's reviews.\n\n####Request:\nThe request needs 4 optional query parameters. Pagination is controlled by the usage of the 'limit' and 'offset' parameters.\n\n* **limit**: maximum number of results to be returned. Value must be between 1 and 10. Defaults to 10 when unset, malformed or outside bounds. Ignored when 'reservationId' is enabled.\n* **offset**: sets the starting element to be returned. Defaults to 0 when unset or malformed. Ignored when 'reservationId' is enabled.\n* **reservationId**: Either public ID of the reservation or agent reservation reference id from which to get the reviews. Cannot be used in combination with 'merchantId'. Can be null. Does not consider 'limit' and/or 'offset'.\n* **merchantId**: ID of the merchant from which to get the reviews. Cannot be used in combination with 'reservationId'. Can be null.\n\n####Response:\nThe response is a user review object containing a list of user reviews.\n\n* **size**: the number of reviews retrieved in this request. Can be any positive value between 0 and 10 (the maximum value for limit);\n* **offset**: echoes the offset value used in the request. Returns 0 in case 'reservationId' is used.\n* **limit**: echoes the limit value used in the request. Returns 0 in case 'reservationId' is used.\n* **reviews**: list of reviews retrieved, each review containing the following properties:\n\n* **reviewId**: review UUID. Same as the one used in the request.\n* **rating**: rating associated to this review.\n* **description**: description of the review.\n* **status**: current review status. Possible values are 'CREATED', 'DENIED', 'PUBLISHED'.\n* **merchantId**: merchant id associated to this review. **Only in the detailed view**.\n* **customerId**: customer id associated to this review. **DEPPRECATED, NOT USED**.\n* **publicCustomerId**: public customer id associated to this review. **Only in the detailed view**.\n* **customerFirstName**: review associated customer first name. **Only in the detailed view**.\n* **customerLastName**: first character of the customer last name. **Only in the detailed view**.\n* **customerProfileImage**: customer profile image URL. **Only in the detailed view**.\n* **locale**: locale associated to the review. **Only in the detailed view**.\n* **reservationId**: the reservation identifier this review is created for. Either reservation public id or agent specific reservation reference id(if set on creation) is used\n* **createdAt**: the date and time the review created at.\n\nExample curl:\n```\ncurl https://{host}/v{X}/reviews?merchantId=5124\n```\n\nExample response:\n```\n{\n\t\"reviews\": [{\n\t\t\t\"reviewId\": \"e94c5f9b-e61f-486a-bfa7-48abb1e42f93\",\n\t\t\t\"merchantId\": 5124,\n\t\t\t\"publicCustomerId\": \"a10fbb9a-df04-407c-9568-2e79bd620b41\",\n\t\t\t\"customerFirstName\": \"Perico\",\n\t\t\t\"customerLastName\": \"d\",\n\t\t\t\"customerProfileImage\": \"http://test.bla\",\n\t\t\t\"rating\": 6,\n\t\t\t\"description\": \"Description 8\",\n\t\t\t\"status\": \"PUBLISHED\",\n\t\t\t\"locale\": \"de_DE\",\n            \"reservationId\":\"1111112\",\n            \"createdAt\":\"2020-07-28T09:45:33Z\"\n\t\t}, {\n\t\t\t\"reviewId\": \"65472403-7968-4ccf-b389-fe7e6e70ee27\",\n\t\t\t\"merchantId\": 5124,\n\t\t\t\"publicCustomerId\": \"a10fbb9a-df04-407c-9568-2e79bd620b41\",\n\t\t\t\"customerFirstName\": \"Perico\",\n\t\t\t\"customerLastName\": \"d\",\n\t\t\t\"customerProfileImage\": \"http://test.bla\",\n\t\t\t\"rating\": 6,\n\t\t\t\"description\": \"Description 9\",\n\t\t\t\"status\": \"PUBLISHED\",\n\t\t\t\"locale\": \"de_DE\",\n            \"reservationId\":\"7dbe05dc-f566-48be-9872-c77b71aff072\",\n            \"createdAt\":\"2020-07-28T09:45:54Z\"\n\t\t}\n\t],\n\t\"size\": 2,\n\t\"offset\": 0,\n\t\"limit\": 10\n}\n```\n"
+              },
+              "response": [
+                {
+                  "id": "0c2fc8ac-fce1-4f9b-83ad-07b2af2f12f5",
+                  "name": "Review response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reviews?merchantId=<integer>&reservationId=<string>&offset=0&limit=10",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reviews"
+                      ],
+                      "query": [
+                        {
+                          "description": "MerchantId to get the reviews from. Cannot be used in combination with 'reservationId'",
+                          "key": "merchantId",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Reservation id to get the reviews from. Either public id or agent reference id. Cannot be used in combination with 'merchantId'. When set, 'offset' and 'limit' are ignored. All reviews for a reservation are returned.",
+                          "key": "reservationId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Skip first n reviews",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Max number to retrieve",
+                          "key": "limit",
+                          "value": "10"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"reviews\": [\n    {\n      \"rating\": \"<integer>\",\n      \"reviewId\": \"<uuid>\",\n      \"merchantId\": \"<integer>\",\n      \"customer\": {\n        \"identifier\": \"<string>\",\n        \"firstName\": \"<string>\",\n        \"lastName\": \"<string>\",\n        \"profileImage\": \"<string>\"\n      },\n      \"status\": \"AVAILABLE_TO_REVIEW\",\n      \"locale\": \"<string>\",\n      \"description\": \"<string>\",\n      \"reservationId\": \"<string>\",\n      \"createdAt\": \"<dateTime>\"\n    },\n    {\n      \"rating\": \"<integer>\",\n      \"reviewId\": \"<uuid>\",\n      \"merchantId\": \"<integer>\",\n      \"customer\": {\n        \"identifier\": \"<string>\",\n        \"firstName\": \"<string>\",\n        \"lastName\": \"<string>\",\n        \"profileImage\": \"<string>\"\n      },\n      \"status\": \"PUBLISHED\",\n      \"locale\": \"<string>\",\n      \"description\": \"<string>\",\n      \"reservationId\": \"<string>\",\n      \"createdAt\": \"<dateTime>\"\n    }\n  ],\n  \"size\": \"<integer>\",\n  \"offset\": \"<integer>\",\n  \"limit\": \"<integer>\"\n}",
+                  "createdAt": "2026-07-28T02:42:43.000Z",
+                  "updatedAt": "2026-07-28T02:42:43.000Z",
+                  "uid": "35240-0c2fc8ac-fce1-4f9b-83ad-07b2af2f12f5"
+                },
+                {
+                  "id": "b69b701e-f3d9-4f96-a852-bb86b5a061cf",
+                  "name": "Bad request",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reviews?merchantId=<integer>&reservationId=<string>&offset=0&limit=10",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reviews"
+                      ],
+                      "query": [
+                        {
+                          "description": "MerchantId to get the reviews from. Cannot be used in combination with 'reservationId'",
+                          "key": "merchantId",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Reservation id to get the reviews from. Either public id or agent reference id. Cannot be used in combination with 'merchantId'. When set, 'offset' and 'limit' are ignored. All reviews for a reservation are returned.",
+                          "key": "reservationId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Skip first n reviews",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Max number to retrieve",
+                          "key": "limit",
+                          "value": "10"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorType\": \"RESERVATION_PROMO_CODE_DATE_TIME_IN_PAST_OR_FUTURE\",\n  \"errorMessage\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T02:42:43.000Z",
+                  "updatedAt": "2026-07-28T02:42:43.000Z",
+                  "uid": "35240-b69b701e-f3d9-4f96-a852-bb86b5a061cf"
+                },
+                {
+                  "id": "160ee0c5-aaea-42e1-83d3-d8535d0a31d3",
+                  "name": "Access denied",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reviews?merchantId=<integer>&reservationId=<string>&offset=0&limit=10",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reviews"
+                      ],
+                      "query": [
+                        {
+                          "description": "MerchantId to get the reviews from. Cannot be used in combination with 'reservationId'",
+                          "key": "merchantId",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Reservation id to get the reviews from. Either public id or agent reference id. Cannot be used in combination with 'merchantId'. When set, 'offset' and 'limit' are ignored. All reviews for a reservation are returned.",
+                          "key": "reservationId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Skip first n reviews",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Max number to retrieve",
+                          "key": "limit",
+                          "value": "10"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorType\": \"RESERVATION_PROMO_CODE_DATE_TIME_IN_PAST_OR_FUTURE\",\n  \"errorMessage\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T02:42:43.000Z",
+                  "updatedAt": "2026-07-28T02:42:43.000Z",
+                  "uid": "35240-160ee0c5-aaea-42e1-83d3-d8535d0a31d3"
+                },
+                {
+                  "id": "d9f2f93d-f2a6-40a5-b5cb-ae39d1a89d26",
+                  "name": "Review not found error",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reviews?merchantId=<integer>&reservationId=<string>&offset=0&limit=10",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reviews"
+                      ],
+                      "query": [
+                        {
+                          "description": "MerchantId to get the reviews from. Cannot be used in combination with 'reservationId'",
+                          "key": "merchantId",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Reservation id to get the reviews from. Either public id or agent reference id. Cannot be used in combination with 'merchantId'. When set, 'offset' and 'limit' are ignored. All reviews for a reservation are returned.",
+                          "key": "reservationId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Skip first n reviews",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Max number to retrieve",
+                          "key": "limit",
+                          "value": "10"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorType\": \"RESERVATION_PROMO_CODE_DATE_TIME_IN_PAST_OR_FUTURE\",\n  \"errorMessage\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T02:42:43.000Z",
+                  "updatedAt": "2026-07-28T02:42:43.000Z",
+                  "uid": "35240-d9f2f93d-f2a6-40a5-b5cb-ae39d1a89d26"
+                },
+                {
+                  "id": "a424a760-d6aa-4557-98a1-973547495759",
+                  "name": "Internal server error",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reviews?merchantId=<integer>&reservationId=<string>&offset=0&limit=10",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reviews"
+                      ],
+                      "query": [
+                        {
+                          "description": "MerchantId to get the reviews from. Cannot be used in combination with 'reservationId'",
+                          "key": "merchantId",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Reservation id to get the reviews from. Either public id or agent reference id. Cannot be used in combination with 'merchantId'. When set, 'offset' and 'limit' are ignored. All reviews for a reservation are returned.",
+                          "key": "reservationId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Skip first n reviews",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Max number to retrieve",
+                          "key": "limit",
+                          "value": "10"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorType\": \"RESERVATION_PROMO_CODE_DATE_TIME_IN_PAST_OR_FUTURE\",\n  \"errorMessage\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T02:42:43.000Z",
+                  "updatedAt": "2026-07-28T02:42:43.000Z",
+                  "uid": "35240-a424a760-d6aa-4557-98a1-973547495759"
+                }
+              ],
+              "createdAt": "2026-07-28T02:42:43.000Z",
+              "updatedAt": "2026-07-28T02:42:43.000Z",
+              "uid": "35240-3264f119-0ca1-46b0-a482-4e0991dfcfa2"
+            },
+            {
+              "name": "Quandoo Create a Review for a Reservation",
+              "id": "dabdccc4-40a4-4571-b095-f69523dd987b",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"rating\": \"<integer>\",\n  \"reservationId\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/v1/reviews",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "reviews"
+                  ]
+                },
+                "description": "This resource manages the creation of reviews for a particular agent and a reservation. Reviews must have a description, rating and a reservation public identifier or agent specific reference identifier with reservation agent identifier. The agent must be the one that created the reservation, otherwise it is forbidden.\n\n####Request:\nThe request needs to have 3 parameters for review reviewId, description and rating.\n\n* **reservationId**: Public ID or agent specific reference id of the reservation where to add a review. **Required**.\n* **description**: Text content of the review to be set. Optional. A review requires a minimum of a rating.\n* **rating**: Integer value from 1 to 6 with the new rating given. **Required**.\n\n\n####Response:\nThe response is a review object containing information about the review.\n\n* **reviewId**: The Id of the created review.\n* **status**: Status of the created review. Can be 'CREATED', 'PUBLISHED' or 'DENIED'. After a successful creation, 'CREATED' is returned.\n* **links**: A series of links where to get details of the created review;\n\nExample curl:\n```\ncurl -H \"Content-Type: application/json\" -X PUT https://{host}/v{X}/reviews/ -d '\n{\n    \"reservationId\": \"07f53b36-3f48-11e5-a151-feff819cdc9f\",\n    \"description\": \"Some description of the review\",\n    \"rating\": 1\n}\n```\n\n```\ncurl -H \"Content-Type: application/json\" -X PUT https://{host}/v{X}/reviews/ -d '\n{\n    \"reservationId\": \"1111112\",\n    \"description\": \"Some description of the review\",\n    \"rating\": 1,\n}\n```\n\nExample response:\n```\n{\n    \"reviewId\": \"01a53b36-3f48-11e5-a151-feff819cdc9f\",\n    \"status\": \"CREATED\",\n    \"links\": [{\n        \"href\": \"http://localhost:39250/v1/reviews/01a53b36-3f48-11e5-a151-feff819cdc9f\",\n        \"method\": \"GET\",\n        \"rel\": \"get-review\"\n    }]\n}\n```"
+              },
+              "response": [
+                {
+                  "id": "e5300c7e-40bb-463b-82a5-58d058f88836",
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"rating\": \"<integer>\",\n  \"reservationId\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reviews",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reviews"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"links\": [\n    {\n      \"href\": \"<string>\",\n      \"method\": \"<string>\",\n      \"rel\": \"PARENT\"\n    },\n    {\n      \"href\": \"<string>\",\n      \"method\": \"<string>\",\n      \"rel\": \"GET_REVIEW\"\n    }\n  ],\n  \"reviewId\": \"<uuid>\",\n  \"status\": \"DENIED\"\n}",
+                  "createdAt": "2026-07-28T02:42:43.000Z",
+                  "updatedAt": "2026-07-28T02:42:43.000Z",
+                  "uid": "35240-e5300c7e-40bb-463b-82a5-58d058f88836"
+                },
+                {
+                  "id": "d6c39a77-9576-467a-84c5-d8e42bad3c1e",
+                  "name": "Bad request",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"rating\": \"<integer>\",\n  \"reservationId\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reviews",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reviews"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorType\": \"RESERVATION_PROMO_CODE_DATE_TIME_IN_PAST_OR_FUTURE\",\n  \"errorMessage\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T02:42:43.000Z",
+                  "updatedAt": "2026-07-28T02:42:43.000Z",
+                  "uid": "35240-d6c39a77-9576-467a-84c5-d8e42bad3c1e"
+                },
+                {
+                  "id": "b5bc5c4d-bbfd-4b0b-a67f-37f6dc6b1095",
+                  "name": "Access denied",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"rating\": \"<integer>\",\n  \"reservationId\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reviews",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reviews"
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorType\": \"RESERVATION_PROMO_CODE_DATE_TIME_IN_PAST_OR_FUTURE\",\n  \"errorMessage\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T02:42:43.000Z",
+                  "updatedAt": "2026-07-28T02:42:43.000Z",
+                  "uid": "35240-b5bc5c4d-bbfd-4b0b-a67f-37f6dc6b1095"
+                },
+                {
+                  "id": "7bcae7f6-e5dd-40f3-8518-4cf748d9da4f",
+                  "name": "Reservation not found",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"rating\": \"<integer>\",\n  \"reservationId\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reviews",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reviews"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorType\": \"RESERVATION_PROMO_CODE_DATE_TIME_IN_PAST_OR_FUTURE\",\n  \"errorMessage\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T02:42:43.000Z",
+                  "updatedAt": "2026-07-28T02:42:43.000Z",
+                  "uid": "35240-7bcae7f6-e5dd-40f3-8518-4cf748d9da4f"
+                },
+                {
+                  "id": "5b33724e-8a35-49b0-898b-69a4ccd506df",
+                  "name": "Internal server error",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"rating\": \"<integer>\",\n  \"reservationId\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reviews",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reviews"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorType\": \"RESERVATION_PROMO_CODE_DATE_TIME_IN_PAST_OR_FUTURE\",\n  \"errorMessage\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T02:42:43.000Z",
+                  "updatedAt": "2026-07-28T02:42:43.000Z",
+                  "uid": "35240-5b33724e-8a35-49b0-898b-69a4ccd506df"
+                }
+              ],
+              "createdAt": "2026-07-28T02:42:43.000Z",
+              "updatedAt": "2026-07-28T02:42:43.000Z",
+              "uid": "35240-dabdccc4-40a4-4571-b095-f69523dd987b"
+            },
+            {
+              "name": "Quandoo Updated a Review",
+              "id": "78cbf6bc-b1b5-4d4f-8ae1-321d14d2efb3",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reviewId\": \"<uuid>\",\n  \"rating\": \"<integer>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/v1/reviews",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "reviews"
+                  ]
+                },
+                "description": "This resource manages the update of reviews for a given review ID. Description and rating can be updated on a review. The agent must be the one that owns the reservation associated to the review to modify, otherwise a forbidden response is returned.\n\n**NOTE**: Reviews in state 'PUBLISHED' or 'DENIED' cannot be updated. Only those in status 'CREATED' are allowed to be updated.\n\n####Request:\nThe request needs to have 3 parameters for reservation reviewId (public reviewId), description and rating.\n\n* **reviewId**: Id of the review. **Required**.\n* **description**: Text content of the review. If not set (null value) it won't be considered for update.\n* **rating**: Integer value from 1 to 6 with the rating given. If not set (null value) it won't be considered for update.\n\nIn case both description and rating are set to null, nothing happens to the review: it is not updated and its state remains.\n\n####Response:\nThe response is a review object containing information about the review.\n\n* **reviewId**: The Id of the updated review.\n* **status**: Status of the updated review. Can be 'CREATED', 'PUBLISHED' or 'DENIED'. Upon a successful update, the status 'CREATED' is returned.\n* **links**: A series of links where to get details of the updated review.\n\nExample curl:\n```\ncurl -H \"Content-Type: application/json\" -X PATCH https://{host}/v{X}/reviews/ -d '\n{\n    \"reviewId\": \"01a53b36-3f48-11e5-a151-feff819cdc9f\",\n    \"description\": \"Some updated description for the review\",\n    \"rating\": 2\n}\n```\n\nExample response:\n```\n{\n    \"reviewId\": \"01a53b36-3f48-11e5-a151-feff819cdc9f\",\n    \"status\": \"CREATED\",\n    \"links\": [{\n        \"href\": \"http://localhost:39250/v1/reviews/01a53b36-3f48-11e5-a151-feff819cdc9f\",\n        \"method\": \"GET\",\n        \"rel\": \"get-review\"\n    }]\n}\n```"
+              },
+              "response": [
+                {
+                  "id": "ca152802-62e6-4912-944a-5c3164e198aa",
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"reviewId\": \"<uuid>\",\n  \"rating\": \"<integer>\",\n  \"description\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reviews",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reviews"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"links\": [\n    {\n      \"href\": \"<string>\",\n      \"method\": \"<string>\",\n      \"rel\": \"PARENT\"\n    },\n    {\n      \"href\": \"<string>\",\n      \"method\": \"<string>\",\n      \"rel\": \"GET_REVIEW\"\n    }\n  ],\n  \"reviewId\": \"<uuid>\",\n  \"status\": \"DENIED\"\n}",
+                  "createdAt": "2026-07-28T02:42:43.000Z",
+                  "updatedAt": "2026-07-28T02:42:43.000Z",
+                  "uid": "35240-ca152802-62e6-4912-944a-5c3164e198aa"
+                },
+                {
+                  "id": "9163da1c-03bd-4894-a43b-52e451e770b7",
+                  "name": "Bad request",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"reviewId\": \"<uuid>\",\n  \"rating\": \"<integer>\",\n  \"description\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reviews",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reviews"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorType\": \"RESERVATION_PROMO_CODE_DATE_TIME_IN_PAST_OR_FUTURE\",\n  \"errorMessage\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T02:42:43.000Z",
+                  "updatedAt": "2026-07-28T02:42:43.000Z",
+                  "uid": "35240-9163da1c-03bd-4894-a43b-52e451e770b7"
+                },
+                {
+                  "id": "581a3077-e33b-44ff-9dea-f4e6c033e0f2",
+                  "name": "Access denied",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"reviewId\": \"<uuid>\",\n  \"rating\": \"<integer>\",\n  \"description\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reviews",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reviews"
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorType\": \"RESERVATION_PROMO_CODE_DATE_TIME_IN_PAST_OR_FUTURE\",\n  \"errorMessage\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T02:42:43.000Z",
+                  "updatedAt": "2026-07-28T02:42:43.000Z",
+                  "uid": "35240-581a3077-e33b-44ff-9dea-f4e6c033e0f2"
+                },
+                {
+                  "id": "30422f9f-34ab-494c-8715-dca42c09f209",
+                  "name": "Reservation not found",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"reviewId\": \"<uuid>\",\n  \"rating\": \"<integer>\",\n  \"description\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reviews",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reviews"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorType\": \"RESERVATION_PROMO_CODE_DATE_TIME_IN_PAST_OR_FUTURE\",\n  \"errorMessage\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T02:42:43.000Z",
+                  "updatedAt": "2026-07-28T02:42:43.000Z",
+                  "uid": "35240-30422f9f-34ab-494c-8715-dca42c09f209"
+                },
+                {
+                  "id": "bf615488-8403-42e2-b0d5-b1702fc258f0",
+                  "name": "Internal server error",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"reviewId\": \"<uuid>\",\n  \"rating\": \"<integer>\",\n  \"description\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/reviews",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "reviews"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errorType\": \"RESERVATION_PROMO_CODE_DATE_TIME_IN_PAST_OR_FUTURE\",\n  \"errorMessage\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T02:42:43.000Z",
+                  "updatedAt": "2026-07-28T02:42:43.000Z",
+                  "uid": "35240-bf615488-8403-42e2-b0d5-b1702fc258f0"
+                }
+              ],
+              "createdAt": "2026-07-28T02:42:43.000Z",
+              "updatedAt": "2026-07-28T02:42:43.000Z",
+              "uid": "35240-78cbf6bc-b1b5-4d4f-8ae1-321d14d2efb3"
+            }
+          ],
+          "id": "f24d19bb-ff88-49a0-ae4b-e78cca3e3d2e",
+          "createdAt": "2026-07-28T02:42:43.000Z",
+          "updatedAt": "2026-07-28T02:42:43.000Z",
+          "uid": "35240-f24d19bb-ff88-49a0-ae4b-e78cca3e3d2e"
+        }
+      ],
+      "id": "893281c9-ae3d-4a03-b4cd-f71e81455a92",
+      "createdAt": "2026-07-28T02:42:43.000Z",
+      "updatedAt": "2026-07-28T02:42:43.000Z",
+      "uid": "35240-893281c9-ae3d-4a03-b4cd-f71e81455a92"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Quandoo-AuthToken",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://public-api.prod.quandoo.com"
+    }
+  ]
+}

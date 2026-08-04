@@ -1,0 +1,152 @@
+{
+  "info": {
+    "_postman_id": "69efdcac-97da-4461-9916-8f249e50f374",
+    "name": "Quandoo Public Partner Availabilities Status API",
+    "description": "The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo restaurant reservations platform. It lets partners check merchant availability, search merchants, read merchant reservation and enquiry settings, create and manage reservations and reservation enquiries, manage customers and reviews, handle preorders and reservation tags, and validate phone numbers. Reservation and enquiry creation is idempotent via an agent-specific unique identifier. Derived from the official Quandoo Swagger specification at https://api.quandoo.com/swagger.json.\n\nContact Support:\n Name: Quandoo Developers\n Email: developers@quandoo.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T02:42:43.000Z",
+    "updatedAt": "2026-07-28T02:42:44.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-69efdcac-97da-4461-9916-8f249e50f374"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "status",
+          "item": [
+            {
+              "name": "Quandoo Provides Information on the Status of the Service",
+              "id": "6d86113d-c425-4a08-a806-db25f964b68c",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/status",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "status"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "id": "54d9cd42-bfe1-40f8-8d7a-381193d2c2e2",
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/status",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "status"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T02:42:44.000Z",
+                  "updatedAt": "2026-07-28T02:42:44.000Z",
+                  "uid": "35240-54d9cd42-bfe1-40f8-8d7a-381193d2c2e2"
+                },
+                {
+                  "id": "00d9abc3-a1ed-4eee-8c77-103dd49ab674",
+                  "name": "Internal server error",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-Quandoo-AuthToken",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/status",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "status"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T02:42:44.000Z",
+                  "updatedAt": "2026-07-28T02:42:44.000Z",
+                  "uid": "35240-00d9abc3-a1ed-4eee-8c77-103dd49ab674"
+                }
+              ],
+              "createdAt": "2026-07-28T02:42:44.000Z",
+              "updatedAt": "2026-07-28T02:42:44.000Z",
+              "uid": "35240-6d86113d-c425-4a08-a806-db25f964b68c"
+            }
+          ],
+          "id": "31442d61-cd0d-4543-b5fb-f07d45734986",
+          "createdAt": "2026-07-28T02:42:44.000Z",
+          "updatedAt": "2026-07-28T02:42:44.000Z",
+          "uid": "35240-31442d61-cd0d-4543-b5fb-f07d45734986"
+        }
+      ],
+      "id": "6f0142d8-0195-4363-94d9-e4854e26404a",
+      "createdAt": "2026-07-28T02:42:44.000Z",
+      "updatedAt": "2026-07-28T02:42:44.000Z",
+      "uid": "35240-6f0142d8-0195-4363-94d9-e4854e26404a"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Quandoo-AuthToken",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://public-api.prod.quandoo.com"
+    }
+  ]
+}
