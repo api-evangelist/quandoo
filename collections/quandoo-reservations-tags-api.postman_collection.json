@@ -1,0 +1,365 @@
+{
+  "item": [
+    {
+      "id": "f7a1c31d-5daf-4a99-aa06-966f3efa0a88",
+      "name": "Reservations Tags",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e2ce8722-50a2-46d9-b343-b0eec9663d45",
+          "name": "Quandoo Get Merchant Reservation Tags",
+          "request": {
+            "name": "Quandoo Get Merchant Reservation Tags",
+            "description": {
+              "content": "This endpoint returns all active reservation tags for a merchant.\n####Request:\n* **merchantId**: merchant's ID. Taken as a path parameter.\n\n####Response:\n* **id**: reservation tag's ID.\n* **name**: tag's name. Default tag names are usually translated to merchant's locale.\n* **merchantId**: merchant's ID.\n\nIt will return `HTTP 403 - AUTHENTICATION_ERROR` if the user is not authenticated.\n\nExample response:\n```\n{\n    \"reservationTags\": [\n        {\n            \"id\": 5,\n            \"name\": \"Birthday\",\n            \"merchantId\": 3\n        },\n        {\n            \"id\": 51,\n            \"name\": \"With Children\",\n            \"merchantId\": 3\n        }\n    ]\n}\n```\n\n\nExample curl:\n```\ncurl -H \"Content-Type: application/json\" -X GET  https://{host}/v{X}/merchants/{merchantId}/reservation_tags\n```\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "merchants",
+                ":merchantId",
+                "reservation_tags"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "merchantId",
+                  "description": "(Required) Id of the merchant"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "63af2bab-8e4d-401c-9faa-0e36270d5bf0",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "merchants",
+                    ":merchantId",
+                    "reservation_tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "merchantId",
+                      "description": "(Required) Id of the merchant"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Quandoo-AuthToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reservationTags\": [\n    {\n      \"id\": {},\n      \"name\": {},\n      \"merchantId\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "211988f5-952d-4e3a-a046-b765ef3061df",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "merchants",
+                    ":merchantId",
+                    "reservation_tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "merchantId",
+                      "description": "(Required) Id of the merchant"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Quandoo-AuthToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorType\": \"BAD_REQUEST_ERROR\",\n  \"errorMessage\": \"Window table preferred if available.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ae09361e-676d-4297-8b12-a7466ae945d6",
+              "name": "Access denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "merchants",
+                    ":merchantId",
+                    "reservation_tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "merchantId",
+                      "description": "(Required) Id of the merchant"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Quandoo-AuthToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorType\": \"BAD_REQUEST_ERROR\",\n  \"errorMessage\": \"Window table preferred if available.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d238d7cf-9dd9-4e40-9d5c-c092f055521a",
+              "name": "Agent not found error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "merchants",
+                    ":merchantId",
+                    "reservation_tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "merchantId",
+                      "description": "(Required) Id of the merchant"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Quandoo-AuthToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorType\": \"BAD_REQUEST_ERROR\",\n  \"errorMessage\": \"Window table preferred if available.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6882dad0-fd51-4b4e-9e78-2d6cb56b5f66",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "merchants",
+                    ":merchantId",
+                    "reservation_tags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "merchantId",
+                      "description": "(Required) Id of the merchant"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Quandoo-AuthToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorType\": \"BAD_REQUEST_ERROR\",\n  \"errorMessage\": \"Window table preferred if available.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://public-api.prod.quandoo.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Quandoo-AuthToken"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "99c8b3cd-8239-4c8f-b072-f7a441637274",
+    "name": "Quandoo Public Partner Availabilities Reservations Tags API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo restaurant reservations platform. It lets partners check merchant availability, search merchants, read merchant reservation and enquiry settings, create and manage reservations and reservation enquiries, manage customers and reviews, handle preorders and reservation tags, and validate phone numbers. Reservation and enquiry creation is idempotent via an agent-specific unique identifier. Derived from the official Quandoo Swagger specification at https://api.quandoo.com/swagger.json.\n\nContact Support:\n Name: Quandoo Developers\n Email: developers@quandoo.com",
+      "type": "text/plain"
+    }
+  }
+}

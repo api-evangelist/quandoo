@@ -1,0 +1,107 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quandoo Public Partner Availabilities Customers API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Quandoo-AuthToken",
+      "value": "{{X-Quandoo-AuthToken}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Customers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Quandoo Get Customer Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://public-api.prod.quandoo.com/v1/customers/:customerId",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the customer"
+              }
+            ]
+          },
+          "docs": "This endpoint allows an agent to get customer information by id.  \nCustomer id both in the request and response are agent-specific. The agent needs to be authenticated.\n\nThe endpoint will return `HTTP 404 - Not Found` if the customer with the specified id could not be found.\nIt will return `HTTP 403 - Forbidden` if the agent is not authenticated or the agent doesn't have permissions.\n\n####Request:\n* **customerId**: Agent-specific ID of the customer\n\n####Response:\nThe response contains the follow"
+        },
+        {
+          "info": {
+            "name": "Quandoo Get Customer Reservations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://public-api.prod.quandoo.com/v1/customers/:customerId/reservations",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the customer"
+              }
+            ]
+          },
+          "docs": "This endpoint allows an agent to get reservations of a customer. The results will be filtered by agent id. \nCustomer id in the request and reservation IDs in response are agent-specific. The agent needs to be authenticated.\n\nThe endpoint will return `HTTP 404 - Not Found` if the customer with the specified id could not be found.\nIt will return `HTTP 403 - Forbidden` if the agent is not authenticated or the agent doesn't have permissions.\n\n####Request:\n* **customerId**: Agent-specific ID of the c"
+        },
+        {
+          "info": {
+            "name": "Quandoo Get a List of Customers of a Merchant",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://public-api.prod.quandoo.com/v1/merchants/:merchantId/customers",
+            "params": [
+              {
+                "name": "merchantId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the merchant"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "offset"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "limit"
+              },
+              {
+                "name": "modifiedSince",
+                "value": "",
+                "type": "query",
+                "description": "modifiedSince. Format: yyyy-MM-dd HH:mm:ss"
+              },
+              {
+                "name": "modifiedUntil",
+                "value": "",
+                "type": "query",
+                "description": "modifiedUntil. Format: yyyy-MM-dd HH:mm:ss"
+              }
+            ]
+          },
+          "docs": "This endpoint allows a third party to get a list of customers of a merchant.\nThe list is filtered, showing only the customers that the third party system has access.\nCustomer id is agent-specific if the customer was created by the agent. The agent needs to be authenticated.\n\nThe endpoint will return `HTTP 404 - Not Found` if the merchant with the specified id could not be found.\nIt will return `HTTP 403 - Forbidden` if the agent is not authenticated or the agent doesn't have permissions.\n\n####Re"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

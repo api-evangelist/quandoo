@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quandoo Public Partner Availabilities Validations API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Quandoo-AuthToken",
+      "value": "{{X-Quandoo-AuthToken}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Validations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Quandoo Validate Phone Number",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://public-api.prod.quandoo.com/v1/validations/phone-numbers",
+            "params": [
+              {
+                "name": "phoneNumber",
+                "value": "",
+                "type": "query",
+                "description": "Phone number"
+              },
+              {
+                "name": "country",
+                "value": "",
+                "type": "query",
+                "description": "Country code"
+              }
+            ]
+          },
+          "docs": "This endpoint validates a phone number. \nIf optional 2-letter country code `country` is not specified, the `phoneNumber` should be formatted according to E164, which means it is expected to be in the international format with a leading `\"+\"` and no spaces or dashes, e.g. `+4930120765890`. Otherwise it may have leading zero instead of country code, e.g. `030120765890`.\n\nThe endpoint will return a status `HTTP 200` which means the `phoneNumber` is successfully validated.\nThe endpoint will return a"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

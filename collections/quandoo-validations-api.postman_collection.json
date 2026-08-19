@@ -1,0 +1,203 @@
+{
+  "item": [
+    {
+      "id": "bd2a520c-ff9b-4e3e-924c-8620ba6b0433",
+      "name": "Validations",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bd01d7f8-ff66-42be-bd5f-21b31e284311",
+          "name": "Quandoo Validate Phone Number",
+          "request": {
+            "name": "Quandoo Validate Phone Number",
+            "description": {
+              "content": "This endpoint validates a phone number. \nIf optional 2-letter country code `country` is not specified, the `phoneNumber` should be formatted according to E164, which means it is expected to be in the international format with a leading `\"+\"` and no spaces or dashes, e.g. `+4930120765890`. Otherwise it may have leading zero instead of country code, e.g. `030120765890`.\n\nThe endpoint will return a status `HTTP 200` which means the `phoneNumber` is successfully validated.\nThe endpoint will return a status `HTTP 400` which means the `phoneNumber` is missing or invalid.\n\nExample curl:\n```\ncurl https://{host}/v{X}/validations/phone-numbers?phoneNumber=030120765890&country=IT\n```\n\nExample response:\n```\n{\n  \"errorMessage\": \"phoneNumber is invalid: 030120765890, country specified is: IT\",\n  \"errorType\": \"PHONE_NUMBER_INVALID\"\n}\n```\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "validations",
+                "phone-numbers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "phoneNumber",
+                  "value": "<string>",
+                  "description": "(Required) Phone number"
+                },
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "<string>",
+                  "description": "Country code"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ffc64bef-8e86-470c-bab7-73803d43f3d8",
+              "name": "Phone number validated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "validations",
+                    "phone-numbers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "phoneNumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "country",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Quandoo-AuthToken",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9f500d73-a8df-4ad0-b674-3d3657e01de7",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "validations",
+                    "phone-numbers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "phoneNumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "country",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Quandoo-AuthToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorType\": \"BAD_REQUEST_ERROR\",\n  \"errorMessage\": \"Window table preferred if available.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://public-api.prod.quandoo.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Quandoo-AuthToken"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "468fd055-ad84-4852-82b6-93aed9b98f30",
+    "name": "Quandoo Public Partner Availabilities Validations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo restaurant reservations platform. It lets partners check merchant availability, search merchants, read merchant reservation and enquiry settings, create and manage reservations and reservation enquiries, manage customers and reviews, handle preorders and reservation tags, and validate phone numbers. Reservation and enquiry creation is idempotent via an agent-specific unique identifier. Derived from the official Quandoo Swagger specification at https://api.quandoo.com/swagger.json.\n\nContact Support:\n Name: Quandoo Developers\n Email: developers@quandoo.com",
+      "type": "text/plain"
+    }
+  }
+}

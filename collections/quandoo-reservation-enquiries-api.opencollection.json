@@ -1,0 +1,102 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quandoo Public Partner Availabilities Reservation Enquiries API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Quandoo-AuthToken",
+      "value": "{{X-Quandoo-AuthToken}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Reservation Enquiries",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Quandoo Create Reservation Enquiries",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://public-api.prod.quandoo.com/v1/reservation-enquiries",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint allows to create a reservation enquiry for a certain capacity, start and end time. It also requires certain customer information. All optional fields can be either omitted or set to null. The endpoint is idempotent, which means sending the same request twice will not create another reservation enquiry. For that purpose the client is required to generate an agent-specific unique ID for each request.\n\nThe endpoint will return status `HTTP 400` should any of the required parameters be"
+        },
+        {
+          "info": {
+            "name": "Quandoo Get Reservation Enquiry by Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://public-api.prod.quandoo.com/v1/reservation-enquiries/:reservationEnquiryId",
+            "params": [
+              {
+                "name": "reservationEnquiryId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the reservation enquiry"
+              }
+            ]
+          },
+          "docs": "This endpoint allows an agent to get an reservation enquiry by id. The id is agent-specific. The agent needs to be authenticated.\n\nThe endpoint will return `HTTP 404 - Not Found` if the reservation enquiry with the specified id could not be found.\n\nIt will return `HTTP 403 - Forbidden` if the agent is not authenticated, if the agent doesn't have permissions or the reservation enquiry doesn't belong to the authenticated agent.\n\n####Request:\n* **reservationEnquiryId**: Agent-specific ID of the req"
+        },
+        {
+          "info": {
+            "name": "Quandoo Update Status of Reservation Enquiry by Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://public-api.prod.quandoo.com/v1/reservation-enquiries/:reservationEnquiryId",
+            "params": [
+              {
+                "name": "reservationEnquiryId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the reservation enquiry"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint allows to update the status of a reservation enquiry with the given ID. The allowed status transitions are as following:\n\n* NEW --> IN_PROGRESS --> {ACCEPTED/REJECTED}\n* ACCEPTED <--> REJECTED\n\nThe endpoint will return `HTTP 404 - Not Found` if the reservation enquiry with the specified id could not be found.\n\nThe endpoint will return `HTTP 400 - Bad Request` if the specified status is wrong.\n\nThe endpoint will return `HTTP 409 - Conflict` if the status change is invalid.\n\nThe endp"
+        },
+        {
+          "info": {
+            "name": "Quandoo Get All Messages of a Reservation Enquiry",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://public-api.prod.quandoo.com/v1/reservation-enquiries/:reservationEnquiryId/messages",
+            "params": [
+              {
+                "name": "reservationEnquiryId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the reservation enquiry"
+              }
+            ]
+          },
+          "docs": "This endpoint allows an agent to get all messages of a reservation enquiry. The id of the reservation enquiry is agent-specific. The agent needs to be authenticated.\n\nThe endpoint will return `HTTP 404 - Not Found` if the reservation enquiry with the specified id could not be found.\n\nIt will return `HTTP 403 - Forbidden` if the agent is not authenticated, if the agent doesn't have permissions or the reservation enquiry doesn't belong to the authenticated agent.\n\n####Request:\n* **reservationEnqui"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

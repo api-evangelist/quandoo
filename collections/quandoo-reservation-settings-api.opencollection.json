@@ -1,0 +1,45 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quandoo Public Partner Availabilities Reservation Settings API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Quandoo-AuthToken",
+      "value": "{{X-Quandoo-AuthToken}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Reservation Settings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Quandoo Get Merchant Reservation Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://public-api.prod.quandoo.com/v1/merchants/:merchantId/reservation-settings",
+            "params": [
+              {
+                "name": "merchantId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the merchant"
+              }
+            ]
+          },
+          "docs": "This endpoint provides all data that is required to initiate the reservation flow and is not part of the search endpoint.\n\nExample curl:\n```\ncurl https://{host}/v{X}/merchants/15/reservation-settings\n```\n\nExample response: \n```\n{\n  \"areaIds\": [\n    {\n      \"id\": 2,\n      \"name\": \"Garden\",\n      \"priority\": 10\n    }\n  ],\n  \"areaSelectionRequired\": true,\n  \"capacities\": [\n    1,\n    2,\n    3,\n    4,\n    5,\n    6\n  ],\n  \"links\": [\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15\",\n      \"metho"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

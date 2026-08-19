@@ -1,0 +1,782 @@
+{
+  "item": [
+    {
+      "id": "0ce2e866-1dba-4829-afd0-e89bf38032ba",
+      "name": "Availabilities",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "94e47887-42ee-4d36-ae73-d4e0423fe0d7",
+          "name": "Quandoo Get Merchant Availability Time Slots",
+          "request": {
+            "name": "Quandoo Get Merchant Availability Time Slots",
+            "description": {
+              "content": "This endpoint returns availability time slots which can be reserved for a given capacity.\n\n####Request parameters:\n* **merchantId**: Id of the merchant. Path parameter.\n* **date**: Specifies date of the desired reservation. Format: `yyyy-MM-dd`. Path parameter.\n* **fromTime**: Beginning of the desired reservation time frame. Format: `HH:mm`. Optional.\n* **toTime**: End of the desired reservation time frame. Format: `HH:mm`. Optional.\n* **agentId**: Id of the agent making the request\n* **capacity**: Specifies the number of people in reservation. Availabilities will be returned based on this capacity. If not provided, the default value is 2.\n* **areaId**: Restricts availabilities to a certain area. Optional.\n    \n####Response:\nThe response returns availability time slots that could be reserved, along with the areas it is associated with and contains information on how much should be paid if the reservation is cancelled by a client. \n\n* **timeSlots**: List of available time slots.\n  * **areaIds**: List of areas for which this time slot can be reserved.\n  * **dateTime**: Date and time of the available slot. Format: `yyyy-MM-dd'T'HH:mm:ssZ`\n  * **occupancy**: Occupancy of the available time slot. This is an integer between `0` and `100`.\n  * **vaultSettingsId**: ID of the vault setting, if there is any. See: `vaultSettings`\n* **vaultSettings**: Credit card vault settings representing the fees to be paid in case of cancellation.\n  * **id**: ID of the setting as shown in `timeSlots`.\n  * **fee**: Fee to be paid in case of cancellation. Currency is defined by merchant. See reservation-settings.\n  * **feeType**: Type of fee to be paid. Can be `PER_PERSON` or `PER_RESERVATION`.\n  * **feePercentageForTime**: Fee percentage depending of the time of cancellation. Format: `\"{hoursStart}-{hoursEnd}\": {percentage}` , where hours are the number of hours before the visit.\n* **links**: Related links that can be followed based on this response.\n\n####Example curl:\n```\ncurl https://{host}/v{X}/merchants/15/availabilities/2017-11-09/times?capacity=2&areaId=24&agentId=3&fromTime=10:45&toTime=12:45\n```\n\n\n####Example response:\n```\n{ \n    \"timeSlots\": [ \n        { \n            \"areaIds\": [33532, 33533], \n            \"dateTime\": \"2017-09-27T10:45:00+01:00\", \n            \"occupancy\": 0, \n            \"vaultSettingId\": \"284d701f-f79a-4efa-9859-fd09851dfdce\"\n        }, \n        ... \n    ], \n    \"vaultSettings\": [ \n         { \n            \"id\": \"284d701f-f79a-4efa-9859-fd09851dfdce\", \n             \"fee\": \"10.00\", \n             \"feeType\": \"PER_PERSON\", \n             \"feePercentageForTime\": \n                { \n                  \"0-12\":100, \n                  \"12-24\":50, \n                  \"24-48\":20 \n                } \n         } \n     ], \n    \"links\": [\n      {\n        \"href\": \"https://{host}/v{X}/merchants/15\",\n        \"method\": \"GET\",\n        \"rel\": \"parent\"\n      },\n      {\n        \"href\": \"https://{host}/v{X}/merchants/15/reservation-settings\",\n        \"method\": \"GET\",\n        \"rel\": \"reservation-settings\"\n      },\n      {\n        \"href\": \"https://{host}/v{X}/merchants/reservations\",\n        \"method\": \"PUT\",\n        \"rel\": \"create-reservation\"\n      }\n    ]\n} \n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "merchants",
+                ":merchantId",
+                "availabilities",
+                ":date",
+                "times"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "agentId",
+                  "value": "<integer>",
+                  "description": "(Required) Id of the agent"
+                },
+                {
+                  "disabled": false,
+                  "key": "capacity",
+                  "value": "2",
+                  "description": "(Required) Number of people"
+                },
+                {
+                  "disabled": false,
+                  "key": "fromTime",
+                  "value": "<string>",
+                  "description": "Beginning of the desired reservation time frame. Format: HH:mm"
+                },
+                {
+                  "disabled": false,
+                  "key": "toTime",
+                  "value": "<string>",
+                  "description": "End of the desired reservation time frame. Format: HH:mm"
+                },
+                {
+                  "disabled": false,
+                  "key": "areaId",
+                  "value": "<integer>",
+                  "description": "Id of the area"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "merchantId",
+                  "description": "(Required) Id of the merchant"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<date>",
+                  "key": "date",
+                  "description": "(Required) Date of the desired reservation. Format: yyyy-MM-dd"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ed345591-19f8-4fa8-b68e-caf922b07b61",
+              "name": "Merchant availabilities response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "merchants",
+                    ":merchantId",
+                    "availabilities",
+                    ":date",
+                    "times"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "agentId",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "capacity",
+                      "value": "2"
+                    },
+                    {
+                      "key": "fromTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "toTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "areaId",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "merchantId",
+                      "description": "(Required) Id of the merchant"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<date>",
+                      "key": "date",
+                      "description": "(Required) Date of the desired reservation. Format: yyyy-MM-dd"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Quandoo-AuthToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"timeSlots\": [\n    {\n      \"dateTime\": {},\n      \"occupancy\": {},\n      \"areaIds\": {},\n      \"vaultSettingsId\": {}\n    }\n  ],\n  \"vaultSettings\": [\n    {\n      \"id\": {},\n      \"fee\": {},\n      \"feeType\": {},\n      \"feePercentageForTime\": {}\n    }\n  ],\n  \"links\": [\n    {\n      \"href\": {},\n      \"method\": {},\n      \"rel\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7dd49d7e-f3c4-4497-bc4d-8e75a3334e22",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "merchants",
+                    ":merchantId",
+                    "availabilities",
+                    ":date",
+                    "times"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "agentId",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "capacity",
+                      "value": "2"
+                    },
+                    {
+                      "key": "fromTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "toTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "areaId",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "merchantId",
+                      "description": "(Required) Id of the merchant"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<date>",
+                      "key": "date",
+                      "description": "(Required) Date of the desired reservation. Format: yyyy-MM-dd"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Quandoo-AuthToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorType\": \"BAD_REQUEST_ERROR\",\n  \"errorMessage\": \"Window table preferred if available.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bf077e04-afa6-418a-96af-afcb99b60c68",
+              "name": "Agent type not found error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "merchants",
+                    ":merchantId",
+                    "availabilities",
+                    ":date",
+                    "times"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "agentId",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "capacity",
+                      "value": "2"
+                    },
+                    {
+                      "key": "fromTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "toTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "areaId",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "merchantId",
+                      "description": "(Required) Id of the merchant"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<date>",
+                      "key": "date",
+                      "description": "(Required) Date of the desired reservation. Format: yyyy-MM-dd"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Quandoo-AuthToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorType\": \"BAD_REQUEST_ERROR\",\n  \"errorMessage\": \"Window table preferred if available.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cda2972b-defc-48a6-a448-a84368b999ac",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "merchants",
+                    ":merchantId",
+                    "availabilities",
+                    ":date",
+                    "times"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "agentId",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "capacity",
+                      "value": "2"
+                    },
+                    {
+                      "key": "fromTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "toTime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "areaId",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "merchantId",
+                      "description": "(Required) Id of the merchant"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<date>",
+                      "key": "date",
+                      "description": "(Required) Date of the desired reservation. Format: yyyy-MM-dd"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Quandoo-AuthToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorType\": \"BAD_REQUEST_ERROR\",\n  \"errorMessage\": \"Window table preferred if available.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3224caa3-90f3-4b96-9171-037f42c3b518",
+          "name": "Quandoo Get Merchant Availability Days",
+          "request": {
+            "name": "Quandoo Get Merchant Availability Days",
+            "description": {
+              "content": "This endpoint returns days which a customer can select for his reservation. The response is based on when the merchant is known to be open. It is not guaranteed that they have available times for reservation. The days are returned starting from the first available day up to the merchant-defined limit, but never more than 365 days.\n\n####Request parameters:\n* **merchantId**: Id of the merchant. Path parameter.\n* **agentId**: Id of the agent making the request\n* **capacity**: Specifies the number of people in reservation. Availability days will be returned based on this capacity.\n\n####Response:\nThe response returns availability days that could be selected for reservation. \n* **days**: List of availability days that could be reserved. Format: yyyy-MM-dd \n* **links**: Related links that can be followed based on this response.\n\n####Example curl:\n```\ncurl https://{host}/v{X}/merchants/15/availabilities?agentId=3&capacity=4\n```\n\n\n####Example response:\n```\n{\n  \"days\": [\n    \"2017-01-01\",\n    \"2017-01-02\",\n    \"2017-01-03\",\n     ...\n  ],\n  \"links\": [\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15\",\n      \"method\": \"GET\",\n      \"rel\": \"parent\"\n    },\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15/reservation-settings\",\n      \"method\": \"GET\",\n      \"rel\": \"settings\"\n    },\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15/availabilities/2017-01-01/times\",\n      \"method\": \"GET\",\n      \"rel\": \"availabilities\"\n    }\n  ]\n}\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "merchants",
+                ":merchantId",
+                "availabilities"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "agentId",
+                  "value": "<integer>",
+                  "description": "(Required) Id of the agent"
+                },
+                {
+                  "disabled": false,
+                  "key": "capacity",
+                  "value": "<integer>",
+                  "description": "Number of people"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "merchantId",
+                  "description": "(Required) Id of the merchant"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "23dec8e3-5ef1-44c2-93f3-5153a09d56a4",
+              "name": "Merchant availabilities response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "merchants",
+                    ":merchantId",
+                    "availabilities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "agentId",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "capacity",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "merchantId",
+                      "description": "(Required) Id of the merchant"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Quandoo-AuthToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"days\": [\n    \"2026-07-15\"\n  ],\n  \"links\": [\n    {\n      \"href\": {},\n      \"method\": {},\n      \"rel\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "63aa6c3d-6cb7-46f9-bd0a-06bf515f6e24",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "merchants",
+                    ":merchantId",
+                    "availabilities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "agentId",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "capacity",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "merchantId",
+                      "description": "(Required) Id of the merchant"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Quandoo-AuthToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorType\": \"BAD_REQUEST_ERROR\",\n  \"errorMessage\": \"Window table preferred if available.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f94b1b1e-b733-4be8-973d-9f1d11022c98",
+              "name": "Agent not found error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "merchants",
+                    ":merchantId",
+                    "availabilities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "agentId",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "capacity",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "merchantId",
+                      "description": "(Required) Id of the merchant"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Quandoo-AuthToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorType\": \"BAD_REQUEST_ERROR\",\n  \"errorMessage\": \"Window table preferred if available.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "107dbd35-0cd8-4afb-abeb-df6963531c49",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "merchants",
+                    ":merchantId",
+                    "availabilities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "agentId",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "capacity",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "merchantId",
+                      "description": "(Required) Id of the merchant"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Quandoo-AuthToken",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorType\": \"BAD_REQUEST_ERROR\",\n  \"errorMessage\": \"Window table preferred if available.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://public-api.prod.quandoo.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Quandoo-AuthToken"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "6a0f9322-468d-4b60-ae51-428ba8103776",
+    "name": "Quandoo Public Partner Availabilities API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo restaurant reservations platform. It lets partners check merchant availability, search merchants, read merchant reservation and enquiry settings, create and manage reservations and reservation enquiries, manage customers and reviews, handle preorders and reservation tags, and validate phone numbers. Reservation and enquiry creation is idempotent via an agent-specific unique identifier. Derived from the official Quandoo Swagger specification at https://api.quandoo.com/swagger.json.\n\nContact Support:\n Name: Quandoo Developers\n Email: developers@quandoo.com",
+      "type": "text/plain"
+    }
+  }
+}

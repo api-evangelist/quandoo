@@ -1,0 +1,45 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quandoo Public Partner Availabilities Reservations Tags API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Quandoo-AuthToken",
+      "value": "{{X-Quandoo-AuthToken}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Reservations Tags",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Quandoo Get Merchant Reservation Tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://public-api.prod.quandoo.com/v1/merchants/:merchantId/reservation_tags",
+            "params": [
+              {
+                "name": "merchantId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the merchant"
+              }
+            ]
+          },
+          "docs": "This endpoint returns all active reservation tags for a merchant.\n####Request:\n* **merchantId**: merchant's ID. Taken as a path parameter.\n\n####Response:\n* **id**: reservation tag's ID.\n* **name**: tag's name. Default tag names are usually translated to merchant's locale.\n* **merchantId**: merchant's ID.\n\nIt will return `HTTP 403 - AUTHENTICATION_ERROR` if the user is not authenticated.\n\nExample response:\n```\n{\n    \"reservationTags\": [\n        {\n            \"id\": 5,\n            \"name\": \"Birthday"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

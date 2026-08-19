@@ -1,0 +1,83 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quandoo Public Partner Availabilities Reservations API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Quandoo-AuthToken",
+      "value": "{{X-Quandoo-AuthToken}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Reservations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Quandoo Get Reservation by Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://public-api.prod.quandoo.com/v1/reservations/:reservationId",
+            "params": [
+              {
+                "name": "reservationId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the reservation"
+              }
+            ]
+          },
+          "docs": "This endpoint allows an agent or a user to get a reservation by id. The id is either agent-specific or a public id. The agent/user needs to be authenticated.\n\nThe endpoint will return `HTTP 404 - Not Found` if the reservation with the specified id could not be found.\n\nIt will return `HTTP 403 - Forbidden` if the agent/user is not authenticated, if the agent/user doesn't have permissions, if the reservation doesn't belong to the authenticated agent or if the user doesn't have permissions to see o"
+        },
+        {
+          "info": {
+            "name": "Quandoo Update Reservation by Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://public-api.prod.quandoo.com/v1/reservations/:reservationId",
+            "params": [
+              {
+                "name": "reservationId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the reservation"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint allows an agent to update a reservation by id. The id is agent-specific. The agent needs to be authenticated.\n####Request:\n* **reservationId**: Agent-specific ID of the requested reservation. Taken as a path parameter.\n* **reservation.status**: New status for the reservation. When is present then all parameters below should be omitted!\n* **reservation.capacity**: The capacity (people count) of the reservation.\n* **reservation.areaId**: The ID of the area this reservation should be "
+        },
+        {
+          "info": {
+            "name": "Quandoo Create Reservations",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://public-api.prod.quandoo.com/v1/reservations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint allows to create a reservation for a certain capacity, date and time. It also requires certain customer information. All optional fields can be either omitted or set to null. The endpoint is idempotent, which means sending the same request twice will not create another reservation. For that purpose the client is required to generate an agent-specific unique ID for the reservation.\n\nThe endpoint will return status `HTTP 409` should the reservation option specified by the given param"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
