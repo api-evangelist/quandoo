@@ -11,6 +11,18 @@ description: >-
   plus an interactive API explorer. Note: Quandoo announced in March 2026 that it will wind down operations, with new
   bookings ending 30 September 2026; this profile documents the still-live Public Partner API as published.
 type: Index
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
