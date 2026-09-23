@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Quandoo Public Partner Availabilities Reservation Settings API
-  description: The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo restaurant reservations platform. It lets partners check merchant availability, search merchants, read merchant reservation and enquiry settings, create and manage reservations and reservation enquiries, manage customers and reviews, handle preorders and reservation tags, and validate phone numbers. Reservation and enquiry creation is idempotent via an agent-specific unique identifier. Derived from the official Quandoo Swagger specification at https://api.quandoo.com/swagger.json.
+  title: Quandoo Public Partner Reservation Settings API
+  description: The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo restaurant reservations platform.
   version: 1.0.0
   contact:
     name: Quandoo Developers
@@ -21,7 +21,107 @@ paths:
       - Reservation Settings
       summary: Quandoo Get Merchant Reservation Settings
       operationId: reservationSettings_1
-      description: "This endpoint provides all data that is required to initiate the reservation flow and is not part of the search endpoint.\n\nExample curl:\n```\ncurl https://{host}/v{X}/merchants/15/reservation-settings\n```\n\nExample response: \n```\n{\n  \"areaIds\": [\n    {\n      \"id\": 2,\n      \"name\": \"Garden\",\n      \"priority\": 10\n    }\n  ],\n  \"areaSelectionRequired\": true,\n  \"capacities\": [\n    1,\n    2,\n    3,\n    4,\n    5,\n    6\n  ],\n  \"links\": [\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15\",\n      \"method\": \"GET\",\n      \"rel\": \"parent\"\n    },\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15/availabilities\",\n      \"method\": \"GET\",\n      \"rel\": \"availability_days\"\n    },\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15/availabilities/2017-01-01/times\",\n      \"method\": \"GET\",\n      \"rel\": \"availability\"\n    }\n  ],\n  \"merchantNewsletterSelectionRequired\": true,\n  \"minimumCapacityForEnquiries\": 10,\n  \"onlineReservationInterval\": 60,\n  \"reservationEnquiryEnabled\": true,\n  \"specialTerms\": \"This is any custom string for special terms\",\n  \"automaticConfirmation\": true,\n  \"ccvEnabled\": true\n}\n```\n"
+      description: 'This endpoint provides all data that is required to initiate the reservation flow and is not part of the search endpoint.
+
+
+        Example curl:
+
+        ```
+
+        curl https://{host}/v{X}/merchants/15/reservation-settings
+
+        ```
+
+
+        Example response:
+
+        ```
+
+        {
+
+        "areaIds": [
+
+        {
+
+        "id": 2,
+
+        "name": "Garden",
+
+        "priority": 10
+
+        }
+
+        ],
+
+        "areaSelectionRequired": true,
+
+        "capacities": [
+
+        1,
+
+        2,
+
+        3,
+
+        4,
+
+        5,
+
+        6
+
+        ],
+
+        "links": [
+
+        {
+
+        "href": "https://{host}/v{X}/merchants/15",
+
+        "method": "GET",
+
+        "rel": "parent"
+
+        },
+
+        {
+
+        "href": "https://{host}/v{X}/merchants/15/availabilities",
+
+        "method": "GET",
+
+        "rel": "availability_days"
+
+        },
+
+        {
+
+        "href": "https://{host}/v{X}/merchants/15/availabilities/2017-01-01/times",
+
+        "method": "GET",
+
+        "rel": "availability"
+
+        }
+
+        ],
+
+        "merchantNewsletterSelectionRequired": true,
+
+        "minimumCapacityForEnquiries": 10,
+
+        "onlineReservationInterval": 60,
+
+        "reservationEnquiryEnabled": true,
+
+        "specialTerms": "This is any custom string for special terms",
+
+        "automaticConfirmation": true,
+
+        "ccvEnabled": true
+
+        }
+
+        ```'
       parameters:
       - name: merchantId
         in: path
@@ -104,38 +204,76 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    LinkRelationDto:
+    MerchantReservationSettingsDto:
       type: object
       properties:
-        href:
+        areaIds:
+          type: array
+          description: 'List of all the areas defined for the merchant. Each area will contain:'
+          items:
+            $ref: '#/components/schemas/AreaDto'
+        capacities:
+          type: array
+          description: Number of guests allowed in a reservation
+          items:
+            type: integer
+            format: int32
+        merchantNewsletterSelectionRequired:
+          type: boolean
+          description: If true, a separate checkbox is displayed in the checkout for newsletter received from the restaurant
+          example: true
+        areaSelectionRequired:
+          type: boolean
+          description: If true, we display available areas in a dropdown when a guest is making an online reservation
+          example: true
+        reservationEnquiryEnabled:
+          type: boolean
+          description: If true, the restaurants allows enquiries
+          example: true
+        minimumCapacityForEnquiries:
+          type: integer
+          format: int32
+          description: Minimum number of guests for an enquiry
+          example: 4
+        onlineReservationInterval:
+          type: integer
+          format: int32
+          description: Time slots displayed for making a reservation
+          example: 1
+        specialTerms:
           type: string
-          format: url
-          example: https://www.quandoo.com/place/sample-restaurant
-        method:
-          type: string
+          description: If true, special terms and conditions of the restaurant need to be confirmed upon making an online reservation
           example: string
-        rel:
+        links:
+          type: array
+          description: Related links that can be followed based on this response
+          items:
+            $ref: '#/components/schemas/LinkRelationDto'
+        automaticConfirmation:
+          type: boolean
+          description: If true, the customer will receive an automatic email confirmation after he makes a reservation
+          example: true
+        ccvEnabled:
+          type: boolean
+          description: If true, credit card information is required when creating a reservation
+          example: true
+    AreaDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: Id of the area
+          example: 1
+        name:
           type: string
-          enum:
-          - DETAILS
-          - WIDGET
-          - WIDGET_DETAILS
-          - GET_MERCHANT
-          - PARENT
-          - SELF
-          - SETTINGS
-          - AVAILABILITY_DAYS
-          - AVAILABILITIES
-          - CREATE_RESERVATION
-          - GET_RESERVATION
-          - UPDATE_RESERVATION
-          - GET_CUSTOMER_RESERVATION
-          - GET_REVIEW
-          - PORTAL_PREORDER_FORM
-          - RESERVATION_CHECKOUT_PAGE
-          - CREDIT_CARD_DETAILS_PAGE
-          - CUSTOMER_EDIT_RESERVATION
-          example: DETAILS
+          description: Name of the area
+          example: Sample Restaurant
+        priority:
+          type: integer
+          format: int32
+          description: Priority set for this area
+          example: 1
     ErrorResponse:
       type: object
       properties:
@@ -206,76 +344,38 @@ components:
         errorMessage:
           type: string
           example: Window table preferred if available.
-    AreaDto:
+    LinkRelationDto:
       type: object
       properties:
-        id:
-          type: integer
-          format: int32
-          description: Id of the area
-          example: 1
-        name:
+        href:
           type: string
-          description: Name of the area
-          example: Sample Restaurant
-        priority:
-          type: integer
-          format: int32
-          description: Priority set for this area
-          example: 1
-    MerchantReservationSettingsDto:
-      type: object
-      properties:
-        areaIds:
-          type: array
-          description: 'List of all the areas defined for the merchant. Each area will contain:'
-          items:
-            $ref: '#/components/schemas/AreaDto'
-        capacities:
-          type: array
-          description: Number of guests allowed in a reservation
-          items:
-            type: integer
-            format: int32
-        merchantNewsletterSelectionRequired:
-          type: boolean
-          description: If true, a separate checkbox is displayed in the checkout for newsletter received from the restaurant
-          example: true
-        areaSelectionRequired:
-          type: boolean
-          description: If true, we display available areas in a dropdown when a guest is making an online reservation
-          example: true
-        reservationEnquiryEnabled:
-          type: boolean
-          description: If true, the restaurants allows enquiries
-          example: true
-        minimumCapacityForEnquiries:
-          type: integer
-          format: int32
-          description: Minimum number of guests for an enquiry
-          example: 4
-        onlineReservationInterval:
-          type: integer
-          format: int32
-          description: Time slots displayed for making a reservation
-          example: 1
-        specialTerms:
+          format: url
+          example: https://www.quandoo.com/place/sample-restaurant
+        method:
           type: string
-          description: If true, special terms and conditions of the restaurant need to be confirmed upon making an online reservation
           example: string
-        links:
-          type: array
-          description: Related links that can be followed based on this response
-          items:
-            $ref: '#/components/schemas/LinkRelationDto'
-        automaticConfirmation:
-          type: boolean
-          description: If true, the customer will receive an automatic email confirmation after he makes a reservation
-          example: true
-        ccvEnabled:
-          type: boolean
-          description: If true, credit card information is required when creating a reservation
-          example: true
+        rel:
+          type: string
+          enum:
+          - DETAILS
+          - WIDGET
+          - WIDGET_DETAILS
+          - GET_MERCHANT
+          - PARENT
+          - SELF
+          - SETTINGS
+          - AVAILABILITY_DAYS
+          - AVAILABILITIES
+          - CREATE_RESERVATION
+          - GET_RESERVATION
+          - UPDATE_RESERVATION
+          - GET_CUSTOMER_RESERVATION
+          - GET_REVIEW
+          - PORTAL_PREORDER_FORM
+          - RESERVATION_CHECKOUT_PAGE
+          - CREDIT_CARD_DETAILS_PAGE
+          - CUSTOMER_EDIT_RESERVATION
+          example: DETAILS
   securitySchemes:
     API_TOKEN:
       type: apiKey

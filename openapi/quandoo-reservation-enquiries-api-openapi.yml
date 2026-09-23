@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Quandoo Public Partner Availabilities Reservation Enquiries API
-  description: The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo restaurant reservations platform. It lets partners check merchant availability, search merchants, read merchant reservation and enquiry settings, create and manage reservations and reservation enquiries, manage customers and reviews, handle preorders and reservation tags, and validate phone numbers. Reservation and enquiry creation is idempotent via an agent-specific unique identifier. Derived from the official Quandoo Swagger specification at https://api.quandoo.com/swagger.json.
+  title: Quandoo Public Partner Reservation Enquiries API
+  description: The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo restaurant reservations platform.
   version: 1.0.0
   contact:
     name: Quandoo Developers
@@ -21,7 +21,7 @@ paths:
       - Reservation Enquiries
       summary: Quandoo Create Reservation Enquiries
       operationId: createReservationEnquiry_1
-      description: "This endpoint allows to create a reservation enquiry for a certain capacity, start and end time. It also requires certain customer information. All optional fields can be either omitted or set to null. The endpoint is idempotent, which means sending the same request twice will not create another reservation enquiry. For that purpose the client is required to generate an agent-specific unique ID for each request.\n\nThe endpoint will return status `HTTP 400` should any of the required parameters be missing or formatted incorrectly. See schema for details. \n\n####Request:\nThe request needs to have 3 objects: reservation enquiry, customer and tracking information.\n\n* **reservationEnquiry**: Information about the merchant and the enquiry.\n  * **id**: The unique identifier of the reservation enquiry for the calling agent (Agent dependent field) or NULL if the agent identifier should be created. Optional.\n  * **merchantId**: The ID of the merchant at which this enquiry will be made. **Required**.\n  * **capacity**: The capacity (people count) of the reservation enquiry. **Required**.\n  * **startDateTime**: The start date and time when the customer wants to make a reservation. Format: yyyy-MM-ddTHH:mm:ssZ. **Required**.\n  * **endDateTime**: The expected date and time for the reservation to end accordingly to the customer. Format: yyyy-MM-ddTHH:mm:ssZ. **Required**.\n  * **message**: A free-text message to the merchant. Max of 5000 characters. **Required**.\n\n* **customer**: Information on the customer making the reservation.\n  * **id**: Identifier of the customer for the calling agent. Agent dependent field. Optional.\n  * **firstName**: The first name of the customer. Optional.\n  * **lastName**: The last name of the customer. Optional.\n  * **emailAddress**: The email address of the customer. **Required**.\n  * **phoneNumber**: The phone number of the customer. Without country code, since it will be assumed from the country field. Example: 030120765890. **Required**.\n  * **locale**: The locale of the customer. E.g. de_DE. **Required**.\n  * **country**: The 2 letter ISO country of the customer. E.g DE. **Required**\n  * **subscriptions**: List of requested subscriptions e.g. QUANDOO, MERCHANT. Optional.\n\n* **tracking**: Third party information used to track customer and reservation enquiry.\n  * **agent**: The id of the agent creating this reservation enquiry. **Required**.\n  * **cookie**: Cookie information to be stored with this reservation. Optional.\n\n####Response:\nThe response returns information on the created reservation enquiry and the customer along with relevant links to follow.\n\n* **reservationEnquiry**: Information on the created reservation enquiry.\n  * **id**: Agent-specific id set for the reservation enquiry.\n\n* **customer**: Information on the customer.\n  * **id**: Agent-specific id set for the customer.\n\n* **links**: Related links that can be followed based on this response.\n\nExample curl:\n```\ncurl -H \"Content-Type: application/json\" -X POST -d '\n{\n  \"reservationEnquiry\": {\n    \"id\": \"07f53b36-3f48-11e5-a151-feff819cdc9f\",\n    \"merchantId\": 15,\n    \"capacity\": 10,\n    \"startDateTime\": \"2015-06-22T12:00:00+00:00\",\n    \"endDateTime\": \"2015-06-22T17:00:00+00:00\",\n    \"message\": \"Customer specific message\"\n  },\n  \"customer\": {\n        \"id\": \"659b9f4b-cd1a-4dc9-a5c3-8ef6bacbade5\",\n        \"firstName\": \"Hans\",\n        \"lastName\": \"Wurst\",\n        \"emailAddress\": \"hans.wurst@foo.bar\",\n        \"phoneNumber\": \"017312345678\",\n        \"locale\": \"de_DE\",\n        \"country\": \"DE\",\n        \"subscriptions\": [\n          {\n              \"id\": \"QUANDOO\"\n          },\n          {\n              \"id\": \"MERCHANT\"\n          }\n      ]\n    },\n    \"tracking\": {\n        \"agent\": {\n          \"id\": 3\n        },\n        \"cookie\": {\n            \"tracking\": \"ff819cdc9\",\n            \"referenceId\": \"07f53b36\"\n        }\n    }\n}' https://{host}/v{X}/reservation-enquiries\n```\n\nExample response:\n```\n{\n  \"reservationEnquiry\": {\n    \"id\": \"07f53b36-3f48-11e5-a151-feff819cdc9f\"\n  },\n  \"customer\": {\n    \"id\": \"2cc29cba-1e1f-4af6-8184-386e19c891ec\"\n  },\n  \"links\": [\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15\",\n      \"method\": \"GET\",\n      \"rel\": \"get-merchant\"\n    },\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15/reservation-settings\",\n      \"method\": \"GET\",\n      \"rel\": \"reservation-settings\"\n    },\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15/availabilities\",\n      \"method\": \"GET\",\n      \"rel\": \"availability_days\"\n    },\n    {\n      \"href\": \"https://{host}/v{X}/merchants/15/availabilities/2015-06-22/times\",\n      \"method\": \"GET\",\n      \"rel\": \"availability\"\n    }\n  ]\n}\n```"
+      description: This endpoint allows to create a reservation enquiry for a certain capacity, start and end time.
       requestBody:
         required: true
         content:
@@ -109,7 +109,69 @@ paths:
       - Reservation Enquiries
       summary: Quandoo Get Reservation Enquiry by Id
       operationId: getReservationEnquiry_1
-      description: "This endpoint allows an agent to get an reservation enquiry by id. The id is agent-specific. The agent needs to be authenticated.\n\nThe endpoint will return `HTTP 404 - Not Found` if the reservation enquiry with the specified id could not be found.\n\nIt will return `HTTP 403 - Forbidden` if the agent is not authenticated, if the agent doesn't have permissions or the reservation enquiry doesn't belong to the authenticated agent.\n\n####Request:\n* **reservationEnquiryId**: Agent-specific ID of the requested reservation enquiry\n\n####Response:\n* **id**: The agent-dependent unique id of the reservation enquiry\n* **merchantId**: The ID of the merchant at which this reservation enquiry was made\n* **customerId**: The ID of the customer to which this reservation enquiry belongs\n* **capacity**: The capacity (people count) of the reservation enquiry\n* **startDateTime**: The start date time of the reservation enquiry. Format: yyyy-MM-ddTHH:mm:ssZ\n* **endDateTime**: The end date time of the reservation enquiry. Format: yyyy-MM-ddTHH:mm:ssZ\n* **status**: The status of the reservation enquiry which can be one of:  NEW, IN_PROGRESS, ACCEPTED or REJECTED\n\nExample curl:\n```\ncurl https://{host}/v{X}/reservation-enquiries/07f53b36-3f48-11e5-a151-feff819cdc9f\n```\n\nExample response:\n```\n{\n  \"id\": \"07f53b36-3f48-11e5-a151-feff819cdc9f\",\n  \"merchantId\": 1384,\n  \"customerId\": \"35fff464-142c-48ac-a0c6-ed72a1615664\",\n  \"capacity\": 4,\n  \"startTime\": \"2015-06-22T12:00:00+00:00\",\n  \"endTime\": \"2015-06-22T13:00:00+00:00\",\n  \"status\": \"NEW\"\n}\n```"
+      description: 'This endpoint allows an agent to get an reservation enquiry by id. The id is agent-specific. The agent needs to be authenticated.
+
+
+        The endpoint will return `HTTP 404 - Not Found` if the reservation enquiry with the specified id could not be found.
+
+
+        It will return `HTTP 403 - Forbidden` if the agent is not authenticated, if the agent doesn''t have permissions or the reservation enquiry doesn''t belong to the authenticated agent.
+
+
+        ####Request:
+
+        * **reservationEnquiryId**: Agent-specific ID of the requested reservation enquiry
+
+
+        ####Response:
+
+        * **id**: The agent-dependent unique id of the reservation enquiry
+
+        * **merchantId**: The ID of the merchant at which this reservation enquiry was made
+
+        * **customerId**: The ID of the customer to which this reservation enquiry belongs
+
+        * **capacity**: The capacity (people count) of the reservation enquiry
+
+        * **startDateTime**: The start date time of the reservation enquiry. Format: yyyy-MM-ddTHH:mm:ssZ
+
+        * **endDateTime**: The end date time of the reservation enquiry. Format: yyyy-MM-ddTHH:mm:ssZ
+
+        * **status**: The status of the reservation enquiry which can be one of: NEW, IN_PROGRESS, ACCEPTED or REJECTED
+
+
+        Example curl:
+
+        ```
+
+        curl https://{host}/v{X}/reservation-enquiries/07f53b36-3f48-11e5-a151-feff819cdc9f
+
+        ```
+
+
+        Example response:
+
+        ```
+
+        {
+
+        "id": "07f53b36-3f48-11e5-a151-feff819cdc9f",
+
+        "merchantId": 1384,
+
+        "customerId": "35fff464-142c-48ac-a0c6-ed72a1615664",
+
+        "capacity": 4,
+
+        "startTime": "2015-06-22T12:00:00+00:00",
+
+        "endTime": "2015-06-22T13:00:00+00:00",
+
+        "status": "NEW"
+
+        }
+
+        ```'
       parameters:
       - name: reservationEnquiryId
         in: path
@@ -196,7 +258,33 @@ paths:
       - Reservation Enquiries
       summary: Quandoo Update Status of Reservation Enquiry by Id
       operationId: updateReservationEnquiry_1
-      description: "This endpoint allows to update the status of a reservation enquiry with the given ID. The allowed status transitions are as following:\n\n* NEW --> IN_PROGRESS --> {ACCEPTED/REJECTED}\n* ACCEPTED <--> REJECTED\n\nThe endpoint will return `HTTP 404 - Not Found` if the reservation enquiry with the specified id could not be found.\n\nThe endpoint will return `HTTP 400 - Bad Request` if the specified status is wrong.\n\nThe endpoint will return `HTTP 409 - Conflict` if the status change is invalid.\n\nThe endpoint will return `HTTP 403 - Forbidden` if the agent is not authenticated, if the agent doesn't have permissions or the reservation enquiry \ndoesn't belong to the authenticated agent.\n\n####Request:\n* **reservationEnquiryId**: Agent-specific ID of the requested reservation enquiry\n* **reservationEnquiryData**: The new enquiry status\n"
+      description: 'This endpoint allows to update the status of a reservation enquiry with the given ID. The allowed status transitions are as following:
+
+
+        * NEW --> IN_PROGRESS --> {ACCEPTED/REJECTED}
+
+        * ACCEPTED REJECTED
+
+
+        The endpoint will return `HTTP 404 - Not Found` if the reservation enquiry with the specified id could not be found.
+
+
+        The endpoint will return `HTTP 400 - Bad Request` if the specified status is wrong.
+
+
+        The endpoint will return `HTTP 409 - Conflict` if the status change is invalid.
+
+
+        The endpoint will return `HTTP 403 - Forbidden` if the agent is not authenticated, if the agent doesn''t have permissions or the reservation enquiry
+
+        doesn''t belong to the authenticated agent.
+
+
+        ####Request:
+
+        * **reservationEnquiryId**: Agent-specific ID of the requested reservation enquiry
+
+        * **reservationEnquiryData**: The new enquiry status'
       parameters:
       - name: reservationEnquiryId
         in: path
@@ -281,7 +369,63 @@ paths:
       - Reservation Enquiries
       summary: Quandoo Get All Messages of a Reservation Enquiry
       operationId: getMessagesForReservationEnquiry_1
-      description: "This endpoint allows an agent to get all messages of a reservation enquiry. The id of the reservation enquiry is agent-specific. The agent needs to be authenticated.\n\nThe endpoint will return `HTTP 404 - Not Found` if the reservation enquiry with the specified id could not be found.\n\nIt will return `HTTP 403 - Forbidden` if the agent is not authenticated, if the agent doesn't have permissions or the reservation enquiry doesn't belong to the authenticated agent.\n\n####Request:\n* **reservationEnquiryId**: Agent-specific ID of the requested reservation enquiry\n\n####Response:\nThe response will contain a _list_ of messages. Each one containing the following fields:\n* **senderType**: If this message was sent by the customer or by the merchant \n* **creationDate**: The date time that this message was created. Format: yyyy-MM-ddTHH:mm:ssZ\n* **message**: The text of the message itself.\n\nExample curl:\n```\ncurl https://{host}/v{X}/reservation-enquiries/07f53b36-3f48-11e5-a151-feff819cdc9f/messages\n```\n\nExample response:\n```\n{\n  \"messages\": [\n    {\n      \"senderType\": \"CUSTOMER\",\n      \"message\": \"Customer specific message\",\n      \"creationDate\": \"2018-05-04T09:26:53Z\"\n    }\n  ]\n}\n```"
+      description: 'This endpoint allows an agent to get all messages of a reservation enquiry. The id of the reservation enquiry is agent-specific. The agent needs to be authenticated.
+
+
+        The endpoint will return `HTTP 404 - Not Found` if the reservation enquiry with the specified id could not be found.
+
+
+        It will return `HTTP 403 - Forbidden` if the agent is not authenticated, if the agent doesn''t have permissions or the reservation enquiry doesn''t belong to the authenticated agent.
+
+
+        ####Request:
+
+        * **reservationEnquiryId**: Agent-specific ID of the requested reservation enquiry
+
+
+        ####Response:
+
+        The response will contain a _list_ of messages. Each one containing the following fields:
+
+        * **senderType**: If this message was sent by the customer or by the merchant
+
+        * **creationDate**: The date time that this message was created. Format: yyyy-MM-ddTHH:mm:ssZ
+
+        * **message**: The text of the message itself.
+
+
+        Example curl:
+
+        ```
+
+        curl https://{host}/v{X}/reservation-enquiries/07f53b36-3f48-11e5-a151-feff819cdc9f/messages
+
+        ```
+
+
+        Example response:
+
+        ```
+
+        {
+
+        "messages": [
+
+        {
+
+        "senderType": "CUSTOMER",
+
+        "message": "Customer specific message",
+
+        "creationDate": "2018-05-04T09:26:53Z"
+
+        }
+
+        ]
+
+        }
+
+        ```'
       parameters:
       - name: reservationEnquiryId
         in: path
@@ -362,6 +506,174 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    LinkRelationDto:
+      type: object
+      properties:
+        href:
+          type: string
+          format: url
+          example: https://www.quandoo.com/place/sample-restaurant
+        method:
+          type: string
+          example: string
+        rel:
+          type: string
+          enum:
+          - DETAILS
+          - WIDGET
+          - WIDGET_DETAILS
+          - GET_MERCHANT
+          - PARENT
+          - SELF
+          - SETTINGS
+          - AVAILABILITY_DAYS
+          - AVAILABILITIES
+          - CREATE_RESERVATION
+          - GET_RESERVATION
+          - UPDATE_RESERVATION
+          - GET_CUSTOMER_RESERVATION
+          - GET_REVIEW
+          - PORTAL_PREORDER_FORM
+          - RESERVATION_CHECKOUT_PAGE
+          - CREDIT_CARD_DETAILS_PAGE
+          - CUSTOMER_EDIT_RESERVATION
+          example: DETAILS
+    MerchantCustomer:
+      type: object
+      required:
+      - country
+      - locale
+      - phoneNumber
+      properties:
+        id:
+          type: string
+          description: Identifier of the customer for the calling agent. (Agent dependent field)
+          example: '88086'
+        firstName:
+          type: string
+          description: The first name of the customer. Optional.
+          example: Jane
+        lastName:
+          type: string
+          description: The last name of the customer.
+          example: Smith
+        emailAddress:
+          type: string
+          description: The email address of the customer.
+          example: jane.smith@example.com
+        phoneNumber:
+          type: string
+          description: The phone number of the customer. The expected format is E164 e.g. +4930120765890
+          example: 030120765890
+        locale:
+          type: string
+          description: The locale of the customer. E.g. de_DE
+          example: de_DE
+        country:
+          type: string
+          description: The 2 letter ISO country of the customer, e.g. DE
+          example: DE
+        subscriptions:
+          type: array
+          description: The requested subscriptions, e.g. QUANDOO, MERCHANT
+          items:
+            $ref: '#/components/schemas/MerchantSubscription'
+    ReservationEnquiryMessageList:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReservationEnquiryMessageData'
+    UpdateReservationEnquiryData:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of the reservation enquiry
+          example: CONFIRMED
+    ReservationEnquiryMessageData:
+      type: object
+      properties:
+        senderType:
+          type: string
+          enum:
+          - MERCHANT
+          - CUSTOMER
+          example: MERCHANT
+        message:
+          type: string
+          example: Window table preferred if available.
+        creationDate:
+          type: string
+          format: date-time
+          description: 'The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ'
+          example: '2026-07-15T19:30:00'
+    AgentTracking:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: An agent id. Required.
+          example: 1
+    MerchantReservationEnquiry:
+      type: object
+      required:
+      - capacity
+      - endDateTime
+      - id
+      - merchantId
+      - message
+      - startDateTime
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the reservation enquiry for the calling agent (Agent dependent field) or NULL if the agent identifier should be created. Optional.
+          example: '88086'
+        merchantId:
+          type: integer
+          format: int32
+          description: The ID of the merchant at which this reservation will be made.
+          example: 88086
+        capacity:
+          type: integer
+          format: int32
+          description: The capacity (people count) of the reservation enquiry.
+          minimum: 1
+          example: 4
+        startDateTime:
+          type: string
+          description: 'The start date and time of the potential reservation. Format: yyyy-MM-ddTHH:mm:ssZ'
+          example: '2026-07-15T19:30:00'
+        endDateTime:
+          type: string
+          description: 'The end date and time of the potential reservation. Format: yyyy-MM-ddTHH:mm:ssZ'
+          example: '2026-07-15T19:30:00'
+        message:
+          type: string
+          description: A message from the customer.
+          minLength: 0
+          maxLength: 5000
+          example: Window table preferred if available.
+    MerchantReservationEnquiryData:
+      type: object
+      required:
+      - customer
+      - reservationEnquiry
+      - tracking
+      properties:
+        reservationEnquiry:
+          description: The reservation enquiry data.
+          $ref: '#/components/schemas/MerchantReservationEnquiry'
+        customer:
+          description: The customer data.
+          $ref: '#/components/schemas/MerchantCustomer'
+        tracking:
+          description: The tracking data.
+          $ref: '#/components/schemas/Tracking'
     CreatedReservationEnquiry:
       type: object
       required:
@@ -370,6 +682,17 @@ components:
         id:
           type: string
           description: The identifier of the reservation enquiry for the calling agent (Agent-dependent field)
+          example: '88086'
+    RestCookie:
+      type: object
+      properties:
+        tracking:
+          type: string
+          description: A tracking string to be stored with the reservation. Optional.
+          example: string
+        referenceId:
+          type: string
+          description: A reference id to be stored with the reservation. Optional.
           example: '88086'
     ErrorResponse:
       type: object
@@ -441,82 +764,6 @@ components:
         errorMessage:
           type: string
           example: Window table preferred if available.
-    Tracking:
-      type: object
-      required:
-      - agent
-      properties:
-        agent:
-          description: The id of the agent creating this request and partner references if any. Required.
-          $ref: '#/components/schemas/AgentTracking'
-        cookie:
-          description: Cookie information to be stored with this reservation. Optional.
-          $ref: '#/components/schemas/RestCookie'
-    MerchantCustomer:
-      type: object
-      required:
-      - country
-      - locale
-      - phoneNumber
-      properties:
-        id:
-          type: string
-          description: Identifier of the customer for the calling agent. (Agent dependent field)
-          example: '88086'
-        firstName:
-          type: string
-          description: The first name of the customer. Optional.
-          example: Jane
-        lastName:
-          type: string
-          description: The last name of the customer.
-          example: Smith
-        emailAddress:
-          type: string
-          description: The email address of the customer.
-          example: jane.smith@example.com
-        phoneNumber:
-          type: string
-          description: The phone number of the customer. The expected format is E164 e.g. +4930120765890
-          example: 030120765890
-        locale:
-          type: string
-          description: The locale of the customer. E.g. de_DE
-          example: de_DE
-        country:
-          type: string
-          description: The 2 letter ISO country of the customer, e.g. DE
-          example: DE
-        subscriptions:
-          type: array
-          description: The requested subscriptions, e.g. QUANDOO, MERCHANT
-          items:
-            $ref: '#/components/schemas/MerchantSubscription'
-    ReservationEnquiryMessageList:
-      type: object
-      properties:
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReservationEnquiryMessageData'
-    CreatedReservationEnquiryData:
-      type: object
-      required:
-      - customer
-      - links
-      - reservationEnquiry
-      properties:
-        reservationEnquiry:
-          description: The object holding the reservation enquiry data.
-          $ref: '#/components/schemas/CreatedReservationEnquiry'
-        customer:
-          description: The object holding the customer data.
-          $ref: '#/components/schemas/CreatedCustomer'
-        links:
-          type: array
-          description: Related links to follow
-          items:
-            $ref: '#/components/schemas/LinkRelationDto'
     GetReservationEnquiryData:
       type: object
       required:
@@ -552,147 +799,17 @@ components:
           type: string
           description: 'The status of the reservation enquiry which can be one of:  NEW, IN_PROGRESS, ACCEPTED or REJECTED'
           example: CONFIRMED
-    CreatedCustomer:
+    Tracking:
       type: object
       required:
-      - id
+      - agent
       properties:
-        id:
-          type: string
-          description: The id of the customer for the calling agent. (Agent dependent field)
-          example: '88086'
-    ReservationEnquiryMessageData:
-      type: object
-      properties:
-        senderType:
-          type: string
-          enum:
-          - MERCHANT
-          - CUSTOMER
-          example: MERCHANT
-        message:
-          type: string
-          example: Window table preferred if available.
-        creationDate:
-          type: string
-          format: date-time
-          description: 'The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ'
-          example: '2026-07-15T19:30:00'
-    MerchantReservationEnquiryData:
-      type: object
-      required:
-      - customer
-      - reservationEnquiry
-      - tracking
-      properties:
-        reservationEnquiry:
-          description: The reservation enquiry data.
-          $ref: '#/components/schemas/MerchantReservationEnquiry'
-        customer:
-          description: The customer data.
-          $ref: '#/components/schemas/MerchantCustomer'
-        tracking:
-          description: The tracking data.
-          $ref: '#/components/schemas/Tracking'
-    MerchantReservationEnquiry:
-      type: object
-      required:
-      - capacity
-      - endDateTime
-      - id
-      - merchantId
-      - message
-      - startDateTime
-      properties:
-        id:
-          type: string
-          description: The unique identifier of the reservation enquiry for the calling agent (Agent dependent field) or NULL if the agent identifier should be created. Optional.
-          example: '88086'
-        merchantId:
-          type: integer
-          format: int32
-          description: The ID of the merchant at which this reservation will be made.
-          example: 88086
-        capacity:
-          type: integer
-          format: int32
-          description: The capacity (people count) of the reservation enquiry.
-          minimum: 1
-          example: 4
-        startDateTime:
-          type: string
-          description: 'The start date and time of the potential reservation. Format: yyyy-MM-ddTHH:mm:ssZ'
-          example: '2026-07-15T19:30:00'
-        endDateTime:
-          type: string
-          description: 'The end date and time of the potential reservation. Format: yyyy-MM-ddTHH:mm:ssZ'
-          example: '2026-07-15T19:30:00'
-        message:
-          type: string
-          description: A message from the customer.
-          minLength: 0
-          maxLength: 5000
-          example: Window table preferred if available.
-    UpdateReservationEnquiryData:
-      type: object
-      properties:
-        status:
-          type: string
-          description: The status of the reservation enquiry
-          example: CONFIRMED
-    RestCookie:
-      type: object
-      properties:
-        tracking:
-          type: string
-          description: A tracking string to be stored with the reservation. Optional.
-          example: string
-        referenceId:
-          type: string
-          description: A reference id to be stored with the reservation. Optional.
-          example: '88086'
-    LinkRelationDto:
-      type: object
-      properties:
-        href:
-          type: string
-          format: url
-          example: https://www.quandoo.com/place/sample-restaurant
-        method:
-          type: string
-          example: string
-        rel:
-          type: string
-          enum:
-          - DETAILS
-          - WIDGET
-          - WIDGET_DETAILS
-          - GET_MERCHANT
-          - PARENT
-          - SELF
-          - SETTINGS
-          - AVAILABILITY_DAYS
-          - AVAILABILITIES
-          - CREATE_RESERVATION
-          - GET_RESERVATION
-          - UPDATE_RESERVATION
-          - GET_CUSTOMER_RESERVATION
-          - GET_REVIEW
-          - PORTAL_PREORDER_FORM
-          - RESERVATION_CHECKOUT_PAGE
-          - CREDIT_CARD_DETAILS_PAGE
-          - CUSTOMER_EDIT_RESERVATION
-          example: DETAILS
-    AgentTracking:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: integer
-          format: int32
-          description: An agent id. Required.
-          example: 1
+        agent:
+          description: The id of the agent creating this request and partner references if any. Required.
+          $ref: '#/components/schemas/AgentTracking'
+        cookie:
+          description: Cookie information to be stored with this reservation. Optional.
+          $ref: '#/components/schemas/RestCookie'
     MerchantSubscription:
       type: object
       properties:
@@ -702,6 +819,33 @@ components:
           - QUANDOO
           - MERCHANT
           example: QUANDOO
+    CreatedCustomer:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          description: The id of the customer for the calling agent. (Agent dependent field)
+          example: '88086'
+    CreatedReservationEnquiryData:
+      type: object
+      required:
+      - customer
+      - links
+      - reservationEnquiry
+      properties:
+        reservationEnquiry:
+          description: The object holding the reservation enquiry data.
+          $ref: '#/components/schemas/CreatedReservationEnquiry'
+        customer:
+          description: The object holding the customer data.
+          $ref: '#/components/schemas/CreatedCustomer'
+        links:
+          type: array
+          description: Related links to follow
+          items:
+            $ref: '#/components/schemas/LinkRelationDto'
   securitySchemes:
     API_TOKEN:
       type: apiKey

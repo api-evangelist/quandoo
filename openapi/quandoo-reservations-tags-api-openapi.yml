@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Quandoo Public Partner Availabilities Reservations Tags API
-  description: The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo restaurant reservations platform. It lets partners check merchant availability, search merchants, read merchant reservation and enquiry settings, create and manage reservations and reservation enquiries, manage customers and reviews, handle preorders and reservation tags, and validate phone numbers. Reservation and enquiry creation is idempotent via an agent-specific unique identifier. Derived from the official Quandoo Swagger specification at https://api.quandoo.com/swagger.json.
+  title: Quandoo Public Partner Reservations Tags API
+  description: The Quandoo Public Partner API is a multi-purpose REST API for the Quandoo restaurant reservations platform.
   version: 1.0.0
   contact:
     name: Quandoo Developers
@@ -21,7 +21,67 @@ paths:
       - Reservations Tags
       summary: Quandoo Get Merchant Reservation Tags
       operationId: getReservationTags_1
-      description: "This endpoint returns all active reservation tags for a merchant.\n####Request:\n* **merchantId**: merchant's ID. Taken as a path parameter.\n\n####Response:\n* **id**: reservation tag's ID.\n* **name**: tag's name. Default tag names are usually translated to merchant's locale.\n* **merchantId**: merchant's ID.\n\nIt will return `HTTP 403 - AUTHENTICATION_ERROR` if the user is not authenticated.\n\nExample response:\n```\n{\n    \"reservationTags\": [\n        {\n            \"id\": 5,\n            \"name\": \"Birthday\",\n            \"merchantId\": 3\n        },\n        {\n            \"id\": 51,\n            \"name\": \"With Children\",\n            \"merchantId\": 3\n        }\n    ]\n}\n```\n\n\nExample curl:\n```\ncurl -H \"Content-Type: application/json\" -X GET  https://{host}/v{X}/merchants/{merchantId}/reservation_tags\n```\n"
+      description: 'This endpoint returns all active reservation tags for a merchant.
+
+        ####Request:
+
+        * **merchantId**: merchant''s ID. Taken as a path parameter.
+
+
+        ####Response:
+
+        * **id**: reservation tag''s ID.
+
+        * **name**: tag''s name. Default tag names are usually translated to merchant''s locale.
+
+        * **merchantId**: merchant''s ID.
+
+
+        It will return `HTTP 403 - AUTHENTICATION_ERROR` if the user is not authenticated.
+
+
+        Example response:
+
+        ```
+
+        {
+
+        "reservationTags": [
+
+        {
+
+        "id": 5,
+
+        "name": "Birthday",
+
+        "merchantId": 3
+
+        },
+
+        {
+
+        "id": 51,
+
+        "name": "With Children",
+
+        "merchantId": 3
+
+        }
+
+        ]
+
+        }
+
+        ```
+
+
+        Example curl:
+
+        ```
+
+        curl -H "Content-Type: application/json" -X GET https://{host}/v{X}/merchants/{merchantId}/reservation_tags
+
+        ```'
       parameters:
       - name: merchantId
         in: path
@@ -117,6 +177,13 @@ components:
           type: integer
           format: int32
           example: 88086
+    ReservationTagsDto:
+      type: object
+      properties:
+        reservationTags:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReservationTagDto'
     ErrorResponse:
       type: object
       properties:
@@ -187,13 +254,6 @@ components:
         errorMessage:
           type: string
           example: Window table preferred if available.
-    ReservationTagsDto:
-      type: object
-      properties:
-        reservationTags:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReservationTagDto'
   securitySchemes:
     API_TOKEN:
       type: apiKey

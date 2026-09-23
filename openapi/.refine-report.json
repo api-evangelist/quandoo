@@ -1,16 +1,7 @@
 {
   "provider": "quandoo",
   "sources": [
-    "quandoo-availabilities-api-openapi.yml",
-    "quandoo-customers-api-openapi.yml",
-    "quandoo-merchants-api-openapi.yml",
-    "quandoo-reservation-enquiries-api-openapi.yml",
-    "quandoo-reservation-settings-api-openapi.yml",
-    "quandoo-reservations-api-openapi.yml",
-    "quandoo-reservations-tags-api-openapi.yml",
-    "quandoo-reviews-api-openapi.yml",
-    "quandoo-status-api-openapi.yml",
-    "quandoo-validations-api-openapi.yml"
+    "_original/quandoo-public-partner-api-openapi.yml"
   ],
   "outputs": [
     "quandoo-availabilities-api-openapi.yml",
@@ -27,6 +18,21 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "quandoo-public-partner-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "quandoo-availabilities-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quandoo-customers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quandoo-merchants-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quandoo-reservation-enquiries-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quandoo-reservation-settings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quandoo-reservations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quandoo-reservations-tags-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quandoo-reviews-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quandoo-status-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quandoo-validations-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
