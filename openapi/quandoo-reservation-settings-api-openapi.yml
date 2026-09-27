@@ -204,76 +204,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    MerchantReservationSettingsDto:
-      type: object
-      properties:
-        areaIds:
-          type: array
-          description: 'List of all the areas defined for the merchant. Each area will contain:'
-          items:
-            $ref: '#/components/schemas/AreaDto'
-        capacities:
-          type: array
-          description: Number of guests allowed in a reservation
-          items:
-            type: integer
-            format: int32
-        merchantNewsletterSelectionRequired:
-          type: boolean
-          description: If true, a separate checkbox is displayed in the checkout for newsletter received from the restaurant
-          example: true
-        areaSelectionRequired:
-          type: boolean
-          description: If true, we display available areas in a dropdown when a guest is making an online reservation
-          example: true
-        reservationEnquiryEnabled:
-          type: boolean
-          description: If true, the restaurants allows enquiries
-          example: true
-        minimumCapacityForEnquiries:
-          type: integer
-          format: int32
-          description: Minimum number of guests for an enquiry
-          example: 4
-        onlineReservationInterval:
-          type: integer
-          format: int32
-          description: Time slots displayed for making a reservation
-          example: 1
-        specialTerms:
-          type: string
-          description: If true, special terms and conditions of the restaurant need to be confirmed upon making an online reservation
-          example: string
-        links:
-          type: array
-          description: Related links that can be followed based on this response
-          items:
-            $ref: '#/components/schemas/LinkRelationDto'
-        automaticConfirmation:
-          type: boolean
-          description: If true, the customer will receive an automatic email confirmation after he makes a reservation
-          example: true
-        ccvEnabled:
-          type: boolean
-          description: If true, credit card information is required when creating a reservation
-          example: true
-    AreaDto:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int32
-          description: Id of the area
-          example: 1
-        name:
-          type: string
-          description: Name of the area
-          example: Sample Restaurant
-        priority:
-          type: integer
-          format: int32
-          description: Priority set for this area
-          example: 1
     ErrorResponse:
       type: object
       properties:
@@ -376,6 +306,76 @@ components:
           - CREDIT_CARD_DETAILS_PAGE
           - CUSTOMER_EDIT_RESERVATION
           example: DETAILS
+    AreaDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: Id of the area
+          example: 1
+        name:
+          type: string
+          description: Name of the area
+          example: Sample Restaurant
+        priority:
+          type: integer
+          format: int32
+          description: Priority set for this area
+          example: 1
+    MerchantReservationSettingsDto:
+      type: object
+      properties:
+        areaIds:
+          type: array
+          description: 'List of all the areas defined for the merchant. Each area will contain:'
+          items:
+            $ref: '#/components/schemas/AreaDto'
+        capacities:
+          type: array
+          description: Number of guests allowed in a reservation
+          items:
+            type: integer
+            format: int32
+        merchantNewsletterSelectionRequired:
+          type: boolean
+          description: If true, a separate checkbox is displayed in the checkout for newsletter received from the restaurant
+          example: true
+        areaSelectionRequired:
+          type: boolean
+          description: If true, we display available areas in a dropdown when a guest is making an online reservation
+          example: true
+        reservationEnquiryEnabled:
+          type: boolean
+          description: If true, the restaurants allows enquiries
+          example: true
+        minimumCapacityForEnquiries:
+          type: integer
+          format: int32
+          description: Minimum number of guests for an enquiry
+          example: 4
+        onlineReservationInterval:
+          type: integer
+          format: int32
+          description: Time slots displayed for making a reservation
+          example: 1
+        specialTerms:
+          type: string
+          description: If true, special terms and conditions of the restaurant need to be confirmed upon making an online reservation
+          example: string
+        links:
+          type: array
+          description: Related links that can be followed based on this response
+          items:
+            $ref: '#/components/schemas/LinkRelationDto'
+        automaticConfirmation:
+          type: boolean
+          description: If true, the customer will receive an automatic email confirmation after he makes a reservation
+          example: true
+        ccvEnabled:
+          type: boolean
+          description: If true, credit card information is required when creating a reservation
+          example: true
   securitySchemes:
     API_TOKEN:
       type: apiKey

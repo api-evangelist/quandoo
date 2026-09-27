@@ -163,27 +163,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    ReservationTagDto:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int32
-          example: 1
-        name:
-          type: string
-          example: Sample Restaurant
-        merchantId:
-          type: integer
-          format: int32
-          example: 88086
-    ReservationTagsDto:
-      type: object
-      properties:
-        reservationTags:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReservationTagDto'
     ErrorResponse:
       type: object
       properties:
@@ -254,6 +233,27 @@ components:
         errorMessage:
           type: string
           example: Window table preferred if available.
+    ReservationTagDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        name:
+          type: string
+          example: Sample Restaurant
+        merchantId:
+          type: integer
+          format: int32
+          example: 88086
+    ReservationTagsDto:
+      type: object
+      properties:
+        reservationTags:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReservationTagDto'
   securitySchemes:
     API_TOKEN:
       type: apiKey

@@ -457,76 +457,35 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    MerchantAvailabilityDtoList:
+    MerchantVaultSettingsDto:
       type: object
       required:
-      - links
+      - fee
+      - feeType
+      - id
       properties:
-        timeSlots:
-          type: array
-          description: The availability time slots to reserve.
-          readOnly: true
-          items:
-            $ref: '#/components/schemas/MerchantAvailabilityDto'
-        vaultSettings:
-          type: array
-          description: The credit card vault settings.
-          readOnly: true
-          items:
-            $ref: '#/components/schemas/MerchantVaultSettingsDto'
-        links:
-          type: array
-          description: The links related to this entity.
-          readOnly: true
-          items:
-            $ref: '#/components/schemas/LinkRelationDto'
-    LinkRelationDto:
-      type: object
-      properties:
-        href:
+        id:
           type: string
-          format: url
-          example: https://www.quandoo.com/place/sample-restaurant
-        method:
+          format: uuid
+          description: The id of the vault settings.
+          readOnly: true
+          example: '88086'
+        fee:
+          type: number
+          description: The fee customer should pay in the case of cancellation.
+          readOnly: true
+          example: 1.0
+        feeType:
           type: string
+          description: The type of the fee to pay.
+          readOnly: true
           example: string
-        rel:
-          type: string
-          enum:
-          - DETAILS
-          - WIDGET
-          - WIDGET_DETAILS
-          - GET_MERCHANT
-          - PARENT
-          - SELF
-          - SETTINGS
-          - AVAILABILITY_DAYS
-          - AVAILABILITIES
-          - CREATE_RESERVATION
-          - GET_RESERVATION
-          - UPDATE_RESERVATION
-          - GET_CUSTOMER_RESERVATION
-          - GET_REVIEW
-          - PORTAL_PREORDER_FORM
-          - RESERVATION_CHECKOUT_PAGE
-          - CREDIT_CARD_DETAILS_PAGE
-          - CUSTOMER_EDIT_RESERVATION
-          example: DETAILS
-    MerchantAvailabilityDaysDto:
-      type: object
-      properties:
-        days:
-          type: array
-          description: The days that are available for a reservation
-          items:
-            type: string
-            format: date
-            description: The date when the review was written.
-        links:
-          type: array
-          description: The links for possible operations related to this entity
-          items:
-            $ref: '#/components/schemas/LinkRelationDto'
+        feePercentageForTime:
+          type: object
+          description: Fee percentage depending of the time of cancellation.
+          additionalProperties:
+            type: integer
+            format: int32
     ErrorResponse:
       type: object
       properties:
@@ -597,35 +556,6 @@ components:
         errorMessage:
           type: string
           example: Window table preferred if available.
-    MerchantVaultSettingsDto:
-      type: object
-      required:
-      - fee
-      - feeType
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: The id of the vault settings.
-          readOnly: true
-          example: '88086'
-        fee:
-          type: number
-          description: The fee customer should pay in the case of cancellation.
-          readOnly: true
-          example: 1.0
-        feeType:
-          type: string
-          description: The type of the fee to pay.
-          readOnly: true
-          example: string
-        feePercentageForTime:
-          type: object
-          description: Fee percentage depending of the time of cancellation.
-          additionalProperties:
-            type: integer
-            format: int32
     MerchantAvailabilityDto:
       type: object
       required:
@@ -653,6 +583,76 @@ components:
           format: uuid
           description: The id of the Vault Settings applicable on this availability option.
           example: '88086'
+    MerchantAvailabilityDtoList:
+      type: object
+      required:
+      - links
+      properties:
+        timeSlots:
+          type: array
+          description: The availability time slots to reserve.
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/MerchantAvailabilityDto'
+        vaultSettings:
+          type: array
+          description: The credit card vault settings.
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/MerchantVaultSettingsDto'
+        links:
+          type: array
+          description: The links related to this entity.
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/LinkRelationDto'
+    LinkRelationDto:
+      type: object
+      properties:
+        href:
+          type: string
+          format: url
+          example: https://www.quandoo.com/place/sample-restaurant
+        method:
+          type: string
+          example: string
+        rel:
+          type: string
+          enum:
+          - DETAILS
+          - WIDGET
+          - WIDGET_DETAILS
+          - GET_MERCHANT
+          - PARENT
+          - SELF
+          - SETTINGS
+          - AVAILABILITY_DAYS
+          - AVAILABILITIES
+          - CREATE_RESERVATION
+          - GET_RESERVATION
+          - UPDATE_RESERVATION
+          - GET_CUSTOMER_RESERVATION
+          - GET_REVIEW
+          - PORTAL_PREORDER_FORM
+          - RESERVATION_CHECKOUT_PAGE
+          - CREDIT_CARD_DETAILS_PAGE
+          - CUSTOMER_EDIT_RESERVATION
+          example: DETAILS
+    MerchantAvailabilityDaysDto:
+      type: object
+      properties:
+        days:
+          type: array
+          description: The days that are available for a reservation
+          items:
+            type: string
+            format: date
+            description: The date when the review was written.
+        links:
+          type: array
+          description: The links for possible operations related to this entity
+          items:
+            $ref: '#/components/schemas/LinkRelationDto'
   securitySchemes:
     API_TOKEN:
       type: apiKey

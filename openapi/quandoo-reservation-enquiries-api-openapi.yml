@@ -506,92 +506,51 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    LinkRelationDto:
+    RestCookie:
       type: object
       properties:
-        href:
+        tracking:
           type: string
-          format: url
-          example: https://www.quandoo.com/place/sample-restaurant
-        method:
-          type: string
+          description: A tracking string to be stored with the reservation. Optional.
           example: string
-        rel:
+        referenceId:
           type: string
-          enum:
-          - DETAILS
-          - WIDGET
-          - WIDGET_DETAILS
-          - GET_MERCHANT
-          - PARENT
-          - SELF
-          - SETTINGS
-          - AVAILABILITY_DAYS
-          - AVAILABILITIES
-          - CREATE_RESERVATION
-          - GET_RESERVATION
-          - UPDATE_RESERVATION
-          - GET_CUSTOMER_RESERVATION
-          - GET_REVIEW
-          - PORTAL_PREORDER_FORM
-          - RESERVATION_CHECKOUT_PAGE
-          - CREDIT_CARD_DETAILS_PAGE
-          - CUSTOMER_EDIT_RESERVATION
-          example: DETAILS
-    MerchantCustomer:
+          description: A reference id to be stored with the reservation. Optional.
+          example: '88086'
+    CreatedReservationEnquiryData:
       type: object
       required:
-      - country
-      - locale
-      - phoneNumber
+      - customer
+      - links
+      - reservationEnquiry
       properties:
-        id:
-          type: string
-          description: Identifier of the customer for the calling agent. (Agent dependent field)
-          example: '88086'
-        firstName:
-          type: string
-          description: The first name of the customer. Optional.
-          example: Jane
-        lastName:
-          type: string
-          description: The last name of the customer.
-          example: Smith
-        emailAddress:
-          type: string
-          description: The email address of the customer.
-          example: jane.smith@example.com
-        phoneNumber:
-          type: string
-          description: The phone number of the customer. The expected format is E164 e.g. +4930120765890
-          example: 030120765890
-        locale:
-          type: string
-          description: The locale of the customer. E.g. de_DE
-          example: de_DE
-        country:
-          type: string
-          description: The 2 letter ISO country of the customer, e.g. DE
-          example: DE
-        subscriptions:
+        reservationEnquiry:
+          description: The object holding the reservation enquiry data.
+          $ref: '#/components/schemas/CreatedReservationEnquiry'
+        customer:
+          description: The object holding the customer data.
+          $ref: '#/components/schemas/CreatedCustomer'
+        links:
           type: array
-          description: The requested subscriptions, e.g. QUANDOO, MERCHANT
+          description: Related links to follow
           items:
-            $ref: '#/components/schemas/MerchantSubscription'
-    ReservationEnquiryMessageList:
+            $ref: '#/components/schemas/LinkRelationDto'
+    MerchantReservationEnquiryData:
       type: object
+      required:
+      - customer
+      - reservationEnquiry
+      - tracking
       properties:
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReservationEnquiryMessageData'
-    UpdateReservationEnquiryData:
-      type: object
-      properties:
-        status:
-          type: string
-          description: The status of the reservation enquiry
-          example: CONFIRMED
+        reservationEnquiry:
+          description: The reservation enquiry data.
+          $ref: '#/components/schemas/MerchantReservationEnquiry'
+        customer:
+          description: The customer data.
+          $ref: '#/components/schemas/MerchantCustomer'
+        tracking:
+          description: The tracking data.
+          $ref: '#/components/schemas/Tracking'
     ReservationEnquiryMessageData:
       type: object
       properties:
@@ -609,71 +568,41 @@ components:
           format: date-time
           description: 'The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ'
           example: '2026-07-15T19:30:00'
-    AgentTracking:
+    GetReservationEnquiryData:
       type: object
       required:
-      - id
-      properties:
-        id:
-          type: integer
-          format: int32
-          description: An agent id. Required.
-          example: 1
-    MerchantReservationEnquiry:
-      type: object
-      required:
-      - capacity
-      - endDateTime
-      - id
-      - merchantId
-      - message
-      - startDateTime
+      - customerId
       properties:
         id:
           type: string
-          description: The unique identifier of the reservation enquiry for the calling agent (Agent dependent field) or NULL if the agent identifier should be created. Optional.
+          description: The agent-dependent unique id of the reservation enquiry
           example: '88086'
         merchantId:
           type: integer
           format: int32
-          description: The ID of the merchant at which this reservation will be made.
+          description: The ID of the merchant at which this reservation enquiry was made
           example: 88086
+        customerId:
+          type: string
+          description: The ID of the customer to which this reservation enquiry belongs
+          example: '88086'
         capacity:
           type: integer
           format: int32
-          description: The capacity (people count) of the reservation enquiry.
-          minimum: 1
+          description: The capacity (people count) of the reservation enquiry
           example: 4
         startDateTime:
           type: string
-          description: 'The start date and time of the potential reservation. Format: yyyy-MM-ddTHH:mm:ssZ'
+          description: 'The start date time of the reservation enquiry. Format: yyyy-MM-ddTHH:mm:ssZ'
           example: '2026-07-15T19:30:00'
         endDateTime:
           type: string
-          description: 'The end date and time of the potential reservation. Format: yyyy-MM-ddTHH:mm:ssZ'
+          description: 'The end date time of the reservation enquiry. Format: yyyy-MM-ddTHH:mm:ssZ'
           example: '2026-07-15T19:30:00'
-        message:
+        status:
           type: string
-          description: A message from the customer.
-          minLength: 0
-          maxLength: 5000
-          example: Window table preferred if available.
-    MerchantReservationEnquiryData:
-      type: object
-      required:
-      - customer
-      - reservationEnquiry
-      - tracking
-      properties:
-        reservationEnquiry:
-          description: The reservation enquiry data.
-          $ref: '#/components/schemas/MerchantReservationEnquiry'
-        customer:
-          description: The customer data.
-          $ref: '#/components/schemas/MerchantCustomer'
-        tracking:
-          description: The tracking data.
-          $ref: '#/components/schemas/Tracking'
+          description: 'The status of the reservation enquiry which can be one of:  NEW, IN_PROGRESS, ACCEPTED or REJECTED'
+          example: CONFIRMED
     CreatedReservationEnquiry:
       type: object
       required:
@@ -682,17 +611,6 @@ components:
         id:
           type: string
           description: The identifier of the reservation enquiry for the calling agent (Agent-dependent field)
-          example: '88086'
-    RestCookie:
-      type: object
-      properties:
-        tracking:
-          type: string
-          description: A tracking string to be stored with the reservation. Optional.
-          example: string
-        referenceId:
-          type: string
-          description: A reference id to be stored with the reservation. Optional.
           example: '88086'
     ErrorResponse:
       type: object
@@ -764,41 +682,159 @@ components:
         errorMessage:
           type: string
           example: Window table preferred if available.
-    GetReservationEnquiryData:
+    UpdateReservationEnquiryData:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of the reservation enquiry
+          example: CONFIRMED
+    AgentTracking:
       type: object
       required:
-      - customerId
+      - id
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: An agent id. Required.
+          example: 1
+    MerchantSubscription:
+      type: object
       properties:
         id:
           type: string
-          description: The agent-dependent unique id of the reservation enquiry
+          enum:
+          - QUANDOO
+          - MERCHANT
+          example: QUANDOO
+    MerchantReservationEnquiry:
+      type: object
+      required:
+      - capacity
+      - endDateTime
+      - id
+      - merchantId
+      - message
+      - startDateTime
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the reservation enquiry for the calling agent (Agent dependent field) or NULL if the agent identifier should be created. Optional.
           example: '88086'
         merchantId:
           type: integer
           format: int32
-          description: The ID of the merchant at which this reservation enquiry was made
+          description: The ID of the merchant at which this reservation will be made.
           example: 88086
-        customerId:
-          type: string
-          description: The ID of the customer to which this reservation enquiry belongs
-          example: '88086'
         capacity:
           type: integer
           format: int32
-          description: The capacity (people count) of the reservation enquiry
+          description: The capacity (people count) of the reservation enquiry.
+          minimum: 1
           example: 4
         startDateTime:
           type: string
-          description: 'The start date time of the reservation enquiry. Format: yyyy-MM-ddTHH:mm:ssZ'
+          description: 'The start date and time of the potential reservation. Format: yyyy-MM-ddTHH:mm:ssZ'
           example: '2026-07-15T19:30:00'
         endDateTime:
           type: string
-          description: 'The end date time of the reservation enquiry. Format: yyyy-MM-ddTHH:mm:ssZ'
+          description: 'The end date and time of the potential reservation. Format: yyyy-MM-ddTHH:mm:ssZ'
           example: '2026-07-15T19:30:00'
-        status:
+        message:
           type: string
-          description: 'The status of the reservation enquiry which can be one of:  NEW, IN_PROGRESS, ACCEPTED or REJECTED'
-          example: CONFIRMED
+          description: A message from the customer.
+          minLength: 0
+          maxLength: 5000
+          example: Window table preferred if available.
+    LinkRelationDto:
+      type: object
+      properties:
+        href:
+          type: string
+          format: url
+          example: https://www.quandoo.com/place/sample-restaurant
+        method:
+          type: string
+          example: string
+        rel:
+          type: string
+          enum:
+          - DETAILS
+          - WIDGET
+          - WIDGET_DETAILS
+          - GET_MERCHANT
+          - PARENT
+          - SELF
+          - SETTINGS
+          - AVAILABILITY_DAYS
+          - AVAILABILITIES
+          - CREATE_RESERVATION
+          - GET_RESERVATION
+          - UPDATE_RESERVATION
+          - GET_CUSTOMER_RESERVATION
+          - GET_REVIEW
+          - PORTAL_PREORDER_FORM
+          - RESERVATION_CHECKOUT_PAGE
+          - CREDIT_CARD_DETAILS_PAGE
+          - CUSTOMER_EDIT_RESERVATION
+          example: DETAILS
+    CreatedCustomer:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          description: The id of the customer for the calling agent. (Agent dependent field)
+          example: '88086'
+    ReservationEnquiryMessageList:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReservationEnquiryMessageData'
+    MerchantCustomer:
+      type: object
+      required:
+      - country
+      - locale
+      - phoneNumber
+      properties:
+        id:
+          type: string
+          description: Identifier of the customer for the calling agent. (Agent dependent field)
+          example: '88086'
+        firstName:
+          type: string
+          description: The first name of the customer. Optional.
+          example: Jane
+        lastName:
+          type: string
+          description: The last name of the customer.
+          example: Smith
+        emailAddress:
+          type: string
+          description: The email address of the customer.
+          example: jane.smith@example.com
+        phoneNumber:
+          type: string
+          description: The phone number of the customer. The expected format is E164 e.g. +4930120765890
+          example: 030120765890
+        locale:
+          type: string
+          description: The locale of the customer. E.g. de_DE
+          example: de_DE
+        country:
+          type: string
+          description: The 2 letter ISO country of the customer, e.g. DE
+          example: DE
+        subscriptions:
+          type: array
+          description: The requested subscriptions, e.g. QUANDOO, MERCHANT
+          items:
+            $ref: '#/components/schemas/MerchantSubscription'
     Tracking:
       type: object
       required:
@@ -810,42 +846,6 @@ components:
         cookie:
           description: Cookie information to be stored with this reservation. Optional.
           $ref: '#/components/schemas/RestCookie'
-    MerchantSubscription:
-      type: object
-      properties:
-        id:
-          type: string
-          enum:
-          - QUANDOO
-          - MERCHANT
-          example: QUANDOO
-    CreatedCustomer:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          description: The id of the customer for the calling agent. (Agent dependent field)
-          example: '88086'
-    CreatedReservationEnquiryData:
-      type: object
-      required:
-      - customer
-      - links
-      - reservationEnquiry
-      properties:
-        reservationEnquiry:
-          description: The object holding the reservation enquiry data.
-          $ref: '#/components/schemas/CreatedReservationEnquiry'
-        customer:
-          description: The object holding the customer data.
-          $ref: '#/components/schemas/CreatedCustomer'
-        links:
-          type: array
-          description: Related links to follow
-          items:
-            $ref: '#/components/schemas/LinkRelationDto'
   securitySchemes:
     API_TOKEN:
       type: apiKey

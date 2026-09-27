@@ -481,80 +481,44 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    UpdateReviewDto:
+    CreateReviewDto:
       type: object
       required:
-      - reviewId
+      - rating
+      - reservationId
       properties:
-        reviewId:
+        reservationId:
           type: string
-          format: uuid
-          description: UUID identifying the review.
+          description: The reservation identifier this review is being created for.Either public reservation identifier or agent specific identifier could be passed.
           example: '88086'
         rating:
           type: integer
           format: int32
-          description: 'Rating associated to this review. Possible values: 1 to 6.'
+          description: 'Possible values: 1 to 6.'
           example: 1
         description:
           type: string
-          description: Description associated to this review.
+          description: The description of the review.
           example: Window table preferred if available.
-    LinkRelationDto:
+    CustomerReviewData:
       type: object
       properties:
-        href:
+        identifier:
           type: string
-          format: url
-          example: https://www.quandoo.com/place/sample-restaurant
-        method:
-          type: string
+          description: Identifier of the customer associated to this review. Only in detailed view.
           example: string
-        rel:
+        firstName:
           type: string
-          enum:
-          - DETAILS
-          - WIDGET
-          - WIDGET_DETAILS
-          - GET_MERCHANT
-          - PARENT
-          - SELF
-          - SETTINGS
-          - AVAILABILITY_DAYS
-          - AVAILABILITIES
-          - CREATE_RESERVATION
-          - GET_RESERVATION
-          - UPDATE_RESERVATION
-          - GET_CUSTOMER_RESERVATION
-          - GET_REVIEW
-          - PORTAL_PREORDER_FORM
-          - RESERVATION_CHECKOUT_PAGE
-          - CREDIT_CARD_DETAILS_PAGE
-          - CUSTOMER_EDIT_RESERVATION
-          example: DETAILS
-    GetReviewsDto:
-      type: object
-      properties:
-        reviews:
-          type: array
-          description: List of returned reviews.
-          items:
-            $ref: '#/components/schemas/GetReviewDto'
-        size:
-          type: integer
-          format: int32
-          description: Number of reviews returned in this object.
-          example: 1
-        offset:
-          type: integer
-          format: int32
-          description: Offset to apply on the next pagination request. Can be higher than the number of available reviews.
-          example: 1
-        limit:
-          type: integer
-          format: int32
-          description: Expected number of reviews that could be retrieved in the next pagination request. Can actually be less than the number returned. Its value is 0 when it is sure there are no more reviews available for pagination using the 'offset' as starting point.
-          example: 1
+          description: Customer first name associated to this review. Only in detailed view.
+          example: Jane
+        lastName:
+          type: string
+          description: First letter of customer last name associated to this review. Only in detailed view.
+          example: Smith
+        profileImage:
+          type: string
+          description: Customer profile image URL associated to this review. Only in detailed view.
+          example: string
     ChangedReviewDto:
       type: object
       required:
@@ -580,25 +544,29 @@ components:
           description: The links related to this entity.
           items:
             $ref: '#/components/schemas/LinkRelationDto'
-    CustomerReviewData:
+    GetReviewsDto:
       type: object
       properties:
-        identifier:
-          type: string
-          description: Identifier of the customer associated to this review. Only in detailed view.
-          example: string
-        firstName:
-          type: string
-          description: Customer first name associated to this review. Only in detailed view.
-          example: Jane
-        lastName:
-          type: string
-          description: First letter of customer last name associated to this review. Only in detailed view.
-          example: Smith
-        profileImage:
-          type: string
-          description: Customer profile image URL associated to this review. Only in detailed view.
-          example: string
+        reviews:
+          type: array
+          description: List of returned reviews.
+          items:
+            $ref: '#/components/schemas/GetReviewDto'
+        size:
+          type: integer
+          format: int32
+          description: Number of reviews returned in this object.
+          example: 1
+        offset:
+          type: integer
+          format: int32
+          description: Offset to apply on the next pagination request. Can be higher than the number of available reviews.
+          example: 1
+        limit:
+          type: integer
+          format: int32
+          description: Expected number of reviews that could be retrieved in the next pagination request. Can actually be less than the number returned. Its value is 0 when it is sure there are no more reviews available for pagination using the 'offset' as starting point.
+          example: 1
     ErrorResponse:
       type: object
       properties:
@@ -669,25 +637,6 @@ components:
         errorMessage:
           type: string
           example: Window table preferred if available.
-    CreateReviewDto:
-      type: object
-      required:
-      - rating
-      - reservationId
-      properties:
-        reservationId:
-          type: string
-          description: The reservation identifier this review is being created for.Either public reservation identifier or agent specific identifier could be passed.
-          example: '88086'
-        rating:
-          type: integer
-          format: int32
-          description: 'Possible values: 1 to 6.'
-          example: 1
-        description:
-          type: string
-          description: The description of the review.
-          example: Window table preferred if available.
     GetReviewDto:
       type: object
       required:
@@ -738,6 +687,57 @@ components:
           format: date-time
           description: 'The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ'
           example: '2026-07-15T19:30:00'
+    LinkRelationDto:
+      type: object
+      properties:
+        href:
+          type: string
+          format: url
+          example: https://www.quandoo.com/place/sample-restaurant
+        method:
+          type: string
+          example: string
+        rel:
+          type: string
+          enum:
+          - DETAILS
+          - WIDGET
+          - WIDGET_DETAILS
+          - GET_MERCHANT
+          - PARENT
+          - SELF
+          - SETTINGS
+          - AVAILABILITY_DAYS
+          - AVAILABILITIES
+          - CREATE_RESERVATION
+          - GET_RESERVATION
+          - UPDATE_RESERVATION
+          - GET_CUSTOMER_RESERVATION
+          - GET_REVIEW
+          - PORTAL_PREORDER_FORM
+          - RESERVATION_CHECKOUT_PAGE
+          - CREDIT_CARD_DETAILS_PAGE
+          - CUSTOMER_EDIT_RESERVATION
+          example: DETAILS
+    UpdateReviewDto:
+      type: object
+      required:
+      - reviewId
+      properties:
+        reviewId:
+          type: string
+          format: uuid
+          description: UUID identifying the review.
+          example: '88086'
+        rating:
+          type: integer
+          format: int32
+          description: 'Rating associated to this review. Possible values: 1 to 6.'
+          example: 1
+        description:
+          type: string
+          description: Description associated to this review.
+          example: Window table preferred if available.
   securitySchemes:
     API_TOKEN:
       type: apiKey
