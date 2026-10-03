@@ -1466,21 +1466,17 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    DocumentDto:
+    CustomerDto:
       type: object
       properties:
-        name:
+        firstName:
           type: string
-          example: Sample Restaurant
-        url:
+          example: Jane
+        lastName:
           type: string
-          example: https://www.quandoo.com/place/sample-restaurant
-        format:
-          type: string
-          example: string
-        description:
-          type: string
-          example: Window table preferred if available.
+          example: Smith
+        profileImage:
+          $ref: '#/components/schemas/ImageDto'
     LocationDto:
       type: object
       properties:
@@ -1488,6 +1484,28 @@ components:
           $ref: '#/components/schemas/CoordinatesDto'
         address:
           $ref: '#/components/schemas/MerchantAddressDto'
+    ReviewDtoList:
+      type: object
+      required:
+      - reviews
+      properties:
+        reviews:
+          type: array
+          description: Merchant customer review collection.
+          items:
+            $ref: '#/components/schemas/ReviewDto'
+        size:
+          type: integer
+          format: int32
+          example: 1
+        offset:
+          type: integer
+          format: int32
+          example: 1
+        limit:
+          type: integer
+          format: int32
+          example: 1
     LinkRelationDto:
       type: object
       properties:
@@ -1520,109 +1538,6 @@ components:
           - CREDIT_CARD_DETAILS_PAGE
           - CUSTOMER_EDIT_RESERVATION
           example: DETAILS
-    CoordinatesDto:
-      type: object
-      properties:
-        latitude:
-          type: number
-          format: double
-          example: 1.0
-        longitude:
-          type: number
-          format: double
-          example: 1.0
-    ReservationData:
-      type: object
-      required:
-      - capacity
-      - customerId
-      - id
-      - links
-      - merchantId
-      - quandooId
-      - status
-      properties:
-        id:
-          type: string
-          description: The agent-dependent unique id of the reservation.
-          example: '88086'
-        number:
-          type: integer
-          format: int32
-          description: The id of the reservation on quandoo system.
-          example: 1
-        reservationNumber:
-          type: string
-          description: The long id of this reservation on quandoo system.
-          example: string
-        quandooId:
-          type: string
-          format: uuid
-          description: The public id of this reservation on quandoo system.
-          example: '88086'
-        status:
-          type: string
-          description: The status of the reservation.
-          example: CONFIRMED
-        updatedAt:
-          type: string
-          format: date-time
-          description: 'The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ'
-          example: '2026-07-15T19:30:00'
-        capacity:
-          type: integer
-          format: int32
-          description: The capacity of the reservation.
-          example: 4
-        merchantId:
-          type: integer
-          format: int32
-          description: The id of the merchant.
-          example: 88086
-        customerId:
-          type: string
-          description: The public ID of the customer to which this reservation belongs.
-          example: '88086'
-        promocode:
-          type: string
-          description: The promotion code used in this reservation. Optional.
-          example: string
-        extraInfo:
-          type: string
-          description: Extra information that the customer provided for the reservation. Optional.
-          example: Window table preferred if available.
-        links:
-          type: array
-          description: The links related to this entity.
-          items:
-            $ref: '#/components/schemas/LinkRelationDto'
-        reservationTags:
-          type: array
-          description: A list of reservation tag IDs.
-          items:
-            type: integer
-            format: int32
-    TranslatedTagDto:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: '88086'
-        name:
-          type: string
-          example: Sample Restaurant
-    CustomerDto:
-      type: object
-      properties:
-        firstName:
-          type: string
-          example: Jane
-        lastName:
-          type: string
-          example: Smith
-        profileImage:
-          $ref: '#/components/schemas/ImageDto'
     MerchantDetailsDto:
       type: object
       required:
@@ -1715,33 +1630,209 @@ components:
           type: string
           description: Merchant long description, requires permission.
           example: Window table preferred if available.
-    ReviewDto:
+    MerchantAddressDto:
+      type: object
+      properties:
+        street:
+          type: string
+          example: string
+        number:
+          type: string
+          example: string
+        zipcode:
+          type: string
+          example: string
+        city:
+          type: string
+          example: string
+        country:
+          type: string
+          example: DE
+        district:
+          type: string
+          example: string
+    StandardOpeningTimesDto:
+      type: object
+    MerchantWithRecommendationsDto:
       type: object
       required:
-      - customer
-      - date
-      - rating
+      - merchant
+      - merchantSearchMessage
       properties:
-        customer:
-          description: The customer who wrote the review.
-          $ref: '#/components/schemas/CustomerDto'
-        rating:
+        merchant:
+          description: The merchant that was searched for. Only filled if it is bookable.
+          $ref: '#/components/schemas/MerchantDetailsDto'
+        merchantSearchMessage:
+          type: string
+          description: 'Additional information about the search result: MERCHANT_NOT_BOOKABLE if the merchant exists but is not bookable'
+          enum:
+          - MERCHANT_NOT_BOOKABLE
+          example: MERCHANT_NOT_BOOKABLE
+        recommendedMerchants:
+          description: Recommendations for similar merchants.
+          $ref: '#/components/schemas/MerchantDetailsDtoList'
+    CoordinatesDto:
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: double
+          example: 1.0
+        longitude:
+          type: number
+          format: double
+          example: 1.0
+    TagGroupDto:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - CUISINE
+          - MEAL_TYPE
+          - ESTABLISHMENT_TYPE
+          - AREA
+          - INTERNET
+          - FOOD_RELATED
+          - ACCESSIBILITY
+          - PAYMENT
+          - PRICE
+          - ATMOSPHERE
+          - PARKING
+          - EXTRAS
+          - GOOD_FOR
+          - MENU_DETAILS
+          example: CUISINE
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TranslatedTagDto'
+    OpeningTimesDto:
+      type: object
+      required:
+      - standardOpeningTimes
+      properties:
+        standardOpeningTimes:
+          description: The standard opening times of the merchant.
+          $ref: '#/components/schemas/StandardOpeningTimesDto'
+    MerchantReservationDataList:
+      type: object
+      properties:
+        reservations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReservationData'
+        offset:
           type: integer
           format: int32
-          description: 'Possible values: 1 to 6.'
           example: 1
-        description:
+        limit:
+          type: integer
+          format: int32
+          example: 1
+    TranslatedTagDto:
+      type: object
+      properties:
+        id:
           type: string
-          description: The description of the review.
+          format: uuid
+          example: '88086'
+        name:
+          type: string
+          example: Sample Restaurant
+    ReservationData:
+      type: object
+      required:
+      - capacity
+      - customerId
+      - id
+      - links
+      - merchantId
+      - quandooId
+      - status
+      properties:
+        id:
+          type: string
+          description: The agent-dependent unique id of the reservation.
+          example: '88086'
+        number:
+          type: integer
+          format: int32
+          description: The id of the reservation on quandoo system.
+          example: 1
+        reservationNumber:
+          type: string
+          description: The long id of this reservation on quandoo system.
+          example: string
+        quandooId:
+          type: string
+          format: uuid
+          description: The public id of this reservation on quandoo system.
+          example: '88086'
+        status:
+          type: string
+          description: The status of the reservation.
+          example: CONFIRMED
+        updatedAt:
+          type: string
+          format: date-time
+          description: 'The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ'
+          example: '2026-07-15T19:30:00'
+        capacity:
+          type: integer
+          format: int32
+          description: The capacity of the reservation.
+          example: 4
+        merchantId:
+          type: integer
+          format: int32
+          description: The id of the merchant.
+          example: 88086
+        customerId:
+          type: string
+          description: The public ID of the customer to which this reservation belongs.
+          example: '88086'
+        promocode:
+          type: string
+          description: The promotion code used in this reservation. Optional.
+          example: string
+        extraInfo:
+          type: string
+          description: Extra information that the customer provided for the reservation. Optional.
           example: Window table preferred if available.
-        locale:
-          type: string
-          example: de_DE
-        date:
-          type: string
-          format: date
-          description: The date when the review was written.
-          example: '2026-07-15'
+        links:
+          type: array
+          description: The links related to this entity.
+          items:
+            $ref: '#/components/schemas/LinkRelationDto'
+        reservationTags:
+          type: array
+          description: A list of reservation tag IDs.
+          items:
+            type: integer
+            format: int32
+    MerchantDetailsDtoList:
+      type: object
+      required:
+      - merchants
+      properties:
+        merchants:
+          type: array
+          description: Merchant details collection.
+          items:
+            $ref: '#/components/schemas/MerchantDetailsDto'
+        size:
+          type: integer
+          format: int64
+          example: 1
+        offset:
+          type: integer
+          format: int32
+          example: 1
+        limit:
+          type: integer
+          format: int32
+          example: 1
     ErrorResponse:
       type: object
       properties:
@@ -1812,6 +1903,13 @@ components:
         errorMessage:
           type: string
           example: Window table preferred if available.
+    ImageDto:
+      type: object
+      properties:
+        url:
+          type: string
+          format: url
+          example: https://www.quandoo.com/place/sample-restaurant
     ChainDto:
       type: object
       properties:
@@ -1822,146 +1920,48 @@ components:
         name:
           type: string
           example: Sample Restaurant
-    MerchantDetailsDtoList:
+    ReviewDto:
       type: object
       required:
-      - merchants
+      - customer
+      - date
+      - rating
       properties:
-        merchants:
-          type: array
-          description: Merchant details collection.
-          items:
-            $ref: '#/components/schemas/MerchantDetailsDto'
-        size:
-          type: integer
-          format: int64
-          example: 1
-        offset:
+        customer:
+          description: The customer who wrote the review.
+          $ref: '#/components/schemas/CustomerDto'
+        rating:
           type: integer
           format: int32
+          description: 'Possible values: 1 to 6.'
           example: 1
-        limit:
-          type: integer
-          format: int32
-          example: 1
-    TagGroupDto:
-      type: object
-      properties:
-        type:
+        description:
           type: string
-          enum:
-          - CUISINE
-          - MEAL_TYPE
-          - ESTABLISHMENT_TYPE
-          - AREA
-          - INTERNET
-          - FOOD_RELATED
-          - ACCESSIBILITY
-          - PAYMENT
-          - PRICE
-          - ATMOSPHERE
-          - PARKING
-          - EXTRAS
-          - GOOD_FOR
-          - MENU_DETAILS
-          example: CUISINE
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/TranslatedTagDto'
-    OpeningTimesDto:
-      type: object
-      required:
-      - standardOpeningTimes
-      properties:
-        standardOpeningTimes:
-          description: The standard opening times of the merchant.
-          $ref: '#/components/schemas/StandardOpeningTimesDto'
-    ImageDto:
+          description: The description of the review.
+          example: Window table preferred if available.
+        locale:
+          type: string
+          example: de_DE
+        date:
+          type: string
+          format: date
+          description: The date when the review was written.
+          example: '2026-07-15'
+    DocumentDto:
       type: object
       properties:
+        name:
+          type: string
+          example: Sample Restaurant
         url:
           type: string
-          format: url
           example: https://www.quandoo.com/place/sample-restaurant
-    MerchantReservationDataList:
-      type: object
-      properties:
-        reservations:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReservationData'
-        offset:
-          type: integer
-          format: int32
-          example: 1
-        limit:
-          type: integer
-          format: int32
-          example: 1
-    MerchantAddressDto:
-      type: object
-      properties:
-        street:
+        format:
           type: string
           example: string
-        number:
+        description:
           type: string
-          example: string
-        zipcode:
-          type: string
-          example: string
-        city:
-          type: string
-          example: string
-        country:
-          type: string
-          example: DE
-        district:
-          type: string
-          example: string
-    StandardOpeningTimesDto:
-      type: object
-    ReviewDtoList:
-      type: object
-      required:
-      - reviews
-      properties:
-        reviews:
-          type: array
-          description: Merchant customer review collection.
-          items:
-            $ref: '#/components/schemas/ReviewDto'
-        size:
-          type: integer
-          format: int32
-          example: 1
-        offset:
-          type: integer
-          format: int32
-          example: 1
-        limit:
-          type: integer
-          format: int32
-          example: 1
-    MerchantWithRecommendationsDto:
-      type: object
-      required:
-      - merchant
-      - merchantSearchMessage
-      properties:
-        merchant:
-          description: The merchant that was searched for. Only filled if it is bookable.
-          $ref: '#/components/schemas/MerchantDetailsDto'
-        merchantSearchMessage:
-          type: string
-          description: 'Additional information about the search result: MERCHANT_NOT_BOOKABLE if the merchant exists but is not bookable'
-          enum:
-          - MERCHANT_NOT_BOOKABLE
-          example: MERCHANT_NOT_BOOKABLE
-        recommendedMerchants:
-          description: Recommendations for similar merchants.
-          $ref: '#/components/schemas/MerchantDetailsDtoList'
+          example: Window table preferred if available.
   securitySchemes:
     API_TOKEN:
       type: apiKey

@@ -769,6 +769,77 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    ReservationData:
+      type: object
+      required:
+      - capacity
+      - customerId
+      - id
+      - links
+      - merchantId
+      - quandooId
+      - status
+      properties:
+        id:
+          type: string
+          description: The agent-dependent unique id of the reservation.
+          example: '88086'
+        number:
+          type: integer
+          format: int32
+          description: The id of the reservation on quandoo system.
+          example: 1
+        reservationNumber:
+          type: string
+          description: The long id of this reservation on quandoo system.
+          example: string
+        quandooId:
+          type: string
+          format: uuid
+          description: The public id of this reservation on quandoo system.
+          example: '88086'
+        status:
+          type: string
+          description: The status of the reservation.
+          example: CONFIRMED
+        updatedAt:
+          type: string
+          format: date-time
+          description: 'The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ'
+          example: '2026-07-15T19:30:00'
+        capacity:
+          type: integer
+          format: int32
+          description: The capacity of the reservation.
+          example: 4
+        merchantId:
+          type: integer
+          format: int32
+          description: The id of the merchant.
+          example: 88086
+        customerId:
+          type: string
+          description: The public ID of the customer to which this reservation belongs.
+          example: '88086'
+        promocode:
+          type: string
+          description: The promotion code used in this reservation. Optional.
+          example: string
+        extraInfo:
+          type: string
+          description: Extra information that the customer provided for the reservation. Optional.
+          example: Window table preferred if available.
+        links:
+          type: array
+          description: The links related to this entity.
+          items:
+            $ref: '#/components/schemas/LinkRelationDto'
+        reservationTags:
+          type: array
+          description: A list of reservation tag IDs.
+          items:
+            type: integer
+            format: int32
     CustomerResponse:
       type: object
       required:
@@ -830,6 +901,102 @@ components:
           description: The newsletter subscriptions, e.g. QUANDOO, MERCHANT.
           items:
             $ref: '#/components/schemas/MerchantSubscription'
+    MarketingSettingDto:
+      type: object
+      properties:
+        marketingSettingType:
+          type: string
+          enum:
+          - SMART_OFFERS_AND_DEALS
+          - PROMO_CODES
+          - RESTAURANT_RECOMMENDATIONS
+          - NEWSLETTERS
+          example: SMART_OFFERS_AND_DEALS
+        marketingSettingStatus:
+          type: string
+          enum:
+          - ACTIVE
+          - INACTIVE
+          example: ACTIVE
+    MerchantSubscription:
+      type: object
+      properties:
+        id:
+          type: string
+          enum:
+          - QUANDOO
+          - MERCHANT
+          example: QUANDOO
+    ErrorResponse:
+      type: object
+      properties:
+        errorType:
+          type: string
+          enum:
+          - BAD_REQUEST_ERROR
+          - FORBIDDEN_ERROR
+          - NOT_FOUND_ERROR
+          - METHOD_NOT_ALLOWED_ERROR
+          - NOT_ACCEPTABLE_ERROR
+          - UNSUPPORTED_MEDIA_TYPE_ERROR
+          - START_TIME_NOT_FOUND_ERROR
+          - MERCHANT_ID_INVALID
+          - RESERVATION_CAPACITY_MISSING
+          - RESERVATION_CAPACITY_INVALID
+          - RESERVATION_DATE_TIME_MISSING
+          - RESERVATION_DATE_TIME_INVALID_FORMAT
+          - RESERVATION_EXTRA_INFO_INVALID
+          - RESERVATION_SHOW_POSTCODE
+          - RESERVATION_DATE_TIME_INVALID_IN_THE_PAST
+          - RESERVATION_NO_TABLES_AVAILABLE
+          - RESERVATION_NOT_FOUND
+          - RESERVATION_IN_NON_EDITABLE_STATUS
+          - RESERVATION_WITH_SMART_OFFER_EDIT
+          - RESERVATION_WITH_CCV_EDIT
+          - RESERVATION_IOVOX_OFFER_EDIT
+          - RESERVATION_WITH_PREPAID_MENU_EDIT
+          - RESERVATION_FOR_MERCHANT_WITH_FEEDBACK_TIME
+          - RESERVATION_WALKIN_NOT_EDITABLE
+          - RESERVATION_CUSTOMER_CANNOT_EDIT
+          - RESERVATION_PROMO_CODE_PARAM_INVALID
+          - RESERVATION_PROMO_CODE_NOT_FOUND
+          - RESERVATION_PROMO_CODE_INVALID_DESTINATION
+          - RESERVATION_PROMO_CODE_ALREADY_USED
+          - RESERVATION_PROMO_CODE_INVALID_CAMPAIGN
+          - RESERVATION_PROMO_CODE_DATE_TIME_IN_PAST_OR_FUTURE
+          - RESERVATION_PROMO_CODE_INVALID_DAY_OF_WEEK
+          - RESERVATION_PROMO_CODE_INVALID_AGENT
+          - RESERVATION_PROMO_CODE_INVALID_MERCHANT
+          - RESERVATION_PROMO_CODE_INVALID_PARTNER_VOUCHER
+          - RESERVATION_PROMO_CODE_ALREADY_OWNED_BY_CUSTOMER
+          - RESERVATION_INVITATION_PROMO_CODE_NOT_FIRST_RESERVATION
+          - CCV_SETTINGS_REQUIRED
+          - CCV_CARD_REQUIRED
+          - CCV_SETTINGS_INVALID
+          - CCV_SETTINGS_OFFLINE
+          - CCV_CARD_INVALID
+          - ENQUIRY_INVALID_MIN_COVERS
+          - CUSTOMER_FIRST_NAME_INVALID
+          - CUSTOMER_LAST_NAME_MISSING
+          - CUSTOMER_LAST_NAME_INVALID
+          - CUSTOMER_EMAIL_MISSING
+          - CUSTOMER_EMAIL_INVALID
+          - CUSTOMER_NEWSLETTER_REQUESTED_MISSING
+          - CUSTOMER_PHONE_NUMBER_MISSING
+          - CUSTOMER_COUNTRY_INVALID
+          - CUSTOMER_ID_EXISTS
+          - CUSTOMER_PHONE_NUMBER_INVALID
+          - UNEXPECTED_SERVER_ERROR
+          - PHONE_NUMBER_MISSING
+          - PHONE_NUMBER_INVALID
+          - UUID_CONFLICT
+          - RESERVATION_STATUS_CONFLICT
+          - INVALID_RESERVATION_GUESTS_QUANTITY
+          - MENU_MAPPING_FAILED
+          example: BAD_REQUEST_ERROR
+        errorMessage:
+          type: string
+          example: Window table preferred if available.
     CustomerDataList:
       type: object
       properties:
@@ -845,6 +1012,67 @@ components:
           type: integer
           format: int32
           example: 1
+    ReservationDataList:
+      type: object
+      properties:
+        reservations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReservationData'
+    CustomerStatisticsData:
+      type: object
+      required:
+      - reservationCancelledCount
+      - reservationNoShowCount
+      - reservationSuccessfulCount
+      properties:
+        reservationSuccessfulCount:
+          type: integer
+          format: int32
+          description: The number of reservations made by the customer that were actually seated
+          example: 4
+        reservationCancelledCount:
+          type: integer
+          format: int32
+          description: The number of reservations made by the customer that were cancelled before taking place
+          example: 4
+        reservationNoShowCount:
+          type: integer
+          format: int32
+          description: The number of reservations made by the customer that he did not show up
+          example: 4
+    LinkRelationDto:
+      type: object
+      properties:
+        href:
+          type: string
+          format: url
+          example: https://www.quandoo.com/place/sample-restaurant
+        method:
+          type: string
+          example: string
+        rel:
+          type: string
+          enum:
+          - DETAILS
+          - WIDGET
+          - WIDGET_DETAILS
+          - GET_MERCHANT
+          - PARENT
+          - SELF
+          - SETTINGS
+          - AVAILABILITY_DAYS
+          - AVAILABILITIES
+          - CREATE_RESERVATION
+          - GET_RESERVATION
+          - UPDATE_RESERVATION
+          - GET_CUSTOMER_RESERVATION
+          - GET_REVIEW
+          - PORTAL_PREORDER_FORM
+          - RESERVATION_CHECKOUT_PAGE
+          - CREDIT_CARD_DETAILS_PAGE
+          - CUSTOMER_EDIT_RESERVATION
+          example: DETAILS
     MerchantCustomerData:
       type: object
       required:
@@ -922,234 +1150,6 @@ components:
           format: date-time
           description: 'The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ'
           example: '2026-07-15T19:30:00'
-    ErrorResponse:
-      type: object
-      properties:
-        errorType:
-          type: string
-          enum:
-          - BAD_REQUEST_ERROR
-          - FORBIDDEN_ERROR
-          - NOT_FOUND_ERROR
-          - METHOD_NOT_ALLOWED_ERROR
-          - NOT_ACCEPTABLE_ERROR
-          - UNSUPPORTED_MEDIA_TYPE_ERROR
-          - START_TIME_NOT_FOUND_ERROR
-          - MERCHANT_ID_INVALID
-          - RESERVATION_CAPACITY_MISSING
-          - RESERVATION_CAPACITY_INVALID
-          - RESERVATION_DATE_TIME_MISSING
-          - RESERVATION_DATE_TIME_INVALID_FORMAT
-          - RESERVATION_EXTRA_INFO_INVALID
-          - RESERVATION_SHOW_POSTCODE
-          - RESERVATION_DATE_TIME_INVALID_IN_THE_PAST
-          - RESERVATION_NO_TABLES_AVAILABLE
-          - RESERVATION_NOT_FOUND
-          - RESERVATION_IN_NON_EDITABLE_STATUS
-          - RESERVATION_WITH_SMART_OFFER_EDIT
-          - RESERVATION_WITH_CCV_EDIT
-          - RESERVATION_IOVOX_OFFER_EDIT
-          - RESERVATION_WITH_PREPAID_MENU_EDIT
-          - RESERVATION_FOR_MERCHANT_WITH_FEEDBACK_TIME
-          - RESERVATION_WALKIN_NOT_EDITABLE
-          - RESERVATION_CUSTOMER_CANNOT_EDIT
-          - RESERVATION_PROMO_CODE_PARAM_INVALID
-          - RESERVATION_PROMO_CODE_NOT_FOUND
-          - RESERVATION_PROMO_CODE_INVALID_DESTINATION
-          - RESERVATION_PROMO_CODE_ALREADY_USED
-          - RESERVATION_PROMO_CODE_INVALID_CAMPAIGN
-          - RESERVATION_PROMO_CODE_DATE_TIME_IN_PAST_OR_FUTURE
-          - RESERVATION_PROMO_CODE_INVALID_DAY_OF_WEEK
-          - RESERVATION_PROMO_CODE_INVALID_AGENT
-          - RESERVATION_PROMO_CODE_INVALID_MERCHANT
-          - RESERVATION_PROMO_CODE_INVALID_PARTNER_VOUCHER
-          - RESERVATION_PROMO_CODE_ALREADY_OWNED_BY_CUSTOMER
-          - RESERVATION_INVITATION_PROMO_CODE_NOT_FIRST_RESERVATION
-          - CCV_SETTINGS_REQUIRED
-          - CCV_CARD_REQUIRED
-          - CCV_SETTINGS_INVALID
-          - CCV_SETTINGS_OFFLINE
-          - CCV_CARD_INVALID
-          - ENQUIRY_INVALID_MIN_COVERS
-          - CUSTOMER_FIRST_NAME_INVALID
-          - CUSTOMER_LAST_NAME_MISSING
-          - CUSTOMER_LAST_NAME_INVALID
-          - CUSTOMER_EMAIL_MISSING
-          - CUSTOMER_EMAIL_INVALID
-          - CUSTOMER_NEWSLETTER_REQUESTED_MISSING
-          - CUSTOMER_PHONE_NUMBER_MISSING
-          - CUSTOMER_COUNTRY_INVALID
-          - CUSTOMER_ID_EXISTS
-          - CUSTOMER_PHONE_NUMBER_INVALID
-          - UNEXPECTED_SERVER_ERROR
-          - PHONE_NUMBER_MISSING
-          - PHONE_NUMBER_INVALID
-          - UUID_CONFLICT
-          - RESERVATION_STATUS_CONFLICT
-          - INVALID_RESERVATION_GUESTS_QUANTITY
-          - MENU_MAPPING_FAILED
-          example: BAD_REQUEST_ERROR
-        errorMessage:
-          type: string
-          example: Window table preferred if available.
-    CustomerStatisticsData:
-      type: object
-      required:
-      - reservationCancelledCount
-      - reservationNoShowCount
-      - reservationSuccessfulCount
-      properties:
-        reservationSuccessfulCount:
-          type: integer
-          format: int32
-          description: The number of reservations made by the customer that were actually seated
-          example: 4
-        reservationCancelledCount:
-          type: integer
-          format: int32
-          description: The number of reservations made by the customer that were cancelled before taking place
-          example: 4
-        reservationNoShowCount:
-          type: integer
-          format: int32
-          description: The number of reservations made by the customer that he did not show up
-          example: 4
-    MerchantSubscription:
-      type: object
-      properties:
-        id:
-          type: string
-          enum:
-          - QUANDOO
-          - MERCHANT
-          example: QUANDOO
-    LinkRelationDto:
-      type: object
-      properties:
-        href:
-          type: string
-          format: url
-          example: https://www.quandoo.com/place/sample-restaurant
-        method:
-          type: string
-          example: string
-        rel:
-          type: string
-          enum:
-          - DETAILS
-          - WIDGET
-          - WIDGET_DETAILS
-          - GET_MERCHANT
-          - PARENT
-          - SELF
-          - SETTINGS
-          - AVAILABILITY_DAYS
-          - AVAILABILITIES
-          - CREATE_RESERVATION
-          - GET_RESERVATION
-          - UPDATE_RESERVATION
-          - GET_CUSTOMER_RESERVATION
-          - GET_REVIEW
-          - PORTAL_PREORDER_FORM
-          - RESERVATION_CHECKOUT_PAGE
-          - CREDIT_CARD_DETAILS_PAGE
-          - CUSTOMER_EDIT_RESERVATION
-          example: DETAILS
-    ReservationDataList:
-      type: object
-      properties:
-        reservations:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReservationData'
-    ReservationData:
-      type: object
-      required:
-      - capacity
-      - customerId
-      - id
-      - links
-      - merchantId
-      - quandooId
-      - status
-      properties:
-        id:
-          type: string
-          description: The agent-dependent unique id of the reservation.
-          example: '88086'
-        number:
-          type: integer
-          format: int32
-          description: The id of the reservation on quandoo system.
-          example: 1
-        reservationNumber:
-          type: string
-          description: The long id of this reservation on quandoo system.
-          example: string
-        quandooId:
-          type: string
-          format: uuid
-          description: The public id of this reservation on quandoo system.
-          example: '88086'
-        status:
-          type: string
-          description: The status of the reservation.
-          example: CONFIRMED
-        updatedAt:
-          type: string
-          format: date-time
-          description: 'The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ'
-          example: '2026-07-15T19:30:00'
-        capacity:
-          type: integer
-          format: int32
-          description: The capacity of the reservation.
-          example: 4
-        merchantId:
-          type: integer
-          format: int32
-          description: The id of the merchant.
-          example: 88086
-        customerId:
-          type: string
-          description: The public ID of the customer to which this reservation belongs.
-          example: '88086'
-        promocode:
-          type: string
-          description: The promotion code used in this reservation. Optional.
-          example: string
-        extraInfo:
-          type: string
-          description: Extra information that the customer provided for the reservation. Optional.
-          example: Window table preferred if available.
-        links:
-          type: array
-          description: The links related to this entity.
-          items:
-            $ref: '#/components/schemas/LinkRelationDto'
-        reservationTags:
-          type: array
-          description: A list of reservation tag IDs.
-          items:
-            type: integer
-            format: int32
-    MarketingSettingDto:
-      type: object
-      properties:
-        marketingSettingType:
-          type: string
-          enum:
-          - SMART_OFFERS_AND_DEALS
-          - PROMO_CODES
-          - RESTAURANT_RECOMMENDATIONS
-          - NEWSLETTERS
-          example: SMART_OFFERS_AND_DEALS
-        marketingSettingStatus:
-          type: string
-          enum:
-          - ACTIVE
-          - INACTIVE
-          example: ACTIVE
   securitySchemes:
     API_TOKEN:
       type: apiKey

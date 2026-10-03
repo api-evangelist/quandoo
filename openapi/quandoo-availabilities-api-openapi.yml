@@ -457,35 +457,33 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    MerchantVaultSettingsDto:
+    MerchantAvailabilityDto:
       type: object
       required:
-      - fee
-      - feeType
-      - id
+      - occupancy
       properties:
-        id:
+        dateTime:
           type: string
-          format: uuid
-          description: The id of the vault settings.
+          format: date-time
+          description: 'The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ'
+          example: '2026-07-15T19:30:00'
+        occupancy:
+          type: integer
+          format: int32
+          description: The occupancy of this availability option across the restaurant. This is an integer number between 0 and 100.
           readOnly: true
-          example: '88086'
-        fee:
-          type: number
-          description: The fee customer should pay in the case of cancellation.
-          readOnly: true
-          example: 1.0
-        feeType:
-          type: string
-          description: The type of the fee to pay.
-          readOnly: true
-          example: string
-        feePercentageForTime:
-          type: object
-          description: Fee percentage depending of the time of cancellation.
-          additionalProperties:
+          example: 1
+        areaIds:
+          type: array
+          description: The ids of the areas this availability option can be reserved for.
+          items:
             type: integer
             format: int32
+        vaultSettingsId:
+          type: string
+          format: uuid
+          description: The id of the Vault Settings applicable on this availability option.
+          example: '88086'
     ErrorResponse:
       type: object
       properties:
@@ -556,54 +554,48 @@ components:
         errorMessage:
           type: string
           example: Window table preferred if available.
-    MerchantAvailabilityDto:
+    MerchantVaultSettingsDto:
       type: object
       required:
-      - occupancy
+      - fee
+      - feeType
+      - id
       properties:
-        dateTime:
-          type: string
-          format: date-time
-          description: 'The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ'
-          example: '2026-07-15T19:30:00'
-        occupancy:
-          type: integer
-          format: int32
-          description: The occupancy of this availability option across the restaurant. This is an integer number between 0 and 100.
-          readOnly: true
-          example: 1
-        areaIds:
-          type: array
-          description: The ids of the areas this availability option can be reserved for.
-          items:
-            type: integer
-            format: int32
-        vaultSettingsId:
+        id:
           type: string
           format: uuid
-          description: The id of the Vault Settings applicable on this availability option.
+          description: The id of the vault settings.
+          readOnly: true
           example: '88086'
-    MerchantAvailabilityDtoList:
+        fee:
+          type: number
+          description: The fee customer should pay in the case of cancellation.
+          readOnly: true
+          example: 1.0
+        feeType:
+          type: string
+          description: The type of the fee to pay.
+          readOnly: true
+          example: string
+        feePercentageForTime:
+          type: object
+          description: Fee percentage depending of the time of cancellation.
+          additionalProperties:
+            type: integer
+            format: int32
+    MerchantAvailabilityDaysDto:
       type: object
-      required:
-      - links
       properties:
-        timeSlots:
+        days:
           type: array
-          description: The availability time slots to reserve.
-          readOnly: true
+          description: The days that are available for a reservation
           items:
-            $ref: '#/components/schemas/MerchantAvailabilityDto'
-        vaultSettings:
-          type: array
-          description: The credit card vault settings.
-          readOnly: true
-          items:
-            $ref: '#/components/schemas/MerchantVaultSettingsDto'
+            type: string
+            format: date
+            description: The date when the review was written.
         links:
           type: array
-          description: The links related to this entity.
-          readOnly: true
+          description: The links for possible operations related to this entity
           items:
             $ref: '#/components/schemas/LinkRelationDto'
     LinkRelationDto:
@@ -638,19 +630,27 @@ components:
           - CREDIT_CARD_DETAILS_PAGE
           - CUSTOMER_EDIT_RESERVATION
           example: DETAILS
-    MerchantAvailabilityDaysDto:
+    MerchantAvailabilityDtoList:
       type: object
+      required:
+      - links
       properties:
-        days:
+        timeSlots:
           type: array
-          description: The days that are available for a reservation
+          description: The availability time slots to reserve.
+          readOnly: true
           items:
-            type: string
-            format: date
-            description: The date when the review was written.
+            $ref: '#/components/schemas/MerchantAvailabilityDto'
+        vaultSettings:
+          type: array
+          description: The credit card vault settings.
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/MerchantVaultSettingsDto'
         links:
           type: array
-          description: The links for possible operations related to this entity
+          description: The links related to this entity.
+          readOnly: true
           items:
             $ref: '#/components/schemas/LinkRelationDto'
   securitySchemes:

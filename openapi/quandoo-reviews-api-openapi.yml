@@ -481,44 +481,25 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    CreateReviewDto:
+    UpdateReviewDto:
       type: object
       required:
-      - rating
-      - reservationId
+      - reviewId
       properties:
-        reservationId:
+        reviewId:
           type: string
-          description: The reservation identifier this review is being created for.Either public reservation identifier or agent specific identifier could be passed.
+          format: uuid
+          description: UUID identifying the review.
           example: '88086'
         rating:
           type: integer
           format: int32
-          description: 'Possible values: 1 to 6.'
+          description: 'Rating associated to this review. Possible values: 1 to 6.'
           example: 1
         description:
           type: string
-          description: The description of the review.
+          description: Description associated to this review.
           example: Window table preferred if available.
-    CustomerReviewData:
-      type: object
-      properties:
-        identifier:
-          type: string
-          description: Identifier of the customer associated to this review. Only in detailed view.
-          example: string
-        firstName:
-          type: string
-          description: Customer first name associated to this review. Only in detailed view.
-          example: Jane
-        lastName:
-          type: string
-          description: First letter of customer last name associated to this review. Only in detailed view.
-          example: Smith
-        profileImage:
-          type: string
-          description: Customer profile image URL associated to this review. Only in detailed view.
-          example: string
     ChangedReviewDto:
       type: object
       required:
@@ -544,6 +525,75 @@ components:
           description: The links related to this entity.
           items:
             $ref: '#/components/schemas/LinkRelationDto'
+    GetReviewDto:
+      type: object
+      required:
+      - rating
+      - reviewId
+      properties:
+        reviewId:
+          type: string
+          format: uuid
+          description: UUID identifying the review.
+          example: '88086'
+        merchantId:
+          type: integer
+          format: int32
+          description: Merchant Id associated to this review. Only in detailed view.
+          example: 88086
+        customer:
+          description: Data about the customer that made this review. Only in detailed view.
+          $ref: '#/components/schemas/CustomerReviewData'
+        status:
+          type: string
+          description: Current review status. Possible values are 'AVAILABLE_TO_REVIEW','CREATED', 'DENIED', 'PUBLISHED'.
+          enum:
+          - AVAILABLE_TO_REVIEW
+          - CREATED
+          - DENIED
+          - PUBLISHED
+          example: AVAILABLE_TO_REVIEW
+        locale:
+          type: string
+          description: Locale of the created review. Only in detailed view.
+          example: de_DE
+        rating:
+          type: integer
+          format: int32
+          description: 'Rating associated to this review. Possible values: 1 to 6.'
+          example: 1
+        description:
+          type: string
+          description: Description associated to this review.
+          example: Window table preferred if available.
+        reservationId:
+          type: string
+          description: The reservation identifier this review is created for.
+          example: '88086'
+        createdAt:
+          type: string
+          format: date-time
+          description: 'The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ'
+          example: '2026-07-15T19:30:00'
+    CustomerReviewData:
+      type: object
+      properties:
+        identifier:
+          type: string
+          description: Identifier of the customer associated to this review. Only in detailed view.
+          example: string
+        firstName:
+          type: string
+          description: Customer first name associated to this review. Only in detailed view.
+          example: Jane
+        lastName:
+          type: string
+          description: First letter of customer last name associated to this review. Only in detailed view.
+          example: Smith
+        profileImage:
+          type: string
+          description: Customer profile image URL associated to this review. Only in detailed view.
+          example: string
     GetReviewsDto:
       type: object
       properties:
@@ -637,56 +687,25 @@ components:
         errorMessage:
           type: string
           example: Window table preferred if available.
-    GetReviewDto:
+    CreateReviewDto:
       type: object
       required:
       - rating
-      - reviewId
+      - reservationId
       properties:
-        reviewId:
+        reservationId:
           type: string
-          format: uuid
-          description: UUID identifying the review.
+          description: The reservation identifier this review is being created for.Either public reservation identifier or agent specific identifier could be passed.
           example: '88086'
-        merchantId:
-          type: integer
-          format: int32
-          description: Merchant Id associated to this review. Only in detailed view.
-          example: 88086
-        customer:
-          description: Data about the customer that made this review. Only in detailed view.
-          $ref: '#/components/schemas/CustomerReviewData'
-        status:
-          type: string
-          description: Current review status. Possible values are 'AVAILABLE_TO_REVIEW','CREATED', 'DENIED', 'PUBLISHED'.
-          enum:
-          - AVAILABLE_TO_REVIEW
-          - CREATED
-          - DENIED
-          - PUBLISHED
-          example: AVAILABLE_TO_REVIEW
-        locale:
-          type: string
-          description: Locale of the created review. Only in detailed view.
-          example: de_DE
         rating:
           type: integer
           format: int32
-          description: 'Rating associated to this review. Possible values: 1 to 6.'
+          description: 'Possible values: 1 to 6.'
           example: 1
         description:
           type: string
-          description: Description associated to this review.
+          description: The description of the review.
           example: Window table preferred if available.
-        reservationId:
-          type: string
-          description: The reservation identifier this review is created for.
-          example: '88086'
-        createdAt:
-          type: string
-          format: date-time
-          description: 'The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ'
-          example: '2026-07-15T19:30:00'
     LinkRelationDto:
       type: object
       properties:
@@ -719,25 +738,6 @@ components:
           - CREDIT_CARD_DETAILS_PAGE
           - CUSTOMER_EDIT_RESERVATION
           example: DETAILS
-    UpdateReviewDto:
-      type: object
-      required:
-      - reviewId
-      properties:
-        reviewId:
-          type: string
-          format: uuid
-          description: UUID identifying the review.
-          example: '88086'
-        rating:
-          type: integer
-          format: int32
-          description: 'Rating associated to this review. Possible values: 1 to 6.'
-          example: 1
-        description:
-          type: string
-          description: Description associated to this review.
-          example: Window table preferred if available.
   securitySchemes:
     API_TOKEN:
       type: apiKey
