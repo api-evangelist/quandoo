@@ -840,6 +840,53 @@ components:
           items:
             type: integer
             format: int32
+    CustomerDataList:
+      type: object
+      properties:
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/MerchantCustomerData'
+        offset:
+          type: integer
+          format: int32
+          example: 1
+        limit:
+          type: integer
+          format: int32
+          example: 1
+    LinkRelationDto:
+      type: object
+      properties:
+        href:
+          type: string
+          format: url
+          example: https://www.quandoo.com/place/sample-restaurant
+        method:
+          type: string
+          example: string
+        rel:
+          type: string
+          enum:
+          - DETAILS
+          - WIDGET
+          - WIDGET_DETAILS
+          - GET_MERCHANT
+          - PARENT
+          - SELF
+          - SETTINGS
+          - AVAILABILITY_DAYS
+          - AVAILABILITIES
+          - CREATE_RESERVATION
+          - GET_RESERVATION
+          - UPDATE_RESERVATION
+          - GET_CUSTOMER_RESERVATION
+          - GET_REVIEW
+          - PORTAL_PREORDER_FORM
+          - RESERVATION_CHECKOUT_PAGE
+          - CREDIT_CARD_DETAILS_PAGE
+          - CUSTOMER_EDIT_RESERVATION
+          example: DETAILS
     CustomerResponse:
       type: object
       required:
@@ -901,32 +948,6 @@ components:
           description: The newsletter subscriptions, e.g. QUANDOO, MERCHANT.
           items:
             $ref: '#/components/schemas/MerchantSubscription'
-    MarketingSettingDto:
-      type: object
-      properties:
-        marketingSettingType:
-          type: string
-          enum:
-          - SMART_OFFERS_AND_DEALS
-          - PROMO_CODES
-          - RESTAURANT_RECOMMENDATIONS
-          - NEWSLETTERS
-          example: SMART_OFFERS_AND_DEALS
-        marketingSettingStatus:
-          type: string
-          enum:
-          - ACTIVE
-          - INACTIVE
-          example: ACTIVE
-    MerchantSubscription:
-      type: object
-      properties:
-        id:
-          type: string
-          enum:
-          - QUANDOO
-          - MERCHANT
-          example: QUANDOO
     ErrorResponse:
       type: object
       properties:
@@ -997,82 +1018,6 @@ components:
         errorMessage:
           type: string
           example: Window table preferred if available.
-    CustomerDataList:
-      type: object
-      properties:
-        result:
-          type: array
-          items:
-            $ref: '#/components/schemas/MerchantCustomerData'
-        offset:
-          type: integer
-          format: int32
-          example: 1
-        limit:
-          type: integer
-          format: int32
-          example: 1
-    ReservationDataList:
-      type: object
-      properties:
-        reservations:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReservationData'
-    CustomerStatisticsData:
-      type: object
-      required:
-      - reservationCancelledCount
-      - reservationNoShowCount
-      - reservationSuccessfulCount
-      properties:
-        reservationSuccessfulCount:
-          type: integer
-          format: int32
-          description: The number of reservations made by the customer that were actually seated
-          example: 4
-        reservationCancelledCount:
-          type: integer
-          format: int32
-          description: The number of reservations made by the customer that were cancelled before taking place
-          example: 4
-        reservationNoShowCount:
-          type: integer
-          format: int32
-          description: The number of reservations made by the customer that he did not show up
-          example: 4
-    LinkRelationDto:
-      type: object
-      properties:
-        href:
-          type: string
-          format: url
-          example: https://www.quandoo.com/place/sample-restaurant
-        method:
-          type: string
-          example: string
-        rel:
-          type: string
-          enum:
-          - DETAILS
-          - WIDGET
-          - WIDGET_DETAILS
-          - GET_MERCHANT
-          - PARENT
-          - SELF
-          - SETTINGS
-          - AVAILABILITY_DAYS
-          - AVAILABILITIES
-          - CREATE_RESERVATION
-          - GET_RESERVATION
-          - UPDATE_RESERVATION
-          - GET_CUSTOMER_RESERVATION
-          - GET_REVIEW
-          - PORTAL_PREORDER_FORM
-          - RESERVATION_CHECKOUT_PAGE
-          - CREDIT_CARD_DETAILS_PAGE
-          - CUSTOMER_EDIT_RESERVATION
-          example: DETAILS
     MerchantCustomerData:
       type: object
       required:
@@ -1150,6 +1095,61 @@ components:
           format: date-time
           description: 'The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ'
           example: '2026-07-15T19:30:00'
+    ReservationDataList:
+      type: object
+      properties:
+        reservations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReservationData'
+    CustomerStatisticsData:
+      type: object
+      required:
+      - reservationCancelledCount
+      - reservationNoShowCount
+      - reservationSuccessfulCount
+      properties:
+        reservationSuccessfulCount:
+          type: integer
+          format: int32
+          description: The number of reservations made by the customer that were actually seated
+          example: 4
+        reservationCancelledCount:
+          type: integer
+          format: int32
+          description: The number of reservations made by the customer that were cancelled before taking place
+          example: 4
+        reservationNoShowCount:
+          type: integer
+          format: int32
+          description: The number of reservations made by the customer that he did not show up
+          example: 4
+    MarketingSettingDto:
+      type: object
+      properties:
+        marketingSettingType:
+          type: string
+          enum:
+          - SMART_OFFERS_AND_DEALS
+          - PROMO_CODES
+          - RESTAURANT_RECOMMENDATIONS
+          - NEWSLETTERS
+          example: SMART_OFFERS_AND_DEALS
+        marketingSettingStatus:
+          type: string
+          enum:
+          - ACTIVE
+          - INACTIVE
+          example: ACTIVE
+    MerchantSubscription:
+      type: object
+      properties:
+        id:
+          type: string
+          enum:
+          - QUANDOO
+          - MERCHANT
+          example: QUANDOO
   securitySchemes:
     API_TOKEN:
       type: apiKey
