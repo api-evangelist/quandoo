@@ -1,0 +1,12 @@
+{
+ "url": "https://api.quandoo.com/swagger.json",
+ "requested_url": "https://api.quandoo.com/swagger.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 127621,
+ "sha256": "d59d936b00ce0ca773bbf4f68c1dad1c308749198d6cc4bf65280eedb654f8f4",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 0.96), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
