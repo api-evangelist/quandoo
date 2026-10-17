@@ -163,13 +163,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    ReservationTagsDto:
-      type: object
-      properties:
-        reservationTags:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReservationTagDto'
     ErrorResponse:
       type: object
       properties:
@@ -254,6 +247,13 @@ components:
           type: integer
           format: int32
           example: 88086
+    ReservationTagsDto:
+      type: object
+      properties:
+        reservationTags:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReservationTagDto'
   securitySchemes:
     API_TOKEN:
       type: apiKey

@@ -540,6 +540,59 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    UpdateReservationData:
+      type: object
+      required:
+      - reservation
+      properties:
+        reservation:
+          description: The reservation status of the reservation.
+          $ref: '#/components/schemas/ReservationDetails'
+    MerchantReservationData:
+      type: object
+      required:
+      - customer
+      - reservation
+      - tracking
+      properties:
+        reservation:
+          description: The reservation data.
+          $ref: '#/components/schemas/MerchantReservation'
+        customer:
+          description: The customer data.
+          $ref: '#/components/schemas/MerchantCustomer'
+        tracking:
+          description: The tracking data.
+          $ref: '#/components/schemas/Tracking'
+    CreatedReservationData:
+      type: object
+      required:
+      - customer
+      - links
+      - reservation
+      properties:
+        reservation:
+          description: The object holding the reservation data.
+          $ref: '#/components/schemas/CreatedReservation'
+        customer:
+          description: The object holding the customer data.
+          $ref: '#/components/schemas/CreatedCustomer'
+        links:
+          type: array
+          description: Related links to follow
+          items:
+            $ref: '#/components/schemas/LinkRelationDto'
+    Tracking:
+      type: object
+      required:
+      - agent
+      properties:
+        agent:
+          description: The id of the agent creating this request and partner references if any. Required.
+          $ref: '#/components/schemas/AgentTracking'
+        cookie:
+          description: Cookie information to be stored with this reservation. Optional.
+          $ref: '#/components/schemas/RestCookie'
     ReservationData:
       type: object
       required:
@@ -611,21 +664,44 @@ components:
           items:
             type: integer
             format: int32
-    MerchantReservation:
+    CreatedReservation:
       type: object
       required:
-      - capacity
-      - merchantId
+      - id
+      - quandooId
       properties:
         id:
           type: string
-          description: The identifier of the reservation for the calling agent (Agent-dependent field)
+          description: The id of this reservation for the calling agent. (Agent dependent field)
           example: '88086'
-        merchantId:
+        number:
           type: integer
           format: int32
-          description: The ID of the merchant at which this reservation will be made.
-          example: 88086
+          description: The id of this reservation on quandoo system.
+          example: 1
+        reservationNumber:
+          type: string
+          description: The long id of this reservation on quandoo system.
+          example: string
+        status:
+          type: string
+          description: The status of the reservation.
+          example: CONFIRMED
+        quandooId:
+          type: string
+          format: uuid
+          description: The public id of this reservation on quandoo system.
+          example: '88086'
+    ReservationDetails:
+      type: object
+      required:
+      - capacity
+      - status
+      properties:
+        status:
+          type: string
+          description: The status of the reservation.
+          example: CONFIRMED
         capacity:
           type: integer
           format: int32
@@ -641,106 +717,27 @@ components:
           format: date-time
           description: 'The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ'
           example: '2026-07-15T19:30:00'
-        extraInfo:
-          type: string
-          description: Any extra information that the customer likes to provide. Optional.
-          example: Window table preferred if available.
-        promoCode:
-          type: string
-          description: A promotion code which should be used with this reservation. Optional.
-          example: string
-        creditCardVaultSettingsId:
-          type: string
-          format: uuid
-          description: A credit card vault settings to be used by this reservation. Optional.
-          example: '88086'
-        recurringCardDetailId:
-          type: string
-          format: uuid
-          description: A customer credit card reference to be used if credit card vault should be applied. Optional.
-          example: '88086'
         reservationTags:
           type: array
-          description: A list of reservation tag IDs. Optional.
+          description: Reservation tag IDs.
           items:
             type: integer
             format: int32
-    CreatedReservationData:
-      type: object
-      required:
-      - customer
-      - links
-      - reservation
-      properties:
-        reservation:
-          description: The object holding the reservation data.
-          $ref: '#/components/schemas/CreatedReservation'
-        customer:
-          description: The object holding the customer data.
-          $ref: '#/components/schemas/CreatedCustomer'
-        links:
-          type: array
-          description: Related links to follow
-          items:
-            $ref: '#/components/schemas/LinkRelationDto'
-    LinkRelationDto:
+        extraInfo:
+          type: string
+          description: Additional text information about the reservation. Pass empty string to remove it.
+          example: Window table preferred if available.
+    RestCookie:
       type: object
       properties:
-        href:
-          type: string
-          format: url
-          example: https://www.quandoo.com/place/sample-restaurant
-        method:
-          type: string
-          example: string
-        rel:
-          type: string
-          enum:
-          - DETAILS
-          - WIDGET
-          - WIDGET_DETAILS
-          - GET_MERCHANT
-          - PARENT
-          - SELF
-          - SETTINGS
-          - AVAILABILITY_DAYS
-          - AVAILABILITIES
-          - CREATE_RESERVATION
-          - GET_RESERVATION
-          - UPDATE_RESERVATION
-          - GET_CUSTOMER_RESERVATION
-          - GET_REVIEW
-          - PORTAL_PREORDER_FORM
-          - RESERVATION_CHECKOUT_PAGE
-          - CREDIT_CARD_DETAILS_PAGE
-          - CUSTOMER_EDIT_RESERVATION
-          example: DETAILS
-    MerchantReservationData:
-      type: object
-      required:
-      - customer
-      - reservation
-      - tracking
-      properties:
-        reservation:
-          description: The reservation data.
-          $ref: '#/components/schemas/MerchantReservation'
-        customer:
-          description: The customer data.
-          $ref: '#/components/schemas/MerchantCustomer'
         tracking:
-          description: The tracking data.
-          $ref: '#/components/schemas/Tracking'
-    AgentTracking:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: integer
-          format: int32
-          description: An agent id. Required.
-          example: 1
+          type: string
+          description: A tracking string to be stored with the reservation. Optional.
+          example: string
+        referenceId:
+          type: string
+          description: A reference id to be stored with the reservation. Optional.
+          example: '88086'
     ErrorResponse:
       type: object
       properties:
@@ -811,91 +808,56 @@ components:
         errorMessage:
           type: string
           example: Window table preferred if available.
-    CreatedReservation:
+    MerchantSubscription:
       type: object
-      required:
-      - id
-      - quandooId
       properties:
         id:
           type: string
-          description: The id of this reservation for the calling agent. (Agent dependent field)
-          example: '88086'
-        number:
-          type: integer
-          format: int32
-          description: The id of this reservation on quandoo system.
-          example: 1
-        reservationNumber:
-          type: string
-          description: The long id of this reservation on quandoo system.
-          example: string
-        status:
-          type: string
-          description: The status of the reservation.
-          example: CONFIRMED
-        quandooId:
-          type: string
-          format: uuid
-          description: The public id of this reservation on quandoo system.
-          example: '88086'
-    Tracking:
+          enum:
+          - QUANDOO
+          - MERCHANT
+          example: QUANDOO
+    CreatedCustomer:
       type: object
       required:
-      - agent
+      - id
       properties:
-        agent:
-          description: The id of the agent creating this request and partner references if any. Required.
-          $ref: '#/components/schemas/AgentTracking'
-        cookie:
-          description: Cookie information to be stored with this reservation. Optional.
-          $ref: '#/components/schemas/RestCookie'
-    ReservationDetails:
-      type: object
-      required:
-      - capacity
-      - status
-      properties:
-        status:
+        id:
           type: string
-          description: The status of the reservation.
-          example: CONFIRMED
-        capacity:
-          type: integer
-          format: int32
-          description: The capacity (people count) of the reservation.
-          example: 4
-        areaId:
-          type: integer
-          format: int32
-          description: The id of the area this reservation should be in. Optional.
-          example: 1
-        dateTime:
-          type: string
-          format: date-time
-          description: 'The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ'
-          example: '2026-07-15T19:30:00'
-        reservationTags:
-          type: array
-          description: Reservation tag IDs.
-          items:
-            type: integer
-            format: int32
-        extraInfo:
-          type: string
-          description: Additional text information about the reservation. Pass empty string to remove it.
-          example: Window table preferred if available.
-    RestCookie:
-      type: object
-      properties:
-        tracking:
-          type: string
-          description: A tracking string to be stored with the reservation. Optional.
-          example: string
-        referenceId:
-          type: string
-          description: A reference id to be stored with the reservation. Optional.
+          description: The id of the customer for the calling agent. (Agent dependent field)
           example: '88086'
+    LinkRelationDto:
+      type: object
+      properties:
+        href:
+          type: string
+          format: url
+          example: https://www.quandoo.com/place/sample-restaurant
+        method:
+          type: string
+          example: string
+        rel:
+          type: string
+          enum:
+          - DETAILS
+          - WIDGET
+          - WIDGET_DETAILS
+          - GET_MERCHANT
+          - PARENT
+          - SELF
+          - SETTINGS
+          - AVAILABILITY_DAYS
+          - AVAILABILITIES
+          - CREATE_RESERVATION
+          - GET_RESERVATION
+          - UPDATE_RESERVATION
+          - GET_CUSTOMER_RESERVATION
+          - GET_REVIEW
+          - PORTAL_PREORDER_FORM
+          - RESERVATION_CHECKOUT_PAGE
+          - CREDIT_CARD_DETAILS_PAGE
+          - CUSTOMER_EDIT_RESERVATION
+          example: DETAILS
     MerchantCustomer:
       type: object
       required:
@@ -936,32 +898,70 @@ components:
           description: The requested subscriptions, e.g. QUANDOO, MERCHANT
           items:
             $ref: '#/components/schemas/MerchantSubscription'
-    MerchantSubscription:
-      type: object
-      properties:
-        id:
-          type: string
-          enum:
-          - QUANDOO
-          - MERCHANT
-          example: QUANDOO
-    UpdateReservationData:
-      type: object
-      required:
-      - reservation
-      properties:
-        reservation:
-          description: The reservation status of the reservation.
-          $ref: '#/components/schemas/ReservationDetails'
-    CreatedCustomer:
+    AgentTracking:
       type: object
       required:
       - id
       properties:
         id:
+          type: integer
+          format: int32
+          description: An agent id. Required.
+          example: 1
+    MerchantReservation:
+      type: object
+      required:
+      - capacity
+      - merchantId
+      properties:
+        id:
           type: string
-          description: The id of the customer for the calling agent. (Agent dependent field)
+          description: The identifier of the reservation for the calling agent (Agent-dependent field)
           example: '88086'
+        merchantId:
+          type: integer
+          format: int32
+          description: The ID of the merchant at which this reservation will be made.
+          example: 88086
+        capacity:
+          type: integer
+          format: int32
+          description: The capacity (people count) of the reservation.
+          example: 4
+        areaId:
+          type: integer
+          format: int32
+          description: The id of the area this reservation should be in. Optional.
+          example: 1
+        dateTime:
+          type: string
+          format: date-time
+          description: 'The date the review created on. Format: yyyy-MM-ddTHH:mm:ssZ'
+          example: '2026-07-15T19:30:00'
+        extraInfo:
+          type: string
+          description: Any extra information that the customer likes to provide. Optional.
+          example: Window table preferred if available.
+        promoCode:
+          type: string
+          description: A promotion code which should be used with this reservation. Optional.
+          example: string
+        creditCardVaultSettingsId:
+          type: string
+          format: uuid
+          description: A credit card vault settings to be used by this reservation. Optional.
+          example: '88086'
+        recurringCardDetailId:
+          type: string
+          format: uuid
+          description: A customer credit card reference to be used if credit card vault should be applied. Optional.
+          example: '88086'
+        reservationTags:
+          type: array
+          description: A list of reservation tag IDs. Optional.
+          items:
+            type: integer
+            format: int32
   securitySchemes:
     API_TOKEN:
       type: apiKey

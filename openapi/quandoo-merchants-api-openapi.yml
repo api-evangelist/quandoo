@@ -1466,17 +1466,24 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    CustomerDto:
+    CoordinatesDto:
       type: object
       properties:
-        firstName:
-          type: string
-          example: Jane
-        lastName:
-          type: string
-          example: Smith
-        profileImage:
-          $ref: '#/components/schemas/ImageDto'
+        latitude:
+          type: number
+          format: double
+          example: 1.0
+        longitude:
+          type: number
+          format: double
+          example: 1.0
+    LocationDto:
+      type: object
+      properties:
+        coordinates:
+          $ref: '#/components/schemas/CoordinatesDto'
+        address:
+          $ref: '#/components/schemas/MerchantAddressDto'
     ChainDto:
       type: object
       properties:
@@ -1487,182 +1494,16 @@ components:
         name:
           type: string
           example: Sample Restaurant
-    ImageDto:
+    TranslatedTagDto:
       type: object
       properties:
-        url:
+        id:
           type: string
-          format: url
-          example: https://www.quandoo.com/place/sample-restaurant
-    StandardOpeningTimesDto:
-      type: object
-    LinkRelationDto:
-      type: object
-      properties:
-        href:
+          format: uuid
+          example: '88086'
+        name:
           type: string
-          format: url
-          example: https://www.quandoo.com/place/sample-restaurant
-        method:
-          type: string
-          example: string
-        rel:
-          type: string
-          enum:
-          - DETAILS
-          - WIDGET
-          - WIDGET_DETAILS
-          - GET_MERCHANT
-          - PARENT
-          - SELF
-          - SETTINGS
-          - AVAILABILITY_DAYS
-          - AVAILABILITIES
-          - CREATE_RESERVATION
-          - GET_RESERVATION
-          - UPDATE_RESERVATION
-          - GET_CUSTOMER_RESERVATION
-          - GET_REVIEW
-          - PORTAL_PREORDER_FORM
-          - RESERVATION_CHECKOUT_PAGE
-          - CREDIT_CARD_DETAILS_PAGE
-          - CUSTOMER_EDIT_RESERVATION
-          example: DETAILS
-    MerchantDetailsDtoList:
-      type: object
-      required:
-      - merchants
-      properties:
-        merchants:
-          type: array
-          description: Merchant details collection.
-          items:
-            $ref: '#/components/schemas/MerchantDetailsDto'
-        size:
-          type: integer
-          format: int64
-          example: 1
-        offset:
-          type: integer
-          format: int32
-          example: 1
-        limit:
-          type: integer
-          format: int32
-          example: 1
-    ErrorResponse:
-      type: object
-      properties:
-        errorType:
-          type: string
-          enum:
-          - BAD_REQUEST_ERROR
-          - FORBIDDEN_ERROR
-          - NOT_FOUND_ERROR
-          - METHOD_NOT_ALLOWED_ERROR
-          - NOT_ACCEPTABLE_ERROR
-          - UNSUPPORTED_MEDIA_TYPE_ERROR
-          - START_TIME_NOT_FOUND_ERROR
-          - MERCHANT_ID_INVALID
-          - RESERVATION_CAPACITY_MISSING
-          - RESERVATION_CAPACITY_INVALID
-          - RESERVATION_DATE_TIME_MISSING
-          - RESERVATION_DATE_TIME_INVALID_FORMAT
-          - RESERVATION_EXTRA_INFO_INVALID
-          - RESERVATION_SHOW_POSTCODE
-          - RESERVATION_DATE_TIME_INVALID_IN_THE_PAST
-          - RESERVATION_NO_TABLES_AVAILABLE
-          - RESERVATION_NOT_FOUND
-          - RESERVATION_IN_NON_EDITABLE_STATUS
-          - RESERVATION_WITH_SMART_OFFER_EDIT
-          - RESERVATION_WITH_CCV_EDIT
-          - RESERVATION_IOVOX_OFFER_EDIT
-          - RESERVATION_WITH_PREPAID_MENU_EDIT
-          - RESERVATION_FOR_MERCHANT_WITH_FEEDBACK_TIME
-          - RESERVATION_WALKIN_NOT_EDITABLE
-          - RESERVATION_CUSTOMER_CANNOT_EDIT
-          - RESERVATION_PROMO_CODE_PARAM_INVALID
-          - RESERVATION_PROMO_CODE_NOT_FOUND
-          - RESERVATION_PROMO_CODE_INVALID_DESTINATION
-          - RESERVATION_PROMO_CODE_ALREADY_USED
-          - RESERVATION_PROMO_CODE_INVALID_CAMPAIGN
-          - RESERVATION_PROMO_CODE_DATE_TIME_IN_PAST_OR_FUTURE
-          - RESERVATION_PROMO_CODE_INVALID_DAY_OF_WEEK
-          - RESERVATION_PROMO_CODE_INVALID_AGENT
-          - RESERVATION_PROMO_CODE_INVALID_MERCHANT
-          - RESERVATION_PROMO_CODE_INVALID_PARTNER_VOUCHER
-          - RESERVATION_PROMO_CODE_ALREADY_OWNED_BY_CUSTOMER
-          - RESERVATION_INVITATION_PROMO_CODE_NOT_FIRST_RESERVATION
-          - CCV_SETTINGS_REQUIRED
-          - CCV_CARD_REQUIRED
-          - CCV_SETTINGS_INVALID
-          - CCV_SETTINGS_OFFLINE
-          - CCV_CARD_INVALID
-          - ENQUIRY_INVALID_MIN_COVERS
-          - CUSTOMER_FIRST_NAME_INVALID
-          - CUSTOMER_LAST_NAME_MISSING
-          - CUSTOMER_LAST_NAME_INVALID
-          - CUSTOMER_EMAIL_MISSING
-          - CUSTOMER_EMAIL_INVALID
-          - CUSTOMER_NEWSLETTER_REQUESTED_MISSING
-          - CUSTOMER_PHONE_NUMBER_MISSING
-          - CUSTOMER_COUNTRY_INVALID
-          - CUSTOMER_ID_EXISTS
-          - CUSTOMER_PHONE_NUMBER_INVALID
-          - UNEXPECTED_SERVER_ERROR
-          - PHONE_NUMBER_MISSING
-          - PHONE_NUMBER_INVALID
-          - UUID_CONFLICT
-          - RESERVATION_STATUS_CONFLICT
-          - INVALID_RESERVATION_GUESTS_QUANTITY
-          - MENU_MAPPING_FAILED
-          example: BAD_REQUEST_ERROR
-        errorMessage:
-          type: string
-          example: Window table preferred if available.
-    ReviewDtoList:
-      type: object
-      required:
-      - reviews
-      properties:
-        reviews:
-          type: array
-          description: Merchant customer review collection.
-          items:
-            $ref: '#/components/schemas/ReviewDto'
-        size:
-          type: integer
-          format: int32
-          example: 1
-        offset:
-          type: integer
-          format: int32
-          example: 1
-        limit:
-          type: integer
-          format: int32
-          example: 1
-    MerchantAddressDto:
-      type: object
-      properties:
-        street:
-          type: string
-          example: string
-        number:
-          type: string
-          example: string
-        zipcode:
-          type: string
-          example: string
-        city:
-          type: string
-          example: string
-        country:
-          type: string
-          example: DE
-        district:
-          type: string
-          example: string
+          example: Sample Restaurant
     ReservationData:
       type: object
       required:
@@ -1734,24 +1575,32 @@ components:
           items:
             type: integer
             format: int32
-    MerchantWithRecommendationsDto:
+    ImageDto:
+      type: object
+      properties:
+        url:
+          type: string
+          format: url
+          example: https://www.quandoo.com/place/sample-restaurant
+    OpeningTimesDto:
       type: object
       required:
-      - merchant
-      - merchantSearchMessage
+      - standardOpeningTimes
       properties:
-        merchant:
-          description: The merchant that was searched for. Only filled if it is bookable.
-          $ref: '#/components/schemas/MerchantDetailsDto'
-        merchantSearchMessage:
+        standardOpeningTimes:
+          description: The standard opening times of the merchant.
+          $ref: '#/components/schemas/StandardOpeningTimesDto'
+    CustomerDto:
+      type: object
+      properties:
+        firstName:
           type: string
-          description: 'Additional information about the search result: MERCHANT_NOT_BOOKABLE if the merchant exists but is not bookable'
-          enum:
-          - MERCHANT_NOT_BOOKABLE
-          example: MERCHANT_NOT_BOOKABLE
-        recommendedMerchants:
-          description: Recommendations for similar merchants.
-          $ref: '#/components/schemas/MerchantDetailsDtoList'
+          example: Jane
+        lastName:
+          type: string
+          example: Smith
+        profileImage:
+          $ref: '#/components/schemas/ImageDto'
     DocumentDto:
       type: object
       properties:
@@ -1767,6 +1616,96 @@ components:
         description:
           type: string
           example: Window table preferred if available.
+    ReviewDto:
+      type: object
+      required:
+      - customer
+      - date
+      - rating
+      properties:
+        customer:
+          description: The customer who wrote the review.
+          $ref: '#/components/schemas/CustomerDto'
+        rating:
+          type: integer
+          format: int32
+          description: 'Possible values: 1 to 6.'
+          example: 1
+        description:
+          type: string
+          description: The description of the review.
+          example: Window table preferred if available.
+        locale:
+          type: string
+          example: de_DE
+        date:
+          type: string
+          format: date
+          description: The date when the review was written.
+          example: '2026-07-15'
+    TagGroupDto:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - CUISINE
+          - MEAL_TYPE
+          - ESTABLISHMENT_TYPE
+          - AREA
+          - INTERNET
+          - FOOD_RELATED
+          - ACCESSIBILITY
+          - PAYMENT
+          - PRICE
+          - ATMOSPHERE
+          - PARKING
+          - EXTRAS
+          - GOOD_FOR
+          - MENU_DETAILS
+          example: CUISINE
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TranslatedTagDto'
+    MerchantReservationDataList:
+      type: object
+      properties:
+        reservations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReservationData'
+        offset:
+          type: integer
+          format: int32
+          example: 1
+        limit:
+          type: integer
+          format: int32
+          example: 1
+    MerchantAddressDto:
+      type: object
+      properties:
+        street:
+          type: string
+          example: string
+        number:
+          type: string
+          example: string
+        zipcode:
+          type: string
+          example: string
+        city:
+          type: string
+          example: string
+        country:
+          type: string
+          example: DE
+        district:
+          type: string
+          example: string
+    StandardOpeningTimesDto:
+      type: object
     MerchantDetailsDto:
       type: object
       required:
@@ -1859,76 +1798,20 @@ components:
           type: string
           description: Merchant long description, requires permission.
           example: Window table preferred if available.
-    OpeningTimesDto:
+    ReviewDtoList:
       type: object
       required:
-      - standardOpeningTimes
+      - reviews
       properties:
-        standardOpeningTimes:
-          description: The standard opening times of the merchant.
-          $ref: '#/components/schemas/StandardOpeningTimesDto'
-    ReviewDto:
-      type: object
-      required:
-      - customer
-      - date
-      - rating
-      properties:
-        customer:
-          description: The customer who wrote the review.
-          $ref: '#/components/schemas/CustomerDto'
-        rating:
+        reviews:
+          type: array
+          description: Merchant customer review collection.
+          items:
+            $ref: '#/components/schemas/ReviewDto'
+        size:
           type: integer
           format: int32
-          description: 'Possible values: 1 to 6.'
           example: 1
-        description:
-          type: string
-          description: The description of the review.
-          example: Window table preferred if available.
-        locale:
-          type: string
-          example: de_DE
-        date:
-          type: string
-          format: date
-          description: The date when the review was written.
-          example: '2026-07-15'
-    TranslatedTagDto:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: '88086'
-        name:
-          type: string
-          example: Sample Restaurant
-    LocationDto:
-      type: object
-      properties:
-        coordinates:
-          $ref: '#/components/schemas/CoordinatesDto'
-        address:
-          $ref: '#/components/schemas/MerchantAddressDto'
-    CoordinatesDto:
-      type: object
-      properties:
-        latitude:
-          type: number
-          format: double
-          example: 1.0
-        longitude:
-          type: number
-          format: double
-          example: 1.0
-    MerchantReservationDataList:
-      type: object
-      properties:
-        reservations:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReservationData'
         offset:
           type: integer
           format: int32
@@ -1937,31 +1820,148 @@ components:
           type: integer
           format: int32
           example: 1
-    TagGroupDto:
+    MerchantDetailsDtoList:
+      type: object
+      required:
+      - merchants
+      properties:
+        merchants:
+          type: array
+          description: Merchant details collection.
+          items:
+            $ref: '#/components/schemas/MerchantDetailsDto'
+        size:
+          type: integer
+          format: int64
+          example: 1
+        offset:
+          type: integer
+          format: int32
+          example: 1
+        limit:
+          type: integer
+          format: int32
+          example: 1
+    MerchantWithRecommendationsDto:
+      type: object
+      required:
+      - merchant
+      - merchantSearchMessage
+      properties:
+        merchant:
+          description: The merchant that was searched for. Only filled if it is bookable.
+          $ref: '#/components/schemas/MerchantDetailsDto'
+        merchantSearchMessage:
+          type: string
+          description: 'Additional information about the search result: MERCHANT_NOT_BOOKABLE if the merchant exists but is not bookable'
+          enum:
+          - MERCHANT_NOT_BOOKABLE
+          example: MERCHANT_NOT_BOOKABLE
+        recommendedMerchants:
+          description: Recommendations for similar merchants.
+          $ref: '#/components/schemas/MerchantDetailsDtoList'
+    ErrorResponse:
       type: object
       properties:
-        type:
+        errorType:
           type: string
           enum:
-          - CUISINE
-          - MEAL_TYPE
-          - ESTABLISHMENT_TYPE
-          - AREA
-          - INTERNET
-          - FOOD_RELATED
-          - ACCESSIBILITY
-          - PAYMENT
-          - PRICE
-          - ATMOSPHERE
-          - PARKING
-          - EXTRAS
-          - GOOD_FOR
-          - MENU_DETAILS
-          example: CUISINE
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/TranslatedTagDto'
+          - BAD_REQUEST_ERROR
+          - FORBIDDEN_ERROR
+          - NOT_FOUND_ERROR
+          - METHOD_NOT_ALLOWED_ERROR
+          - NOT_ACCEPTABLE_ERROR
+          - UNSUPPORTED_MEDIA_TYPE_ERROR
+          - START_TIME_NOT_FOUND_ERROR
+          - MERCHANT_ID_INVALID
+          - RESERVATION_CAPACITY_MISSING
+          - RESERVATION_CAPACITY_INVALID
+          - RESERVATION_DATE_TIME_MISSING
+          - RESERVATION_DATE_TIME_INVALID_FORMAT
+          - RESERVATION_EXTRA_INFO_INVALID
+          - RESERVATION_SHOW_POSTCODE
+          - RESERVATION_DATE_TIME_INVALID_IN_THE_PAST
+          - RESERVATION_NO_TABLES_AVAILABLE
+          - RESERVATION_NOT_FOUND
+          - RESERVATION_IN_NON_EDITABLE_STATUS
+          - RESERVATION_WITH_SMART_OFFER_EDIT
+          - RESERVATION_WITH_CCV_EDIT
+          - RESERVATION_IOVOX_OFFER_EDIT
+          - RESERVATION_WITH_PREPAID_MENU_EDIT
+          - RESERVATION_FOR_MERCHANT_WITH_FEEDBACK_TIME
+          - RESERVATION_WALKIN_NOT_EDITABLE
+          - RESERVATION_CUSTOMER_CANNOT_EDIT
+          - RESERVATION_PROMO_CODE_PARAM_INVALID
+          - RESERVATION_PROMO_CODE_NOT_FOUND
+          - RESERVATION_PROMO_CODE_INVALID_DESTINATION
+          - RESERVATION_PROMO_CODE_ALREADY_USED
+          - RESERVATION_PROMO_CODE_INVALID_CAMPAIGN
+          - RESERVATION_PROMO_CODE_DATE_TIME_IN_PAST_OR_FUTURE
+          - RESERVATION_PROMO_CODE_INVALID_DAY_OF_WEEK
+          - RESERVATION_PROMO_CODE_INVALID_AGENT
+          - RESERVATION_PROMO_CODE_INVALID_MERCHANT
+          - RESERVATION_PROMO_CODE_INVALID_PARTNER_VOUCHER
+          - RESERVATION_PROMO_CODE_ALREADY_OWNED_BY_CUSTOMER
+          - RESERVATION_INVITATION_PROMO_CODE_NOT_FIRST_RESERVATION
+          - CCV_SETTINGS_REQUIRED
+          - CCV_CARD_REQUIRED
+          - CCV_SETTINGS_INVALID
+          - CCV_SETTINGS_OFFLINE
+          - CCV_CARD_INVALID
+          - ENQUIRY_INVALID_MIN_COVERS
+          - CUSTOMER_FIRST_NAME_INVALID
+          - CUSTOMER_LAST_NAME_MISSING
+          - CUSTOMER_LAST_NAME_INVALID
+          - CUSTOMER_EMAIL_MISSING
+          - CUSTOMER_EMAIL_INVALID
+          - CUSTOMER_NEWSLETTER_REQUESTED_MISSING
+          - CUSTOMER_PHONE_NUMBER_MISSING
+          - CUSTOMER_COUNTRY_INVALID
+          - CUSTOMER_ID_EXISTS
+          - CUSTOMER_PHONE_NUMBER_INVALID
+          - UNEXPECTED_SERVER_ERROR
+          - PHONE_NUMBER_MISSING
+          - PHONE_NUMBER_INVALID
+          - UUID_CONFLICT
+          - RESERVATION_STATUS_CONFLICT
+          - INVALID_RESERVATION_GUESTS_QUANTITY
+          - MENU_MAPPING_FAILED
+          example: BAD_REQUEST_ERROR
+        errorMessage:
+          type: string
+          example: Window table preferred if available.
+    LinkRelationDto:
+      type: object
+      properties:
+        href:
+          type: string
+          format: url
+          example: https://www.quandoo.com/place/sample-restaurant
+        method:
+          type: string
+          example: string
+        rel:
+          type: string
+          enum:
+          - DETAILS
+          - WIDGET
+          - WIDGET_DETAILS
+          - GET_MERCHANT
+          - PARENT
+          - SELF
+          - SETTINGS
+          - AVAILABILITY_DAYS
+          - AVAILABILITIES
+          - CREATE_RESERVATION
+          - GET_RESERVATION
+          - UPDATE_RESERVATION
+          - GET_CUSTOMER_RESERVATION
+          - GET_REVIEW
+          - PORTAL_PREORDER_FORM
+          - RESERVATION_CHECKOUT_PAGE
+          - CREDIT_CARD_DETAILS_PAGE
+          - CUSTOMER_EDIT_RESERVATION
+          example: DETAILS
   securitySchemes:
     API_TOKEN:
       type: apiKey
